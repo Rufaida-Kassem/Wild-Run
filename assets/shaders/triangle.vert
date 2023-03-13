@@ -4,7 +4,8 @@
 // (-0.5, -0.5, 0.0), ( 0.5, -0.5, 0.0), ( 0.0,  0.5, 0.0)
 // And it also should send the vertex color as a varying to the fragment shader where the colors are (in order):
 // (1.0, 0.0, 0.0), (0.0, 1.0, 0.0), (0.0, 0.0, 1.0)
-
+uniform vec2 scale = vec2(1.0, 1.0);
+uniform vec2 translation = vec2(0.0, 0.0);
 out Varyings {
     vec3 color;
 } vs_out;
@@ -17,4 +18,8 @@ out Varyings {
 //TODO: (Req 1) Finish this shader
 
 void main(){
+    vec2 v[3] = vec2[3](vec2(-0.5, -0.5), vec2(0.5, -0.5), vec2(0.0, 0.5));
+    vec3 c[3] = vec3[3](vec3(1.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0), vec3(0.0, 0.0, 1.0));
+    gl_Position = vec4(scale * v[gl_VertexID] + translation, 0.0, 1.0);
+    vs_out.color = c[gl_VertexID];
 }
