@@ -22,6 +22,7 @@ namespace our
         glm::mat4 R = glm::yawPitchRoll(rotation.y, rotation.x, rotation.z);
         // S - scale matrix: scales the object by the scale vector
         glm::mat4 S = glm::scale(glm::mat4(1.0f), scale);
+        
         return T * R * S;
     }
 
