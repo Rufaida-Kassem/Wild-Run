@@ -14,22 +14,23 @@ namespace our
     {
         // TODO: (Req 3) Write this function
         // we can use glm::translate, glm::yawPitchRoll, and glm::scale to create the needed matrices
-        // then we can multiply them together to get the final matrix
-
+        // then we multiply them together to get the final matrix
         // T - translation matrix: moves the object to the position
         glm::mat4 T = glm::translate(glm::mat4(1.0f), position);
         // R - rotation matrix: rotates the object by the rotation angles (yaw, pitch, roll)
         glm::mat4 R = glm::yawPitchRoll(rotation.y, rotation.x, rotation.z);
         // S - scale matrix: scales the object by the scale vector
         glm::mat4 S = glm::scale(glm::mat4(1.0f), scale);
-        
+
         return T * R * S;
     }
 
     // Deserializes the entity data and components from a json object
     void Transform::deserialize(const nlohmann::json &data)
     {
-        position = data.value("position", position);
+        // reads the position, rotation and scale from the json object
+
+        position = data.value("position", position); // if the json object doesn't contain the key, the default value is used instead (postion)
         rotation = glm::radians(data.value("rotation", glm::degrees(rotation)));
         scale = data.value("scale", scale);
     }
