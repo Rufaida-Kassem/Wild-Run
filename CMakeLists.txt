@@ -89,6 +89,7 @@ set(COMMON_SOURCES
 include_directories(
         source/common
         vendor/glfw/include
+        vendor/glfw/include/GLFW
         vendor/glad/include
         vendor/glm
         vendor/imgui
