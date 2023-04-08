@@ -12,7 +12,6 @@ namespace our
         // TODO: (Req 7) Write this function
         pipelineState.setup();
         shader->use();
-        
     }
 
     // This function read the material data from a json object
@@ -56,8 +55,12 @@ namespace our
         TintedMaterial::setup();
         shader->set("alphaThreshold", alphaThreshold);
         glActiveTexture(GL_TEXTURE0);
-        texture->bind();
-        sampler->bind(0);
+        if (texture != nullptr)
+            texture->bind();
+
+        if (sampler != nullptr)
+            sampler->bind(0);
+
         shader->set("tex", 0);
     }
 
