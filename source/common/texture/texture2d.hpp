@@ -33,6 +33,7 @@ namespace our
         }
 
         // This method binds this texture to GL_TEXTURE_2D
+        // NOTE: u should choose the active texture unit before calling this function
         void bind() const
         {
             // TODO: (Req 5) Complete this function
