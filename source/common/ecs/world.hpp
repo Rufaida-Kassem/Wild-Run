@@ -56,6 +56,7 @@ namespace our {
                 entities.erase(entity);
                 delete entity;
             }
+            markedForRemoval.clear();
         }
 
         //This deletes all entities in the world
@@ -65,7 +66,8 @@ namespace our {
             {
                 delete entity;
             }
-            
+            entities.clear();
+            markedForRemoval.clear();
         }
 
         //Since the world owns all of its entities, they should be deleted alongside it.

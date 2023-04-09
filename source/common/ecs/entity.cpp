@@ -14,12 +14,12 @@ namespace our {
         //TODO: (Req 8) Write this function
         Entity *p = parent;
         glm::mat4 localToWorld = localTransform.toMat4();
-        while (p != nullptr)
+        while (p)
         {
-            localToWorld = p->localTransform.toMat4() * localToWorld;
+            localToWorld = p->localTransform.toMat4() * localToWorld; // take care --> the order matters
             p = p->parent;
         }
-        
+        //hint --> we can make it recursive instead
         //return glm::mat4(1.0f);
         return localToWorld;
     }

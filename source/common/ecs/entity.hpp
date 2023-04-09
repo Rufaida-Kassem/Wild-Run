@@ -44,7 +44,7 @@ namespace our
             return comp;
         }
 
-        // This template method searhes for a component of type T and returns a pointer to it
+        // This template method searches for a component of type T and returns a pointer to it
         // If no component of type T was found, it returns a nullptr
         // @Ahmed-ata112:like if i wanted to look for a camera component, i would call getComponent<Camera>()?
         template <typename T>
@@ -61,7 +61,7 @@ namespace our
             return nullptr;
         }
 
-        // This template method dynami and returns a pointer to it
+        // This template method dynamic and returns a pointer to it
         // If no component of type T was found, it returns a nullptr
         template <typename T>
         T *getComponent(size_t index)
@@ -73,7 +73,7 @@ namespace our
             return nullptr;
         }
 
-        // This template method searhes for a component of type T and deletes it
+        // This template method searches for a component of type T and deletes it
         template <typename T>
         void deleteComponent()
         {
@@ -91,7 +91,7 @@ namespace our
             }
         }
 
-        // This template method searhes for a component of type T and deletes it
+        // This template method searches for a component of type T and deletes it
         void deleteComponent(size_t index)
         {
             auto it = components.begin();
@@ -103,7 +103,7 @@ namespace our
             }
         }
 
-        // This template method searhes for the given component and deletes it
+        // This template method searches for the given component and deletes it
         template <typename T>
         void deleteComponent(T const *component)
         {

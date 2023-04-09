@@ -40,7 +40,7 @@ namespace our {
         glm::mat4 view = glm::lookAt(
             glm::vec3(M * glm::vec4(0, 0, 0, 1)), //position of the camera  --> rotating
             glm::vec3(M * glm::vec4(0, 0, -1.0, 1)), //position of the object --> let camera look at the center (as the obj exist at origin)
-            glm::vec3(M * glm::vec4(0, 1.0, 0, 1) ) //up vector
+            glm::vec3(M * glm::vec4(0, 1.0, 0, 0) ) //up vector
         );
         return view;
     }
@@ -58,7 +58,7 @@ namespace our {
             projection = glm::perspective(fovY, float(viewportSize.x) / viewportSize.y, near, far);
         }
         else if(cameraType == CameraType::ORTHOGRAPHIC){
-            projection = glm::ortho(-orthoHeight * (viewportSize.x / viewportSize.y), orthoHeight * (viewportSize.x / viewportSize.y), -orthoHeight / 2, orthoHeight / 2, near, far);
+            projection = glm::ortho(-orthoHeight * (float(viewportSize.x) / viewportSize.y) / 2.0f, orthoHeight * (viewportSize.x / viewportSize.y) / 2.0f, -orthoHeight / 2.0f, orthoHeight / 2.0f);
         }
         return projection;
     }
