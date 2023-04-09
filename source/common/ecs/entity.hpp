@@ -38,10 +38,10 @@ namespace our
             static_assert(std::is_base_of<Component, T>::value, "T must inherit from Component");
             // TODO: (Req 8) Create an component of type T, set its "owner" to be this entity, then push it into the component's list
             //  Don't forget to return a pointer to the new component
-            T *component = new T();
-            component->owner = this;
-            components.push_back(component);
-            return component;
+            T *comp = new T();
+            comp->owner = this;
+            components.push_back(comp);
+            return comp;
         }
 
         // This template method searches for a component of type T and returns a pointer to it
@@ -54,9 +54,9 @@ namespace our
             //  Return the component you found, or return null of nothing was found.
             for (auto it = components.begin(); it != components.end(); it++)
             {
-                T *component = dynamic_cast<T *>(*it);
-                if (component != nullptr)
-                    return component;
+                T *comp = dynamic_cast<T *>(*it);
+                if (comp != nullptr)
+                    return comp;
             }
             return nullptr;
         }
@@ -81,10 +81,10 @@ namespace our
             //  If found, delete the found component and remove it from the components list
             for (auto it = components.begin(); it != components.end(); it++)
             {
-                T *component = dynamic_cast<T *>(*it);
-                if (component != nullptr)
+                T *comp = dynamic_cast<T *>(*it);
+                if (comp != nullptr)
                 {
-                    delete component;
+                    delete comp;
                     components.erase(it);
                     break;
                 }
