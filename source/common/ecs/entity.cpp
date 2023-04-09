@@ -17,7 +17,7 @@ namespace our {
         if (parent == nullptr)
             return localTransform.toMat4();
         else
-            return localTransform.toMat4() * parent->getLocalToWorldMatrix();
+            return parent->getLocalToWorldMatrix() * localTransform.toMat4();
     }
 
     // Deserializes the entity data and components from a json object

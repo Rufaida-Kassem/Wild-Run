@@ -53,6 +53,7 @@ namespace our {
                 entities.erase(entity);
                 delete entity;
             }
+            markedForRemoval.clear();
         }
 
         //This deletes all entities in the world
@@ -61,6 +62,8 @@ namespace our {
             for (auto entity : entities) {
                 delete entity;
             }
+            entities.clear();
+            markedForRemoval.clear();
             
         }
 
