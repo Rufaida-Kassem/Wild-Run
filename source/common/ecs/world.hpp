@@ -26,7 +26,10 @@ namespace our {
         Entity* add() {
             //TODO: (Req 8) Create a new entity, set its world member variable to this,
             // and don't forget to insert it in the suitable container.
-            return nullptr;
+            Entity* entity = new Entity();
+            entity->world = this;
+            entities.insert(entity);
+            return entity;
         }
 
         // This returns and immutable reference to the set of all entites in the world.
