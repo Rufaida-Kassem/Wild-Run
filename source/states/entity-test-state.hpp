@@ -46,7 +46,7 @@ class EntityTestState: public our::State {
         glm::ivec2 size = getApp()->getFrameBufferSize();
         //TODO: (Req 8) Change the following line to compute the correct view projection matrix 
         // the old line -->glm::mat4 VP = glm::mat4(1.0f);
-        glm::mat4 VP = camera->getProjectionMatrix(size) * camera->getViewMatrix();
+        glm::mat4 VP = camera->getProjectionMatrix(size) * camera->getViewMatrix(); // projection * view (take care of the order)
 
         for(auto& entity : world.getEntities()){
             // For each entity, we look for a mesh renderer (if none was found, we skip this entity)
