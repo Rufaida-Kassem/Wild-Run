@@ -26,6 +26,8 @@ namespace our
         ~Sampler()
         {
             // TODO: (Req 6) Complete this function
+            // we delete the sampler by its name
+            // first argument is the number of samplers to delete
             glDeleteSamplers(1, &name);
         }
 
@@ -33,7 +35,7 @@ namespace our
         void bind(GLuint textureUnit) const
         {
             // TODO: (Req 6) Complete this function
-            // Bind the sampler to the given texture unit
+            // Bind the sampler to the given texture unit using glBindSampler
             glBindSampler(textureUnit, name);
         }
 
@@ -42,7 +44,7 @@ namespace our
         {
             // TODO: (Req 6) Complete this function
             // unbind the sampler from the given texture unit
-            // TODO: make sure this is correct
+            // we can do this by binding 0 to the texture unit
             glBindSampler(textureUnit, 0);
         }
 
@@ -51,6 +53,8 @@ namespace our
         void set(GLenum parameter, GLint value) const
         {
             // TODO: (Req 6) Complete this function
+            // set the sampler parameter using glSamplerParameteri
+            // value is of type GLint 
             glSamplerParameteri(name, parameter, value);
         }
 
