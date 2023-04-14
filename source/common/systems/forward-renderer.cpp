@@ -192,7 +192,9 @@ namespace our {
             //TODO: (Req 10) setup the sky material
             skyMaterial->setup();
             
-            //TODO: (Req 10) Get the camera position
+            //TODO: (Req 10) Get the camera position  // TO ASK
+            // why does the camera position is the origin?
+            // because the camera is at the origin of the world
             glm::vec3 cameraPosition = camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1); // the camera eye is @ origin
             
             //TODO: (Req 10) Create a model matrix for the sky such that it always follows the camera (sky sphere center = camera position)
@@ -203,6 +205,16 @@ namespace our {
             
             //TODO: (Req 10) We want the sky to be drawn behind everything (in NDC space, z=1) NDC --> Normalized Device Coordinates
             // We can acheive the is by multiplying by an extra matrix after the projection but what values should we put in it?
+            // this mat4 will fill the matrix column by column
+            /*
+                1 0 0 0  --> keep x unchanged
+                0 1 0 0  --> keep y unchanged
+                0 0 0 1  --> let z = w
+                0 0 0 1  --> keep w unchanged
+
+                and then when dividing all by w (cause as we know we have to keep w = 1),
+                we get z = 1
+            */
             glm::mat4 alwaysBehindTransform = glm::mat4(
                 1.0f, 0.0f, 0.0f, 0.0f,
                 0.0f, 1.0f, 0.0f, 0.0f,
