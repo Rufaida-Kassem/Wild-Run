@@ -23,9 +23,6 @@ namespace our {
         } else if (type == MeshRendererComponent::getID()) {
             component = entity->addComponent<MeshRendererComponent>();
         }
-        else if(type == MeshRendererComponent::getID()){
-            component = entity->addComponent<MeshRendererComponent>();
-        }
         if(component) component->deserialize(data);
     }
 
