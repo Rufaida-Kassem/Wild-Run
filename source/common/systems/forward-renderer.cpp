@@ -205,22 +205,33 @@ namespace our
             skyMaterial->setup();
 
             // TODO: (Req 10) Get the camera position
-            glm::vec3 cameraPosition = camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1);
+            glm::vec3 cameraPosition = camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1); // center of cam world
 
-            // TODO: (Req 10) Create a model matrix for the sy such that it always follows the camera (sky sphere center = camera position)
+            // TODO: (Req 10) Create a model matrix for the sky such that it always follows the camera (sky sphere center = camera position)
             glm::mat4 skyModelMat = glm::translate(
                 glm::mat4(1.0f),
-                cameraPosition);
+                cameraPosition); // center of the sky sphere = position of the camera
 
-            // TODO: (Req 10) We want the sky to be drawn behind everything (in NDC space, z=1)
+            glm::mat4 skyScaled = glm::scale(
+                skyModelMat,
+                glm::vec3(4.0f, 4.0f, 4.0f));
+            // TODO: (Req 10) We want the sky to be drawn behind everything (in NDC(Normalized Device Coordinates.) space, z=1)
             //  We can acheive the is by multiplying by an extra matrix after the projection but what values should we put in it?
+
+            // the projection matrix maps the z-coordinate of vertices onto a range of [-1, 1],
+            // this case, we want the sky sphere to always be drawn behind everything,
+            //  so we need to set its z-coordinate to a fixed value of 1 (i.e., the far plane of the frustum).
             glm::mat4 alwaysBehindTransform = glm::mat4(
                 1.0f, 0.0f, 0.0f, 0.0f,
                 0.0f, 1.0f, 0.0f, 0.0f,
-                0.0f, 0.0f, 0.0f, 0.0f,
-                0.0f, 0.0f, 1.0f, 1.0f);
+                0.0f, 0.0f, 1.0f, 0.0f,
+                0.0f, 0.0f, 0.0f, 1.0f);
+
+            // this matrix maps the z-coordinate of vertices to 1
+            // z_res = 0 and  w_res = 1 + z_old
+
             // TODO: (Req 10) set the "transform" uniform
-            skyMaterial->shader->set("transform", alwaysBehindTransform * camera->getProjectionMatrix(windowSize) * camera->getViewMatrix() * skyModelMat);
+            skyMaterial->shader->set("transform", alwaysBehindTransform * camera->getProjectionMatrix(windowSize) * camera->getViewMatrix() * skyScaled);
 
             // TODO: (Req 10) draw the sky sphere
             skySphere->draw();
@@ -242,5 +253,4 @@ namespace our
             // TODO: (Req 11) Setup the postprocess material and draw the fullscreen triangle
         }
     }
-
 }
