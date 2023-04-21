@@ -17,7 +17,7 @@ namespace our
     // The renderer will fill this struct using the mesh renderer components
     struct RenderCommand
     {
-        glm::mat4 localToWorld; // ATTA: TRS matrix of the object
+        glm::mat4 localToWorld; // TRS matrix of the object
         glm::vec3 center;
         Mesh *mesh;
         Material *material;
@@ -37,7 +37,7 @@ namespace our
         std::vector<RenderCommand> transparentCommands;
 
         // Objects used for rendering a skybox
-        // sky is just a sphere with a texture
+        // sky is just a sphere with a texture that is drawn behind everything else
         Mesh *skySphere;
         TexturedMaterial *skyMaterial; // to store its texture
         // Objects used for Postprocessing

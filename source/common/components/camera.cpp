@@ -37,7 +37,7 @@ namespace our
         //  - center is any point on the line of sight. So center can be any point (0,0,z) where z < 0. For simplicity, we let center be (0,0,-1)
         //  - up is the direction (0,1,0)
         //  but to use glm::lookAt, we need eye, center and up in the world state.
-        //  Since M (see above) transforms from the camera to thw world space, you can use M to compute:
+        //  Since M (see above) transforms from the camera to the world space, you can use M to compute:
         //  - the eye position which is the point (0,0,0) but after being transformed by M
         //  - the center position which is the point (0,0,-1) but after being transformed by M
         //  - the up direction which is the vector (0,1,0) but after being transformed by M
