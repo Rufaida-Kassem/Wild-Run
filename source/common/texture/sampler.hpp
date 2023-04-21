@@ -70,6 +70,7 @@ namespace our
         // This can be used to set the "GL_TEXTURE_BORDER_COLOR" parameter
         void set(GLenum parameter, glm::vec4 value) const
         {
+            // it takes a pointer to the first element of the vector
             glSamplerParameterfv(name, parameter, &(value.r));
         }
 
