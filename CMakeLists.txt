@@ -88,6 +88,7 @@ set(COMMON_SOURCES
 # Define the directories in which to search for the included headers
 include_directories(
         source/common
+        source/**
         vendor/glfw/include
         vendor/glfw/include/GLFW
         vendor/glad/include
