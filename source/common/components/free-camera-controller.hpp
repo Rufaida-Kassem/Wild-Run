@@ -3,6 +3,7 @@
 #include "../ecs/component.hpp"
 
 #include <glm/glm.hpp> 
+// It's implemented in here https://learnopengl.com/Getting-started/Camera
 
 namespace our {
 

@@ -51,7 +51,7 @@ namespace our
     public:
         Texture2D *texture;
         Sampler *sampler;
-        // to be used as alpha testng
+        // to be used in alpha testing
         float alphaThreshold;
 
         void setup() const override;
@@ -59,7 +59,7 @@ namespace our
     };
 
     // This function returns a new material instance based on the given type
-    // @param type can be "tinted" or "textured"
+    // @param type can be "tinted" or "textured" or whatever we will add in the future
     inline Material *createMaterialFromType(const std::string &type)
     {
         if (type == "tinted")

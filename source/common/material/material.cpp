@@ -33,7 +33,9 @@ namespace our
     void TintedMaterial::setup() const
     {
         // TODO: (Req 7) Write this function
+        // call the setup of the parent
         Material::setup();
+        // set the "tint" uniform to the value in the member variable tint
         shader->set("tint", tint);
     }
 
@@ -53,6 +55,7 @@ namespace our
     {
         // TODO: (Req 7) Write this function
         TintedMaterial::setup();
+        // we need to set the alphaThreshold uniform so that we can use it in the shader to discard pixels (Alpha Testing)
         shader->set("alphaThreshold", alphaThreshold);
         glActiveTexture(GL_TEXTURE0);
         if (texture != nullptr)
