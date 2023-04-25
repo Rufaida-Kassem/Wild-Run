@@ -27,12 +27,12 @@ namespace our
             //  We will draw the sphere from the inside, so what options should we pick for the face culling.
             PipelineState skyPipelineState{};
 
-            // TODO implementation
-            skyPipelineState.depthTesting.enabled = true;
-            skyPipelineState.depthTesting.function = GL_LEQUAL;
-            skyPipelineState.faceCulling.enabled = true;
-            skyPipelineState.faceCulling.culledFace = GL_FRONT;
-
+            //TODO implementation
+            skyPipelineState.depthTesting.enabled = true; 
+            skyPipelineState.depthTesting.function = GL_LEQUAL; //LEQUAL --> less or equal --> if the new depth is less than or equal the old depth then we will draw the new one
+            skyPipelineState.faceCulling.enabled = true; // true as we want to draw the sphere from the inside
+            skyPipelineState.faceCulling.culledFace = GL_FRONT; // we will remove the front face to show the sphere from inside
+            
             // Load the sky texture (note that we don't need mipmaps since we want to avoid any unnecessary blurring while rendering the sky)
             std::string skyTextureFile = config.value<std::string>("sky", "");
             Texture2D *skyTexture = texture_utils::loadImage(skyTextureFile, false);
@@ -179,11 +179,15 @@ namespace our
 
         // TODO: (Req 9) Get the camera ViewProjection matrix and store it in VP
         glm::mat4 VP = camera->getProjectionMatrix(windowSize) * camera->getViewMatrix();
+        // WARNING::
+        ////////////////////////////// TOASK ////////////////////////////////////////////////////////////////
+        //TODO: (Req 9) Set the OpenGL viewport using viewportStart and viewportSize
 
         // TODO: (Req 9) Set the OpenGL viewport using viewportStart and viewportSize
         glm::ivec2 viewportStart = glm::ivec2(0, 0);
         glm::ivec2 viewportSize = windowSize;
         glViewport(viewportStart.x, viewportStart.y, viewportSize.x, viewportSize.y);
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // TODO: (Req 9) Set the clear color to black and the clear depth to 1
         glClearColor(0, 0, 0, 1);
@@ -217,32 +221,46 @@ namespace our
         {
             // TODO: (Req 10) setup the sky material
             skyMaterial->setup();
-
-            // TODO: (Req 10) Get the camera position
-            glm::vec3 cameraPosition = camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1); // center of cam world
-
-            // TODO: (Req 10) Create a model matrix for the sky such that it always follows the camera (sky sphere center = camera position)
+            
+            //TODO: (Req 10) Get the camera position  // TO ASK
+            // why does the camera position is the origin?
+            // because the camera is at the origin of the world
+            glm::vec3 cameraPosition = camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1); // the camera eye is @ origin
+            
+            //TODO: (Req 10) Create a model matrix for the sky such that it always follows the camera (sky sphere center = camera position)
             glm::mat4 skyModelMat = glm::translate(
                 glm::mat4(1.0f),
-                cameraPosition); // center of the sky sphere = position of the camera
+                cameraPosition
+            );
+            
+            //TODO: (Req 10) We want the sky to be drawn behind everything (in NDC space, z=1) NDC --> Normalized Device Coordinates
+            // We can acheive the is by multiplying by an extra matrix after the projection but what values should we put in it?
+            // this mat4 will fill the matrix column by column
+            /*
+                1 0 0 0  --> keep x unchanged
+                0 1 0 0  --> keep y unchanged
+                0 0 0 1  --> let z = w
+                0 0 0 1  --> keep w unchanged
 
-            // TODO: (Req 10) We want the sky to be drawn behind everything (in NDC(Normalized Device Coordinates.) space, z=1)
-            //  We can acheive the is by multiplying by an extra matrix after the projection but what values should we put in it?
-
-            // the projection matrix maps the z-coordinate of vertices onto a range of [-1, 1],
-            // this case, we want the sky sphere to always be drawn behind everything,
-            //  so we need to set its z-coordinate to a fixed value of 1 (i.e., the far plane of the frustum).
-            //. it's filled column by column so Z=W=w and when divided by W it's 1
+                and then when dividing all by w (cause as we know we have to keep w = 1),
+                we get z = 1
+            */
             glm::mat4 alwaysBehindTransform = glm::mat4(
                 1.0f, 0.0f, 0.0f, 0.0f,
                 0.0f, 1.0f, 0.0f, 0.0f,
                 0.0f, 0.0f, 0.0f, 0.0f,
                 0.0f, 0.0f, 1.0f, 1.0f);
 
+
             // TODO: (Req 10) set the "transform" uniform
             skyMaterial->shader->set("transform", alwaysBehindTransform * camera->getProjectionMatrix(windowSize) * camera->getViewMatrix() * skyModelMat);
+            // model --> matrix for the sky as it transform from local space to world space
+            // view --> matrix for the camera as it transform from world space to camera space
+            // projection --> matrix for the camera as it transform from camera space to NDC space (canonical view volume) is this right?
+            // alwaysBehindTransform --> matrix for the sky as it transform from NDC space to NDC space (always behind everything)
 
-            // TODO: (Req 10) draw the sky sphere
+            
+            //TODO: (Req 10) draw the sky sphere
             skySphere->draw();
         }
         // TODO: (Req 9) Draw all the transparent commands

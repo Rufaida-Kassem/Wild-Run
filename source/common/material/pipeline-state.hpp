@@ -16,15 +16,15 @@ namespace our
         struct
         {
             bool enabled = false;
-            GLenum culledFace = GL_BACK;
-            GLenum frontFace = GL_CCW;
+            GLenum culledFace = GL_BACK;  // cullface --> the face to remove
+            GLenum frontFace = GL_CCW; // GL_CCW means counter-clockwise (direction of the front)
         } faceCulling;
 
         // This set of pipeline options specifies whether depth testing will be used or not and how it will be configured
         struct
         {
             bool enabled = false;
-            GLenum function = GL_LEQUAL;
+            GLenum function = GL_LEQUAL; // LEQUAL --> less or equal --> if the new depth is less than or equal the old depth then we will draw the new one
         } depthTesting;
 
         // This set of pipeline options specifies whether blending will be used or not and how it will be configured
