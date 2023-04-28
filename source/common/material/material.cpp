@@ -55,8 +55,11 @@ namespace our
     {
         // TODO: (Req 7) Write this function
         TintedMaterial::setup();
+
         // we need to set the alphaThreshold uniform so that we can use it in the shader to discard pixels (Alpha Testing)
         shader->set("alphaThreshold", alphaThreshold);
+
+        // we will use UNIT_0 in the next bindings
         glActiveTexture(GL_TEXTURE0);
         if (texture != nullptr)
             texture->bind();
@@ -64,6 +67,7 @@ namespace our
         if (sampler != nullptr)
             sampler->bind(0);
 
+        // unit number to the shader
         shader->set("tex", 0);
     }
 
