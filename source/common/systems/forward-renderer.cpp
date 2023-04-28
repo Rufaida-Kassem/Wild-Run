@@ -169,13 +169,20 @@ namespace our
 
         // TODO: (Req 9) Modify the following line such that "cameraForward" contains a vector pointing the camera forward direction
         //  HINT: See how you wrote the CameraComponent::getViewMatrix, it should help you solve this one
+        //. to get the camera forward vector, we need the -Z as 
+        //. it's the forward vector of the camera (the camera gaze direction)
+        //. we use the camera's local to world matrix to transform the forward vector of the camera
         glm::vec3 cameraForward = camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, -1, 0.0);
 
         std::sort(transparentCommands.begin(), transparentCommands.end(), [cameraForward](const RenderCommand &first, const RenderCommand &second)
                   {
             //TODO: (Req 9) Finish this function            
             // HINT: the following return should return true "first" should be drawn before "second". 
-            return glm::dot(first.center, cameraForward) < glm::dot(second.center, cameraForward); });
+            //. we draw the transparent objects from far to near
+            //. the dot product between the center of the object and the camera forward vector gives
+            //. the projection of the object on the camera forward vector,
+            //. the bigger the dot product the farther the object
+            return glm::dot(first.center, cameraForward) > glm::dot(second.center, cameraForward); });
 
         // TODO: (Req 9) Get the camera ViewProjection matrix and store it in VP
         glm::mat4 VP = camera->getProjectionMatrix(windowSize) * camera->getViewMatrix();
