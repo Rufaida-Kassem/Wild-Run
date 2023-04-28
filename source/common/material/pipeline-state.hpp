@@ -16,24 +16,24 @@ namespace our
         struct
         {
             bool enabled = false;
-            GLenum culledFace = GL_BACK;  // cullface --> the face to remove
-            GLenum frontFace = GL_CCW; // GL_CCW means counter-clockwise (direction of the front)
+            GLenum culledFace = GL_BACK;  /// cullface --> the face to remove
+            GLenum frontFace = GL_CCW; /// GL_CCW means counter-clockwise (direction of the front)
         } faceCulling;
 
         // This set of pipeline options specifies whether depth testing will be used or not and how it will be configured
         struct
         {
             bool enabled = false;
-            GLenum function = GL_LEQUAL; // LEQUAL --> less or equal --> if the new depth is less than or equal the old depth then we will draw the new one
+            GLenum function = GL_LEQUAL; /// LEQUAL --> less or equal --> if the new depth is less than or equal the old depth then we will draw the new one
         } depthTesting;
 
         // This set of pipeline options specifies whether blending will be used or not and how it will be configured
         struct
         {
             bool enabled = false;
-            GLenum equation = GL_FUNC_ADD;
-            GLenum sourceFactor = GL_SRC_ALPHA;
-            GLenum destinationFactor = GL_ONE_MINUS_SRC_ALPHA;
+            GLenum equation = GL_FUNC_ADD; /// GL_FUNC_ADD --> the new color will be added to the old one
+            GLenum sourceFactor = GL_SRC_ALPHA; /// GL_SRC_ALPHA --> the old color will be multiplied by its alpha value (if it is transparent, it will be multiplied by 0 --> it will be invisible)
+            GLenum destinationFactor = GL_ONE_MINUS_SRC_ALPHA; /// GL_ONE_MINUS_SRC_ALPHA --> the new color will be multiplied by (1 - the old color's alpha value) --> so tha if the source is transparent (its alpha = 0), the destination will be visible (multiplied by 1)
             glm::vec4 constantColor = {0, 0, 0, 0};
         } blending;
 
@@ -72,8 +72,8 @@ namespace our
             {
                 glEnable(GL_BLEND);
                 glBlendEquation(blending.equation);
-                glBlendFunc(blending.sourceFactor, blending.destinationFactor);
-                glBlendColor(blending.constantColor.r, blending.constantColor.g, blending.constantColor.b, blending.constantColor.a);
+                glBlendFunc(blending.sourceFactor, blending.destinationFactor); /// parameters of the equation of adding the new color to the old one 
+                glBlendColor(blending.constantColor.r, blending.constantColor.g, blending.constantColor.b, blending.constantColor.a); /// the constant color to be added to the new color
             }
             else
             {
