@@ -129,6 +129,7 @@ namespace our
             for (auto it = components.begin(); it != components.end(); it++)
             {
                 delete *it; /// delete the component
+
             }
         }
 
