@@ -33,7 +33,7 @@ namespace our
             skyPipelineState.depthTesting.function = GL_LEQUAL; //LEQUAL --> less or equal --> if the new depth is less than or equal the old depth then we will draw the new one
             skyPipelineState.faceCulling.enabled = true; // true as we want to draw the sphere from the inside
             skyPipelineState.faceCulling.culledFace = GL_FRONT; // we will remove the front face to show the sphere from inside
-            
+
             // Load the sky texture (note that we don't need mipmaps since we want to avoid any unnecessary blurring while rendering the sky)
             std::string skyTextureFile = config.value<std::string>("sky", "");
             Texture2D *skyTexture = texture_utils::loadImage(skyTextureFile, false);
@@ -170,25 +170,28 @@ namespace our
 
         // TODO: (Req 9) Modify the following line such that "cameraForward" contains a vector pointing the camera forward direction
         //  HINT: See how you wrote the CameraComponent::getViewMatrix, it should help you solve this one
+        //. to get the camera forward vector, we need the -Z as 
+        //. it's the forward vector of the camera (the camera gaze direction)
+        //. we use the camera's local to world matrix to transform the forward vector of the camera
         glm::vec3 cameraForward = camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, -1, 0.0);
 
         std::sort(transparentCommands.begin(), transparentCommands.end(), [cameraForward](const RenderCommand &first, const RenderCommand &second)
                   {
             //TODO: (Req 9) Finish this function            
             // HINT: the following return should return true "first" should be drawn before "second". 
-            return glm::dot(first.center, cameraForward) < glm::dot(second.center, cameraForward); });
+            //. we draw the transparent objects from far to near
+            //. the dot product between the center of the object and the camera forward vector gives
+            //. the projection of the object on the camera forward vector,
+            //. the bigger the dot product the farther the object
+            return glm::dot(first.center, cameraForward) > glm::dot(second.center, cameraForward); });
 
         // TODO: (Req 9) Get the camera ViewProjection matrix and store it in VP
         glm::mat4 VP = camera->getProjectionMatrix(windowSize) * camera->getViewMatrix();
-        // WARNING::
-        ////////////////////////////// TOASK ////////////////////////////////////////////////////////////////
-        //TODO: (Req 9) Set the OpenGL viewport using viewportStart and viewportSize
-
         // TODO: (Req 9) Set the OpenGL viewport using viewportStart and viewportSize
         glm::ivec2 viewportStart = glm::ivec2(0, 0);
         glm::ivec2 viewportSize = windowSize;
         glViewport(viewportStart.x, viewportStart.y, viewportSize.x, viewportSize.y);
-        /////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
         // TODO: (Req 9) Set the clear color to black and the clear depth to 1
         glClearColor(0, 0, 0, 1);
@@ -235,12 +238,11 @@ namespace our
             /// and we give it a matrix of 1s so that it will not change the camera position
             glm::mat4 skyModelMat = glm::translate(
                 glm::mat4(1.0f),
-                cameraPosition
-            );
-            
-            //TODO: (Req 10) We want the sky to be drawn behind everything (in NDC space, z=1) NDC --> Normalized Device Coordinates
-            // We can acheive the is by multiplying by an extra matrix after the projection but what values should we put in it?
-            // this mat4 will fill the matrix column by column
+                cameraPosition);
+
+            // TODO: (Req 10) We want the sky to be drawn behind everything (in NDC space, z=1) NDC --> Normalized Device Coordinates
+            //  We can acheive the is by multiplying by an extra matrix after the projection but what values should we put in it?
+            //  this mat4 will fill the matrix column by column
             /*
                 1 0 0 0  --> keep x unchanged
                 0 1 0 0  --> keep y unchanged
@@ -255,7 +257,6 @@ namespace our
                 0.0f, 1.0f, 0.0f, 0.0f,
                 0.0f, 0.0f, 0.0f, 0.0f,
                 0.0f, 0.0f, 1.0f, 1.0f);
-
 
             // TODO: (Req 10) set the "transform" uniform
             skyMaterial->shader->set("transform", alwaysBehindTransform * camera->getProjectionMatrix(windowSize) * camera->getViewMatrix() * skyModelMat);
@@ -287,7 +288,7 @@ namespace our
             // we use the texture we rendered to as the input texture in a TexturedMaterial
             postprocessMaterial->setup();
             glBindVertexArray(postProcessVertexArray);
-            
+
             glDrawArrays(GL_TRIANGLES, 0, 3);
         }
     }
