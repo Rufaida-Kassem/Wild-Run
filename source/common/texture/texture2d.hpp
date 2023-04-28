@@ -16,6 +16,7 @@ namespace our
         Texture2D()
         {
             // TODO: (Req 5) Complete this function
+            //. generate a texture object name
             glGenTextures(1, &name);
         };
 
@@ -33,8 +34,9 @@ namespace our
             return name;
         }
 
-        // This method binds this texture to GL_TEXTURE_2D
-        // NOTE: u should choose the active texture unit before calling this function
+        //. This method binds this texture to GL_TEXTURE_2D
+        //. NOTE: u should choose the active texture unit before calling this function
+        //. we may want change this function in the future to take the target as a parameter if we want to create a different kind of textures (like GL_TEXTURE_3D or GL_TEXTURE_CUBE_MAP)
         void bind() const
         {
             // TODO: (Req 5) Complete this function
@@ -42,6 +44,7 @@ namespace our
         }
 
         // This static method ensures that no texture is bound to GL_TEXTURE_2D
+        // it unbinds the old texture obj if there is one
         static void unbind()
         {
             // TODO: (Req 5) Complete this function

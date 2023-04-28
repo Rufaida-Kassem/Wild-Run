@@ -9,7 +9,8 @@
 namespace our::texture_utils
 {
     // This function create an empty texture with a specific format (useful for framebuffers)
-    // @param format: the format of the texture
+    // @param format: the format of the texture and must be one of the sized internal formats from the table 1 of the following link
+    // https://registry.khronos.org/OpenGL-Refpages/gl4/html/glTexStorage2D.xhtml
     // @param size: the size of the texture
     // @return: the created texture
     Texture2D *empty(GLenum format, glm::ivec2 size);

@@ -5,8 +5,12 @@
 
 #include <iostream>
 
+//. this function creates a new texture wit the given size and format
+//. we will use it to create textures for framebuffers
+//. @param format: the format of the texture
 our::Texture2D *our::texture_utils::empty(GLenum format, glm::ivec2 size)
 {
+    // generate a texture object
     our::Texture2D *texture = new our::Texture2D();
     // TODO: (Req 11) Finish this function to create an empty texture with the given size and format
     // bind the texture so that we can configure it
@@ -41,14 +45,15 @@ our::Texture2D *our::texture_utils::loadImage(const std::string &filename, bool 
     }
     // Create a texture
     our::Texture2D *texture = new our::Texture2D();
-    // Bind the texture such that we upload the image data to its storage
     // TODO: (Req 5) Finish this function to fill the texture with the data found in "pixels"
 
-    //. bind the texture so that we can use it
+    //. Bind the texture such that we upload the image data to its storage
     texture->bind();
-    //. set pixel storage mode to unpack the data from the image
+    //. sets pixel storage mode to unpack the data from the image
+    //. i passed 1 as argument as it will work with all images
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     //. glTexImage2D specifies a two-dimensional texture image and the texture parameters
+    //. load the image into level 0 of the texture then generate the mipmap if generate_mipmap is true
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, size.x, size.y, 0, GL_RGBA,
                  GL_UNSIGNED_BYTE, (void *)pixels);
 

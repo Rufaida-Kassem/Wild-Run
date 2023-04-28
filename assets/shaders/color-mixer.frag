@@ -17,7 +17,10 @@ out vec4 frag_color;
 // color matrix which we will send to the shader as 3 uniforms: red, green, blue.
 // Each of these 3 variables will be a vec4. To apply the channel mixing for a
 // certain channel (e.g. red), we apply this linear transformation:
+
+//. Question: how ??  
 // frag_color.r = red.r * fs_in.color.r + red.g + fs_in.color.g + red.b + fs_in.color.b + red.a;
+
 // However, this line is too long to write, so we can simplify it using a dot product
 // (which is defined in the "dot" function).
 

@@ -16,8 +16,8 @@ uniform mat4 transform;
 
 void main(){
     //TODO: (Req 3) Change the next line to apply the transformation matrix
-    // we multuply the position by the transform matrix to get the new position
-    // and we add 1.0 to the end to make it a vec4 because of the w component
+    //. we multuply the position by the transform matrix to get the new position
+    //. and we add 1.0 to the end to make it a vec4 because of the w component
     gl_Position = transform * vec4(position, 1.0);
     // No need to change any of the following lines
     vs_out.position = position;
