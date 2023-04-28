@@ -76,7 +76,7 @@ namespace our
             //. @param attachment = GL_COLOR_ATTACHMENT0 --> attach the color
             //. @param texturetarget = GL_TEXTURE_2D
             //. @param texture = colorTarget->getOpenGLName()--> determine the texture color object whose image is to be attached
-            //. @param level = 0 -->  the mipmap level of the texture image to be attached and must be 0
+            //. @param level = 0 --> the mipmap level of the texture image to be attached and must be 0
             glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
                                    colorTarget->getOpenGLName(), 0);
 

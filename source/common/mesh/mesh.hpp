@@ -17,7 +17,7 @@ namespace our
         // A vertex array object, A vertex buffer and an element buffer
         //.--------------------------------------------------------------------
         //. VBO (vertex buffer object): store verticies data                  |
-        //. VAO (vecter array object): store the attributes of the verticies  |
+        //. VAO (vecter array object): store the specifications of the data stored in buffer  |
         //. EBO (element buffer object): store the indicies of the verticies  |
         //.--------------------------------------------------------------------
         unsigned int VBO, EBO;
@@ -53,7 +53,7 @@ namespace our
             //. not that it is the same function using for binding texture data buffer just change the target 
             glBindBuffer(GL_ARRAY_BUFFER, VBO);
             //. creates and initializes a buffer object's data store
-            //. @param target = GL_ARRAY_BUFFER --> for the purpose of vertex attributes
+            //. @param target buffer = GL_ARRAY_BUFFER --> specify the target buffer
             //. @parram size = vertices.size() * sizeof(Vertex) --> the size of vertex buffer object
             //. @param *data = (void *)vertices.data() --> which is the array to be saved into the buffer
             //. @param usage = GL_STATIC_DRAW --> STATIC : The data store contents will be modified once and used many times.
@@ -79,7 +79,7 @@ namespace our
             //. type = GL_UNSIGNED_BYTE --> Specifies the data type of each vertex color
             //. normalized = true (devision by 255 to be ranged from 0 to 1)
             //. stride = sizeof(Vertex) --> Specifies the byte offset between consecutive generic vertex colors.
-            //. (void *)offsetof(Vertex, color) --> specify the offset of the component for data stord to be stored
+            //. offest = (void *)offsetof(Vertex, color) --> specify the offset of the component for data stord to be stored
             glVertexAttribPointer(ATTRIB_LOC_COLOR, 4, GL_UNSIGNED_BYTE, true, sizeof(Vertex), (void *)(offsetof(Vertex, color)));
             //. Enable a vertex texcoord array
             //. @param attribute = texcoord --> used the defined constanst above
@@ -112,7 +112,7 @@ namespace our
             //. not that it is the same function using for binding texture data buffer just change the target 
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
             //. creates and initializes a buffer object's data store
-            //. @param target = GL_ELEMENT_ARRAY_BUFFER --> for the purpose of Vertex array indices
+            //. @param target buffer = GL_ELEMENT_ARRAY_BUFFER --> for the purpose of Vertex array indices
             //. @parram size = elementCount * sizeof(GL_UNSIGNED_INT) --> the size of the buffer
             //. @param *data = (void *)elements.data() --> which is the array to be saved into the buffer
             //. @param usage = GL_STATIC_DRAW --> STATIC : The data store contents will be modified once and used many times.
@@ -132,7 +132,7 @@ namespace our
             //. @param mode = GL_TRIANGLES
             //. @param count = elementCount --> number of elements to be rendered
             //. @param type = GL_UNSIGNED_INT --> Specifies the type of the values in indices
-            //. @param indices = 0 --> Specifies a pointer to the location where the indices are stored.
+            //. @param index = 0 --> Specifies a pointer to the location where the indices are stored.
             glDrawElements(GL_TRIANGLES, elementCount, GL_UNSIGNED_INT, (void *)0);
         }
 
