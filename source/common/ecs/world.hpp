@@ -58,6 +58,9 @@ namespace our {
 
         // This removes the elements in "markedForRemoval" from the "entities" set.
         // Then each of these elements are deleted.
+
+        /// @brief this function removes the elements in "markedForRemoval" from the "entities" set
+        /// Then each of these elements are deleted
         void deleteMarkedEntities(){
             //TODO: (Req 8) Remove and delete all the entities that have been marked for removal
 
@@ -72,14 +75,17 @@ namespace our {
         }
 
         //This deletes all entities in the world
+        /// @brief this function deletes all entities in the world
         void clear(){
             //TODO: (Req 8) Delete all the entites and make sure that the containers are empty
+            /// loop around the entities set
             for (auto entity : entities)
             {
-                delete entity;
+                delete entity; /// delete the entity
             }
-            entities.clear();
-            markedForRemoval.clear();
+            /// clear the containers
+            entities.clear(); /// clear the entities set
+            markedForRemoval.clear(); /// clear the markedForRemoval set
         }
 
         //Since the world owns all of its entities, they should be deleted alongside it.
