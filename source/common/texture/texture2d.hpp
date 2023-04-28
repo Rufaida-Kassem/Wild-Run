@@ -27,6 +27,7 @@ namespace our
         }
 
         // Get the internal OpenGL name of the texture which is useful for use with framebuffers
+        // @return: the OpenGL name of the texture
         GLuint getOpenGLName()
         {
             return name;
