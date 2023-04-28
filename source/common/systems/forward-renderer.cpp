@@ -27,10 +27,11 @@ namespace our
             //  We will draw the sphere from the inside, so what options should we pick for the face culling.
             PipelineState skyPipelineState{};
 
-            // TODO implementation
-            skyPipelineState.depthTesting.enabled = true;
-            skyPipelineState.depthTesting.function = GL_LEQUAL; // LEQUAL --> less or equal --> if the new depth is less than or equal the old depth then we will draw the new one
-            skyPipelineState.faceCulling.enabled = true;        // true as we want to draw the sphere from the inside
+            //TODO implementation
+            /// set the configuration of the pipeline state for the sky so that it will be drawn after the opaque objects
+            skyPipelineState.depthTesting.enabled = true;  // true as we want to use depth testing
+            skyPipelineState.depthTesting.function = GL_LEQUAL; //LEQUAL --> less or equal --> if the new depth is less than or equal the old depth then we will draw the new one
+            skyPipelineState.faceCulling.enabled = true; // true as we want to draw the sphere from the inside
             skyPipelineState.faceCulling.culledFace = GL_FRONT; // we will remove the front face to show the sphere from inside
 
             // Load the sky texture (note that we don't need mipmaps since we want to avoid any unnecessary blurring while rendering the sky)
@@ -223,14 +224,18 @@ namespace our
         if (this->skyMaterial)
         {
             // TODO: (Req 10) setup the sky material
-            skyMaterial->setup();
-
-            // TODO: (Req 10) Get the camera position  // TO ASK
-            //  why does the camera position is the origin?
-            //  because the camera is at the origin of the world
+            skyMaterial->setup(); // first we will setup the material
+            
+            //TODO: (Req 10) Get the camera position  // TO ASK
+            /// why does the camera position is the origin?
+            /// because the camera is at the origin of the world
             glm::vec3 cameraPosition = camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1); // the camera eye is @ origin
-
-            // TODO: (Req 10) Create a model matrix for the sky such that it always follows the camera (sky sphere center = camera position)
+            
+            //TODO: (Req 10) Create a model matrix for the sky such that it always follows the camera (sky sphere center = camera position)
+            /// then we will create a model matrix
+            /// the translate function will create a matrix that will translate the sky sphere to the camera position
+            /// so we give it the camera position
+            /// and we give it a matrix of 1s so that it will not change the camera position
             glm::mat4 skyModelMat = glm::translate(
                 glm::mat4(1.0f),
                 cameraPosition);
@@ -260,8 +265,9 @@ namespace our
             // projection --> matrix for the camera as it transform from camera space to NDC space (canonical view volume) is this right?
             // alwaysBehindTransform --> matrix for the sky as it transform from NDC space to NDC space (always behind everything)
 
-            // TODO: (Req 10) draw the sky sphere
-            skySphere->draw();
+            
+            //TODO: (Req 10) draw the sky sphere
+            skySphere->draw(); // then we will draw the sky sphere
         }
         // TODO: (Req 9) Draw all the transparent commands
         //  Don't forget to set the "transform" uniform to be equal the model-view-projection matrix for each render command
