@@ -186,15 +186,13 @@ namespace our
 
         // TODO: (Req 9) Get the camera ViewProjection matrix and store it in VP
         glm::mat4 VP = camera->getProjectionMatrix(windowSize) * camera->getViewMatrix();
-        // WARNING::
-        ////////////////////////////// TOASK ////////////////////////////////////////////////////////////////
-        //TODO: (Req 9) Set the OpenGL viewport using viewportStart and viewportSize
+
 
         // TODO: (Req 9) Set the OpenGL viewport using viewportStart and viewportSize
         glm::ivec2 viewportStart = glm::ivec2(0, 0);
         glm::ivec2 viewportSize = windowSize;
         glViewport(viewportStart.x, viewportStart.y, viewportSize.x, viewportSize.y);
-        /////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
         // TODO: (Req 9) Set the clear color to black and the clear depth to 1
         glClearColor(0, 0, 0, 1);
