@@ -45,16 +45,16 @@ our::Texture2D *our::texture_utils::loadImage(const std::string &filename, bool 
     // Bind the texture such that we upload the image data to its storage
     // TODO: (Req 5) Finish this function to fill the texture with the data found in "pixels"
 
-    // bind the texture so that we can use it
+    //. bind the texture so that we can use it
     texture->bind();
-    // sets pixel storage mode to unpack the data from the image    
+    //. set pixel storage mode to unpack the data from the image
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    // glTexImage2D specifies a two-dimensional texture image and the texture parameters
+    //. glTexImage2D specifies a two-dimensional texture image and the texture parameters
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, size.x, size.y, 0, GL_RGBA,
                  GL_UNSIGNED_BYTE, (void *)pixels);
 
-    // will generate the mipmap for the texture if generate_mipmap is true
-    // we might not want to generate the mipmap for some textures (like the skybox)
+    //. will generate the mipmap for the texture if generate_mipmap is true
+    //. we might not want to generate the mipmap for some textures (like the skybox)
     if (generate_mipmap)
         glGenerateMipmap(GL_TEXTURE_2D);
 
