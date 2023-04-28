@@ -60,24 +60,38 @@ namespace our
         if (config.contains("postprocess"))
         {
             // TODO: (Req 11) Create a framebuffer
+            //. generation of framebuffer object
+            //. @param n=1 --> generates only one framebuffer object
+            //. @param *framebuffers = &postprocessFrameBuffer --> stores the framebuffers object
             glCreateFramebuffers(1, &postprocessFrameBuffer);
             // we use GL_DRAW_FRAMEBUFFER so that we can draw
+            //. bind the framebuffer.
             glBindFramebuffer(GL_DRAW_FRAMEBUFFER, postprocessFrameBuffer);
-
-            // TODO: (Req 11) Create a color and a depth texture and attach them to the framebuffer
+            //  TODO: (Req 11) Create a color and a depth texture and attach them to the framebuffer
             //  Hints: The color format can be (Red, Green, Blue and Alpha components with 8 bits for each channel).
             //  The depth format can be (Depth component with 24 bits).
             colorTarget = our::texture_utils::empty(GL_RGBA8, windowSize);
+            //. attach a texture image to a framebuffer object
+            //. @param target = GL_DRAW_FRAMEBUFFER so we can draw
+            //. @param attachment = GL_COLOR_ATTACHMENT0 --> attach the color
+            //. @param texturetarget = GL_TEXTURE_2D
+            //. @param texture = colorTarget->getOpenGLName()--> determine the texture color object whose image is to be attached
+            //. @param level = 0 -->  the mipmap level of the texture image to be attached and must be 0
             glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
                                    colorTarget->getOpenGLName(), 0);
 
             // create an empty depth texture to be the target of the depth
             depthTarget = our::texture_utils::empty(GL_DEPTH_COMPONENT24, windowSize);
+            //. attach a texture image to a framebuffer object
+            //. @param target = GL_DRAW_FRAMEBUFFER so we can draw
+            //. @param attachment = GL_DEPTH_ATTACHMENT --> attach the depth
+            //. @param texturetarget = GL_TEXTURE_2D
+            //. @param texture = depthTarget->getOpenGLName()--> determine the texture depth object whose image is to be attached
+            //. @param level = 0 -->  the mipmap level of the texture image to be attached and must be 
             glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D,
                                    depthTarget->getOpenGLName(), 0);
 
             // TODO: (Req 11) Unbind the framebuffer just to be safe
-
             glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
             // Create a vertex array to use for drawing the texture
