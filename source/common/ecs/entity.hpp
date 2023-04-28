@@ -129,7 +129,7 @@ namespace our
             for (auto it = components.begin(); it != components.end(); it++)
             {
                 delete *it; /// delete the component
-                components.erase(it); /// remove it from the list
+                // components.erase(it); /// remove it from the list
             }
         }
 
