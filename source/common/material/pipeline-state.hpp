@@ -80,8 +80,12 @@ namespace our
                 glDisable(GL_BLEND);
             }
 
-            glColorMask(colorMask.r, colorMask.g, colorMask.b, colorMask.a);
-            glDepthMask(depthMask);
+            /// The following function is useful for selectively rendering certain color components of a scene or for masking out certain parts of a rendered image.
+            glColorMask(colorMask.r, colorMask.g, colorMask.b, colorMask.a); /// enables or disables writing of individual color components to the frame buffer
+            
+            /// this function controls whether depth values can be written to the depth buffer. 
+            /// allows you to control whether or not depth testing is enabled for a particular object or group of objects in your OpenGL scene.
+            glDepthMask(depthMask);  
         }
 
         // Given a json object, this function deserializes a PipelineState structure
