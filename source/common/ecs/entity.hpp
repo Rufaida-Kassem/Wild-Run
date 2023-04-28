@@ -57,7 +57,7 @@ namespace our
             for (auto it = components.begin(); it != components.end(); it++)
             {
                 T *comp = dynamic_cast<T *>(*it);
-                if (comp != nullptr)  /// check if it is null --> cause it will be null if it is not of type T
+                if (comp != nullptr) /// check if it is null --> cause it will be null if it is not of type T
                     return comp;
             }
             return nullptr;
@@ -66,7 +66,7 @@ namespace our
         // This template method dynamic and returns a pointer to it
         // If no component of type T was found, it returns a nullptr
         template <typename T>
-        T *getComponent(size_t index)  /// I think the diff. between this and the above method is that it will search for the component starting from the index given in the parameter
+        T *getComponent(size_t index) /// I think the diff. between this and the above method is that it will search for the component starting from the index given in the parameter
         {
             auto it = components.begin();
             std::advance(it, index);
@@ -84,11 +84,11 @@ namespace our
             for (auto it = components.begin(); it != components.end(); it++)
             {
                 T *comp = dynamic_cast<T *>(*it); /// check if the component is of type T
-                if (comp != nullptr)  /// check if it is null --> cause it will be null if it is not of type T
+                if (comp != nullptr)              /// check if it is null --> cause it will be null if it is not of type T
                 {
-                    delete comp;  /// delete the component
-                    components.erase(it);  /// remove it from the list
-                    break;  /// break the loop as it is requred to delete only the first found component of type T
+                    delete comp;          /// delete the component
+                    components.erase(it); /// remove it from the list
+                    break;                /// break the loop as it is requred to delete only the first found component of type T
                 }
             }
         }
@@ -115,9 +115,9 @@ namespace our
             {
                 if (*it == component) /// check if the component is the same as the given component
                 {
-                    delete *it;   /// delete the component
+                    delete *it;           /// delete the component
                     components.erase(it); /// remove it from the list
-                    break; /// break the loop as no need to continue
+                    break;                /// break the loop as no need to continue
                 }
             }
         }
@@ -129,7 +129,6 @@ namespace our
             for (auto it = components.begin(); it != components.end(); it++)
             {
                 delete *it; /// delete the component
-                components.erase(it); /// remove it from the list
             }
         }
 

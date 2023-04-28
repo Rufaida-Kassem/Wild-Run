@@ -24,6 +24,7 @@ namespace our
         unsigned int VAO;
         // We need to remember the number of elements that will be draw by glDrawElements
         GLsizei elementCount;
+
     public:
         // The constructor takes two vectors:
         // - vertices which contain the vertex data.
@@ -46,26 +47,25 @@ namespace our
             glBindVertexArray(VAO);
             //. generation of vertex buffer object
             //. @param n=1 --> generates only one vertex buffer object
-            //. @param *array = &VBO --> where the verticies will be stored  
+            //. @param *array = &VBO --> where the verticies will be stored
             glGenBuffers(1, &VBO);
             //. bind the vertex buffer object function that takes the generated vertex buffer object as a parameter
             //. and target = GL_ARRAY_BUFFER to bind vertex array
-            //. not that it is the same function using for binding texture data buffer just change the target 
+            //. note that it is the same function using for binding texture data buffer just change the target
             glBindBuffer(GL_ARRAY_BUFFER, VBO);
             //. creates and initializes a buffer object's data store
             //. @param target buffer = GL_ARRAY_BUFFER --> specify the target buffer
             //. @parram size = vertices.size() * sizeof(Vertex) --> the size of vertex buffer object
             //. @param *data = (void *)vertices.data() --> which is the array to be saved into the buffer
-            //. @param usage = GL_STATIC_DRAW --> STATIC : The data store contents will be modified once and used many times.
-            //.                                   DRAW : The data store contents are modified by the application
+            //. @param usage = GL_STATIC_DRAW --> STATIC : The data store contents will be stored once.
             glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), (void *)vertices.data(), GL_STATIC_DRAW);
             //. Enable a vertex location array
             //. @param attribute = location --> used the defined constanst above
             glEnableVertexAttribArray(ATTRIB_LOC_POSITION);
-            //. define an array of vertex location data (Vertex Array will store these commands as configuration)
+            //. configure an array of vertex location data (Vertex Array will store these commands as configuration)
             //. @param index = ATTRIB_LOC_POSITION(0)
             //. size = 3 --> Specifies the number of components per vertex location.
-            //. type = GL_FLOAT --> Specifies the data type of each vertex location
+            //. type = GL_FLOAT --> Specifies type of eeach data
             //. normalized = false (we do not devide by the maximum to normalize)
             //. stride = sizeof(Vertex) --> Specifies the byte offset between consecutive vertex locations.
             //. offest = (void *)offsetof(Vertex, position) --> specify the offset of the component for data stord to be stored
@@ -76,7 +76,6 @@ namespace our
             //. define an array of vertex color data (Vertex Array will store these commands as configuration)
             //. @param index = ATTRIB_LOC_COLOR(1)
             //. size = 4 --> Specifies the number of components per vertex color (R,G,B,alpha).
-            //. type = GL_UNSIGNED_BYTE --> Specifies the data type of each vertex color
             //. normalized = true (devision by 255 to be ranged from 0 to 1)
             //. stride = sizeof(Vertex) --> Specifies the byte offset between consecutive generic vertex colors.
             //. offest = (void *)offsetof(Vertex, color) --> specify the offset of the component for data stord to be stored
@@ -87,7 +86,6 @@ namespace our
             //. define an array of vertex texcoord data (Vertex Array will store these commands as configuration)
             //. @param index = ATTRIB_LOC_TEXCOORD(2)
             //. size = 2 --> Specifies the number of components per vertex texcoord.
-            //. type = GL_FLOAT --> Specifies the data type of each vertex texcoord
             //. normalized = false
             //. stride = sizeof(Vertex) --> Specifies the byte offset between consecutive vertex texcoords.
             //. (void *)offsetof(Vertex, tex_coord) --> specify the offset of the component for data stord to be stored
@@ -98,7 +96,6 @@ namespace our
             //. define an array of vertex normal data (Vertex Array will store these commands as configuration)
             //. @param index = ATTRIB_LOC_NORMAL(4)
             //. size = 3 --> Specifies the number of components per vertex normal.
-            //. type = GL_FLOAT --> Specifies the data type of each vertex normal
             //. normalized = false
             //. stride = sizeof(Vertex) --> Specifies the byte offset between consecutive vertex texcoords.
             //. (void *)offsetof(Vertex, tex_coord) --> specify the offset of the component for data stord to be stored
@@ -109,7 +106,7 @@ namespace our
             glGenBuffers(1, &EBO);
             //. bind the element buffer object. function that takes the generated  element buffer object as a parameter
             //. and target = GL_ELEMENT_ARRAY_BUFFER to bind Vertex array indices
-            //. not that it is the same function using for binding texture data buffer just change the target 
+            //. not that it is the same function using for binding texture data buffer just change the target
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
             //. creates and initializes a buffer object's data store
             //. @param target buffer = GL_ELEMENT_ARRAY_BUFFER --> for the purpose of Vertex array indices
@@ -126,7 +123,7 @@ namespace our
             // TODO: (Req 2) Write this function
             //. bind the vertex array object. function that takes the generated vertex array object as a parameter
             //. and target = GL_ARRAY_BUFFER to bind vertex array
-            //. not that it is the same function using for binding texture data buffer just change the target 
+            //. not that it is the same function using for binding texture data buffer just change the target
             glBindVertexArray(VAO);
             //. rendereing from array
             //. @param mode = GL_TRIANGLES

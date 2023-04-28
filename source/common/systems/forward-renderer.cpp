@@ -27,11 +27,11 @@ namespace our
             //  We will draw the sphere from the inside, so what options should we pick for the face culling.
             PipelineState skyPipelineState{};
 
-            //TODO implementation
+            // TODO implementation
             /// set the configuration of the pipeline state for the sky so that it will be drawn after the opaque objects
-            skyPipelineState.depthTesting.enabled = true;  // true as we want to use depth testing
-            skyPipelineState.depthTesting.function = GL_LEQUAL; //LEQUAL --> less or equal --> if the new depth is less than or equal the old depth then we will draw the new one
-            skyPipelineState.faceCulling.enabled = true; // true as we want to draw the sphere from the inside
+            skyPipelineState.depthTesting.enabled = true;       // true as we want to use depth testing
+            skyPipelineState.depthTesting.function = GL_LEQUAL; // LEQUAL --> less or equal --> if the new depth is less than or equal the old depth then we will draw the new one
+            skyPipelineState.faceCulling.enabled = true;        // true as we want to draw the sphere from the inside
             skyPipelineState.faceCulling.culledFace = GL_FRONT; // we will remove the front face to show the sphere from inside
 
             // Load the sky texture (note that we don't need mipmaps since we want to avoid any unnecessary blurring while rendering the sky)
@@ -61,8 +61,8 @@ namespace our
         {
             // TODO: (Req 11) Create a framebuffer
             //. generation of framebuffer object
-            //. @param n=1 --> generates only one framebuffer object
-            //. @param *framebuffers = &postprocessFrameBuffer --> stores the framebuffers object
+            //.  n=1 --> generates only one framebuffer object
+            //.  *framebuffers = &postprocessFrameBuffer --> stores the framebuffers object
             glCreateFramebuffers(1, &postprocessFrameBuffer);
             // we use GL_DRAW_FRAMEBUFFER so that we can draw
             //. bind the framebuffer.
@@ -70,13 +70,17 @@ namespace our
             //  TODO: (Req 11) Create a color and a depth texture and attach them to the framebuffer
             //  Hints: The color format can be (Red, Green, Blue and Alpha components with 8 bits for each channel).
             //  The depth format can be (Depth component with 24 bits).
+
+            //. create an empty color texture to be the target of the color
             colorTarget = our::texture_utils::empty(GL_RGBA8, windowSize);
-            //. attach a texture image to a framebuffer object
-            //. @param target = GL_DRAW_FRAMEBUFFER so we can draw
-            //. @param attachment = GL_COLOR_ATTACHMENT0 --> attach the color
-            //. @param texturetarget = GL_TEXTURE_2D
-            //. @param texture = colorTarget->getOpenGLName()--> determine the texture color object whose image is to be attached
-            //. @param level = 0 --> the mipmap level of the texture image to be attached and must be 0
+            //.  attaches the texture image specified by texture and level as one of the logical buffers of the currently bound framebuffer object.
+            //.  attachment specifies whether the texture image should be attached to the framebuffer object's color, depth, or stencil buffer.
+            //.  attach a texture image to a framebuffer object
+            //.  target = GL_DRAW_FRAMEBUFFER so we can draw
+            //.  attachment = GL_COLOR_ATTACHMENT0 --> attach the color
+            //.  texturetarget = GL_TEXTURE_2D
+            //.  texture = colorTarget->getOpenGLName()--> determine the texture color object name
+            //.  level = 0 --> the mipmap level of the texture image to be attached and must be 0
             glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
                                    colorTarget->getOpenGLName(), 0);
 
@@ -84,10 +88,10 @@ namespace our
             depthTarget = our::texture_utils::empty(GL_DEPTH_COMPONENT24, windowSize);
             //. attach a texture image to a framebuffer object
             //. @param target = GL_DRAW_FRAMEBUFFER so we can draw
-            //. @param attachment = GL_DEPTH_ATTACHMENT --> attach the depth
+            //. @param attachment = GL_DEPTH_ATTACHMENT --> attach to the depth buffer
             //. @param texturetarget = GL_TEXTURE_2D
             //. @param texture = depthTarget->getOpenGLName()--> determine the texture depth object whose image is to be attached
-            //. @param level = 0 -->  the mipmap level of the texture image to be attached and must be 
+            //. @param level = 0 -->  the mipmap level of the texture image to be attached and must be
             glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D,
                                    depthTarget->getOpenGLName(), 0);
 
@@ -184,7 +188,7 @@ namespace our
 
         // TODO: (Req 9) Modify the following line such that "cameraForward" contains a vector pointing the camera forward direction
         //  HINT: See how you wrote the CameraComponent::getViewMatrix, it should help you solve this one
-        //. to get the camera forward vector, we need the -Z as 
+        //. to get the camera forward vector, we need the -Z as
         //. it's the forward vector of the camera (the camera gaze direction)
         //. we use the camera's local to world matrix to transform the forward vector of the camera
         glm::vec3 cameraForward = camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, -1, 0.0);
@@ -205,7 +209,6 @@ namespace our
         glm::ivec2 viewportStart = glm::ivec2(0, 0);
         glm::ivec2 viewportSize = windowSize;
         glViewport(viewportStart.x, viewportStart.y, viewportSize.x, viewportSize.y);
-
 
         // TODO: (Req 9) Set the clear color to black and the clear depth to 1
         glClearColor(0, 0, 0, 1);
@@ -239,13 +242,13 @@ namespace our
         {
             // TODO: (Req 10) setup the sky material
             skyMaterial->setup(); // first we will setup the material
-            
-            //TODO: (Req 10) Get the camera position  // TO ASK
+
+            // TODO: (Req 10) Get the camera position  // TO ASK
             /// why does the camera position is the origin?
             /// because the camera is at the origin of the world
             glm::vec3 cameraPosition = camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1); // the camera eye is @ origin
-            
-            //TODO: (Req 10) Create a model matrix for the sky such that it always follows the camera (sky sphere center = camera position)
+
+            // TODO: (Req 10) Create a model matrix for the sky such that it always follows the camera (sky sphere center = camera position)
             /// then we will create a model matrix
             /// the translate function will create a matrix that will translate the sky sphere to the camera position
             /// so we give it the camera position
@@ -279,8 +282,7 @@ namespace our
             // projection --> matrix for the camera as it transform from camera space to NDC space (canonical view volume) is this right?
             // alwaysBehindTransform --> matrix for the sky as it transform from NDC space to NDC space (always behind everything)
 
-            
-            //TODO: (Req 10) draw the sky sphere
+            // TODO: (Req 10) draw the sky sphere
             skySphere->draw(); // then we will draw the sky sphere
         }
         // TODO: (Req 9) Draw all the transparent commands
@@ -292,7 +294,8 @@ namespace our
             command.mesh->draw();
         }
 
-        // If there is a postprocess material, apply postprocessing
+        //. If there is a postprocess material, apply postprocessing then draw the fullscreen triangle to the screen
+        //. note that we might want to change this behavior later
         if (postprocessMaterial)
         {
             // TODO: (Req 11) Return to the default framebuffer
@@ -300,6 +303,7 @@ namespace our
 
             // TODO: (Req 11) Setup the postprocess material and draw the fullscreen triangle
             // we use the texture we rendered to as the input texture in a TexturedMaterial
+            // we setup the material to apply the postprocess effect
             postprocessMaterial->setup();
             glBindVertexArray(postProcessVertexArray);
 
