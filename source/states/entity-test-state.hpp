@@ -54,10 +54,13 @@ class EntityTestState: public our::State {
             if(meshRenderer == nullptr) continue;
             //TODO: (Req 8) Complete the loop body to draw the current entity
             // Then we setup the material, send the transform matrix to the shader then draw the mesh
-        
-            meshRenderer->material->setup();
+
+            /// first we setup the material
+            /// then we send the transform matrix to the shader
+            /// then we draw the mesh
+            meshRenderer->material->setup(); // setup the material
             meshRenderer->material->shader->set("transform", VP * entity->getLocalToWorldMatrix()); // the matrix is called "transform" in a shader file called "transform-test.frag"
-            meshRenderer->mesh->draw();
+            meshRenderer->mesh->draw(); // draw the mesh
             
         }
     }

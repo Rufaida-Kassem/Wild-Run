@@ -1,0 +1,4 @@
+Game logic 
+    collisions --> collect -- lose
+    Camera and movement and scene 
+    Lighting 

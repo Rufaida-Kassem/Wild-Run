@@ -47,7 +47,12 @@ namespace our
 
     public:
         // Initialize the renderer including the sky and the Postprocessing objects.
-        // windowSize is the width & height of the window (in pixels).
+        // @param windowSize: the width & height of the window (in pixels).
+        // @param config: the configuration of the renderer, it may contain the following:
+        //      - sky: the path to the sky texture
+        //      - postprocess: the path to the postprocessing shader
+        //      - postprocessUniforms: a list of uniforms to set on the postprocessing shader
+        //      - postprocessUniforms[i].name: the name of the uniform to set
         void initialize(glm::ivec2 windowSize, const nlohmann::json &config);
         // Clean up the renderer
         void destroy();

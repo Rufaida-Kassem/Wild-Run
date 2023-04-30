@@ -26,6 +26,7 @@ namespace our
     }
 
     // Creates and returns the camera view matrix
+    /// @brief Creates and returns the camera view matrix
     glm::mat4 CameraComponent::getViewMatrix() const
     {
         auto owner = getOwner();
@@ -46,7 +47,6 @@ namespace our
         // determine the position of the camera
         glm::mat4 view = glm::lookAt(
             glm::vec3(M * glm::vec4(0, 0, 0, 1)), // position of the camera  --> rotating
-            // QUESTION: is the center a point or a vector?
             glm::vec3(M * glm::vec4(0, 0, -1.0, 1)), // position of the object --> let camera look at the center (as the obj exist at origin)
             glm::vec3(M * glm::vec4(0, 1.0, 0, 0))   // up vector
         );
@@ -55,6 +55,7 @@ namespace our
 
     // Creates and returns the camera projection matrix
     // "viewportSize" is used to compute the aspect ratio
+    /// @brief Creates and returns the camera projection matrix
     glm::mat4 CameraComponent::getProjectionMatrix(glm::ivec2 viewportSize) const
     {
         // TODO: (Req 8) Wrtie this function
@@ -63,12 +64,23 @@ namespace our
         //  Left and Right are the same but after being multiplied by the aspect ratio
         //  For the perspective camera, you can use glm::perspective
         glm::mat4 projection;
+        /// check the type of the camera whether it is perspective or orthographic
         if (cameraType == CameraType::PERSPECTIVE)
         {
+            /// create the perspective projection matrix
+            /// fovY: field of view in the y direction, in radians
+            /// aspect: aspect ratio which is the ratio of the width of the viewport to the height of the viewport
+            /// zNear: distance from the viewer to the near clipping plane (always positive)
+            /// zFar: distance from the viewer to the far clipping plane (always positive)
             projection = glm::perspective(fovY, float(viewportSize.x) / viewportSize.y, near, far);
         }
         else if (cameraType == CameraType::ORTHOGRAPHIC)
         {
+            /// create the orthographic projection matrix
+            /// left: coordinate for the left vertical clipping plane
+            /// right: coordinate for the right vertical clipping plane
+            /// bottom: coordinate for the bottom horizontal clipping plane
+            /// top: coordinate for the top horizontal clipping plane
             projection = glm::ortho(-orthoHeight * (float(viewportSize.x) / viewportSize.y) / 2.0f, orthoHeight * (viewportSize.x / viewportSize.y) / 2.0f, -orthoHeight / 2.0f, orthoHeight / 2.0f);
         }
         return projection;
