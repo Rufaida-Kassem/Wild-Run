@@ -58,7 +58,14 @@ class Playstate : public our::State
             getApp()->changeState("menu");
         }
     }
-
+    void onImmediateGui() override
+    {
+        // write the current state name in text box
+        const std::string current_frames = "HII";
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("GOOD JOB!").x) * 0.5);
+        ImGui::SetCursorPosY((ImGui::GetWindowSize().y - ImGui::CalcTextSize("GOOD JOB!").y) * 0.2);
+        ImGui::Text("GOOD JOB!");
+    }
     void onDestroy() override
     {
         // Don't forget to destroy the renderer
