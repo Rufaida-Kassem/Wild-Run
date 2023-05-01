@@ -21,7 +21,7 @@ namespace our
 	inline const std::unordered_map<std::string, CollisionType> collisionMap = {
 		{"none", CollisionType::NONE},
 		{"coin", CollisionType::COIN},
-		{"obstacle", CollisionType::OBSTACLE}};
+		{"obstacle", CollisionType::OBSTACLE} };
 
 	class CollisionComponent : public Component
 	{
@@ -33,7 +33,7 @@ namespace our
 		static std::string getID() { return "Collision"; }
 
 		// Reads linearVelocity & angularVelocity from the given json object
-		void deserialize(const nlohmann::json &data) override
+		void deserialize(const nlohmann::json& data) override
 		{
 			if (!data.is_object())
 				return;
@@ -45,7 +45,7 @@ namespace our
 			{
 				type = collisionMap.at(typeString);
 			}
-			catch (const std::exception &e)
+			catch (const std::exception& e)
 			{
 				std::cerr << e.what() << '\n';
 				std::cerr << "Collision type might not be correct: " << typeString << '\n';

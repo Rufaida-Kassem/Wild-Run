@@ -142,7 +142,7 @@
             "name": "stick",
             "position": [ 1, -1, -1 ],
             "rotation": [ 45, 45, 0 ],
-            //"scale": [ 0.1, 0.1, 1.0 ],
+            "scale": [ 0.1, 0.1, 1.0 ],
             "components": [
               {
                 "type": "Mesh Renderer",
@@ -159,8 +159,8 @@
         ]
       },
       {
-        "rotation": [ -45, 0, 0 ],
-        "position": [ 0, -5, -5 ],
+        "rotation": [ 0, 0, 0 ],
+        "position": [ 0, -1, -5 ],
         "name": "MNK1",
 
         "components": [
@@ -171,20 +171,20 @@
           },
           {
             "type": "Movement",
-            "linearVelocity": [ 0, 0.0, 0 ],
-            "angularVelocity": [ 0, 45, 0 ]
+            "linearVelocity": [ 0, 0.1, 0 ]
+            //"angularVelocity": [ 0, 45, 0 ]
           },
           {
             "type": "Collision",
             "objType": "coin",
-            "limit_min": [ -5, -5, -5 ],
-            "limit_max": [ 5, 5, 5 ]
+            "limit_min": [ -0.1, -0.1, -0.1 ],
+            "limit_max": [ 1, 1, 1 ]
           }
         ]
       },
       {
-        //"position": [ 0, 11, 0 ],
-        "rotation": [ 45, 45, 0 ],
+        "position": [ 0, 0, 0 ],
+        //"rotation": [ 45, 45, 0 ],
         //"scale": [ 5, 5, 5 ],
         "name": "MOON",
         "components": [
@@ -200,8 +200,8 @@
           {
             "type": "Collision",
             "objType": "obstacle",
-            "limit_min": [ -5, -5, -5 ],
-            "limit_max": [ 5, 5, 5 ]
+            "limit_min": [ -0.5, -0.5, -0.5 ],
+            "limit_max": [ 0.5, 0.5, 0.5 ]
 
           }
         ]
@@ -223,6 +223,7 @@
       {
         "rotation": [ -45, 0, 0 ],
         "position": [ 10, 2, 0 ],
+        "name": "MNK2",
         "components": [
           {
             "type": "Mesh Renderer",
@@ -230,14 +231,15 @@
             "material": "monkey"
           },
           {
+
             "type": "Movement",
             "linearVelocity": [ 0, 0.1, 0 ],
             "angularVelocity": [ 0, 1, 0 ]
           },
           {
             "type": "Collision",
-            "limit_min": [ -5, -5, -5 ],
-            "limit_max": [ 5, 5, 5 ],
+            "limit_min": [ -1, -1, -1 ],
+            "limit_max": [ 1, 1, 1 ],
             "objType": "coin"
           }
         ]
