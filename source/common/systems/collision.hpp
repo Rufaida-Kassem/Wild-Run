@@ -37,6 +37,20 @@ namespace our
 		{
 			return coins_collected;
 		}
+
+		bool AABBCollide(Entity* E1, Entity* E2)
+		{
+			CollisionComponent* comp1 = E1->getComponent<CollisionComponent>();
+			CollisionComponent* comp2 = E2->getComponent<CollisionComponent>();
+			glm::vec3 min1 = E1->getLocalToWorldMatrix() * glm::vec4(comp1->limit_min, 1);
+			glm::vec3 max1 = E1->getLocalToWorldMatrix() * glm::vec4(comp1->limit_max, 1);
+			glm::vec3 min2 = E2->getLocalToWorldMatrix() * glm::vec4(comp2->limit_min, 1);
+			glm::vec3 max2 = E2->getLocalToWorldMatrix() * glm::vec4(comp2->limit_max, 1);
+
+
+
+		}
+
 		// This function is called every frame by the world to determine if there is any collision
 		void update(World* world, float deltaTime)
 		{
@@ -75,7 +89,7 @@ namespace our
 				glm::vec4 entity1_pos = entity1->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1);
 				glm::vec4 entity2_pos = entity2->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1);
 				// check if the two entities are colliding
-				float distance = entity2->getComponent<CollisionComponent>()->radius + entity1->getComponent<CollisionComponent>()->radius;
+				float distance = 1; // entity2->getComponent<CollisionComponent>()->radius + entity1->getComponent<CollisionComponent>()->radius;
 
 				if (glm::distance(entity1_pos, entity2_pos) < distance)
 				{

@@ -159,7 +159,7 @@
       },
       {
         "rotation": [ -45, 0, 0 ],
-        "position": [ 0, 10, 0 ],
+        "position": [ 0, -10, 0 ],
         "components": [
           {
             "type": "Mesh Renderer",
@@ -173,8 +173,9 @@
           },
           {
             "type": "Collision",
-            "radius": 1,
-            "objType": "coin"
+            "objType": "coin",
+            "limit_min": [ -10, 0, -10 ],
+            "limit_max": [ 10, 0, 10 ]
           }
         ]
       },
@@ -194,8 +195,9 @@
           },
           {
             "type": "Collision",
-            "radius": 0.5,
-            "objType": "obstacle"
+            "objType": "obstacle",
+            "limit_min": [ -10, 0, -10 ],
+            "limit_max": [ 10, 0, 10 ]
 
           }
         ]
@@ -208,7 +210,9 @@
           {
             "type": "Mesh Renderer",
             "mesh": "plane",
-            "material": "grass"
+            "material": "grass",
+            "limit_min": [ -10.0, 0.0, -10 ],
+            "limit_max": [ 10, 0, 10 ]
           }
         ]
       },
@@ -228,7 +232,8 @@
           },
           {
             "type": "Collision",
-            "radius": 1,
+            "limit_min": [ -10, 0, -10 ],
+            "limit_max": [ 10, 0, 10 ],
             "objType": "coin"
           }
         ]
