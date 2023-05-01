@@ -20,8 +20,19 @@ namespace our
     // For more information, see "common/components/movement.hpp"
     class CollisionSystem
     {
+        int coins_collected = 0;
+        bool is_lost = false;
+
     public:
-        // This should be called every frame to update all entities containing a MovementComponent.
+        bool get_is_lost()
+        {
+            return is_lost;
+        }
+        int get_coins_collected()
+        {
+            return coins_collected;
+        }
+        // This function is called every frame by the world to determine if there is any collision
         void update(World *world, float deltaTime)
         {
             // For each entity in the world
@@ -59,15 +70,24 @@ namespace our
                 glm::vec4 entity1_pos = entity1->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1);
                 glm::vec4 entity2_pos = entity2->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1);
                 // check if the two entities are colliding
-                std ::cout << "entity1_pos" << std::endl;
-                print_vec4(entity1_pos);
-                std ::cout << "entity2_pos" << std::endl;
-                print_vec4(entity2_pos);
                 float distance = entity2->getComponent<CollisionComponent>()->radius + entity1->getComponent<CollisionComponent>()->radius;
+
                 if (glm::distance(entity1_pos, entity2_pos) < distance)
                 {
                     // if the two entities are colliding, then change delete the entity
-                    std::cout << "collision " << std::endl;
+                    CollisionType type = entity2->getComponent<CollisionComponent>()->type;
+                    switch (type)
+                    {
+                    case CollisionType::COIN:
+                        coins_collected++;
+                        std::cout << coins_collected << std::endl;
+                        break;
+                    case CollisionType::OBSTACLE:
+                        is_lost = true;
+                        break;
+                    default:
+                        break;
+                    }
 
                     world->markForRemoval(entity2);
                 }

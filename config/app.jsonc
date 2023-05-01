@@ -140,6 +140,7 @@
                 ],
                 "children": [
                     {
+                        "name": "stick",
                         "position": [1, -1, -1],
                         "rotation": [45, 45, 0],
                         "scale": [0.1, 0.1, 1.0],
@@ -148,6 +149,10 @@
                                 "type": "Mesh Renderer",
                                 "mesh": "cube",
                                 "material": "metal"
+                            },
+                            {
+                                "type": "Collision",
+                                "radius": 0.1
                             }
                         ]
                     }
@@ -163,8 +168,12 @@
                     },
                     {
                         "type": "Movement",
-                        "linearVelocity": [0, 0.1, 0],
+                        "linearVelocity": [0, 0.2, 0],
                         "angularVelocity": [0, 45, 0]
+                    },{
+                        "type": "Collision"
+                        ,"radius": 1,
+                        "objType":"coin"
                     }
                 ]
             },
@@ -253,6 +262,10 @@
                     {
                         "type": "Movement",
                         "angularVelocity": [0, 90, 0]
+                    },{
+                        "type": "Collision",
+                        "radius": 5
+
                     }
                 ]
             }

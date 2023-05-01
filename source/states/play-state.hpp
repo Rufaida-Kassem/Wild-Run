@@ -52,7 +52,7 @@ class Playstate : public our::State
         // Get a reference to the keyboard object
         auto &keyboard = getApp()->getKeyboard();
 
-        if (keyboard.justPressed(GLFW_KEY_ESCAPE))
+        if (keyboard.justPressed(GLFW_KEY_ESCAPE) || collisionSystem.get_is_lost())
         {
             // If the escape  key is pressed in this frame, go to the play state
             getApp()->changeState("menu");
@@ -61,10 +61,17 @@ class Playstate : public our::State
     void onImmediateGui() override
     {
         // write the current state name in text box
-        const std::string current_frames = "HII";
-        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("GOOD JOB!").x) * 0.5);
-        ImGui::SetCursorPosY((ImGui::GetWindowSize().y - ImGui::CalcTextSize("GOOD JOB!").y) * 0.2);
-        ImGui::Text("GOOD JOB!");
+        ImGuiWindowFlags window_flags = 0;
+        window_flags |= ImGuiWindowFlags_NoDecoration |
+                        ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings |
+                        ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav |
+                        ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar;
+        ImGui::Begin("Play State", nullptr, window_flags);
+        const std::string current_coins = "Coins: " + std::to_string(collisionSystem.get_coins_collected());
+        // resize the window
+        ImGui::SetWindowSize(ImVec2(300, 100));
+        ImGui::Text(current_coins.c_str());
+        ImGui::End();
     }
     void onDestroy() override
     {
