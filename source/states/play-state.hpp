@@ -68,6 +68,7 @@ class Playstate : public our::State
 		}
 		if (collisionSystem.get_is_lost())
 		{
+
 			getApp()->changeState("game-over");
 		}
 	}

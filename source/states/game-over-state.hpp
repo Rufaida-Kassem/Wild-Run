@@ -15,7 +15,7 @@
 // This state shows how to use some of the abstractions we created to make a menu.
 class GameOverstate : public our::State {
 
-	// A meterial holding the menu shader and the menu texture to draw
+	// A material holding the menu shader and the menu texture to draw
 	our::TexturedMaterial* menuMaterial;
 	// A material to be used to highlight hovered buttons (we will use blending to create a negative effect).
 	our::TintedMaterial* highlightMaterial;
