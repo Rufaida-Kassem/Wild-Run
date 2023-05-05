@@ -205,17 +205,17 @@ namespace our {
                     switch (type) {
                         case CollisionType::COIN:
                             coins_collected++;
-                            std::cout << coins_collected << std::endl;
+//                            std::cout << coins_collected << std::endl;
                             break;
                         case CollisionType::OBSTACLE:
-//                            is_lost = true;
-                            std::cout << "lost" << cc++ << std::endl;
+                            is_lost = true;
+//                            std::cout << "lost" << cc++ << std::endl;
                             break;
                         default:
                             break;
                     }
 
-//                    world->markForRemoval(entity2);
+                    world->markForRemoval(entity2);
                 }
             }
         }

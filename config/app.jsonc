@@ -10,7 +10,8 @@
   },
   "scene": {
     "renderer": {
-      "sky": "assets/textures/sky.jpg",
+//       "sky": "assets/textures/sky.jpg",
+      "sky": "assets/textures/nite.jpg",
       "postprocess": "assets/shaders/postprocess/vignette.frag"
     },
     "assets": {
@@ -220,9 +221,9 @@
           {
             "type": "Collision",
             "objType": "obstacle",
-               "W" : [-1,1],
-              "H" : [-1,1],
-              "D" : [-1,1]
+               "W" : [-0.7,0.7],
+              "H" : [-0.7,0.7],
+              "D" : [-0.7,0.7]
 
           }
         ]
