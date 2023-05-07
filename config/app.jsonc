@@ -1,5 +1,5 @@
 {
-  "start-scene": "menu",
+  "start-scene": "game-over",
   "window": {
     "title": "Default Game Window",
     "size": {

@@ -36,15 +36,17 @@ class GameOverstate : public our::State {
         // Here, we load the shader that will be used to draw the background
         menuMaterial->shader = new our::ShaderProgram();
         menuMaterial->shader->attach("assets/shaders/textured.vert", GL_VERTEX_SHADER);
-        menuMaterial->shader->attach("assets/shaders/textured_alpha.frag", GL_FRAGMENT_SHADER);
+        menuMaterial->shader->attach("assets/shaders/textured.frag", GL_FRAGMENT_SHADER);
         menuMaterial->shader->link();
         // Then we load the menu texture
         menuMaterial->texture = our::texture_utils::loadImage("assets/textures/game-over2.png");
         // Initially, the menu material will be black, then it will fade in
         menuMaterial->tint = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-        menuMaterial->alphaThreshold = 0.5f;
-        menuMaterial->pipelineState.depthTesting.enabled = true;
-
+//        menuMaterial->alphaThreshold = 0.5f;
+        menuMaterial->pipelineState.blending.enabled = true;
+        menuMaterial->pipelineState.blending.equation = GL_FUNC_ADD;
+        menuMaterial->pipelineState.blending.sourceFactor = GL_SRC_ALPHA;
+        menuMaterial->pipelineState.blending.destinationFactor = GL_ONE_MINUS_SRC_ALPHA;
 
 
         // Second, we create a material to highlight the hovered buttons
@@ -52,14 +54,14 @@ class GameOverstate : public our::State {
         // Since the highlight is not textured, we used the tinted material shaders
         highlightMaterial->shader = new our::ShaderProgram();
         highlightMaterial->shader->attach("assets/shaders/tinted.vert", GL_VERTEX_SHADER);
-        highlightMaterial->shader->attach("assets/shaders/tinted.frag", GL_FRAGMENT_SHADER);
+        highlightMaterial->shader->attach("assets/shaders/mouse_track.frag", GL_FRAGMENT_SHADER);
         highlightMaterial->shader->link();
         // The tint is white since we will subtract the background color from it to create a negative effect.
         highlightMaterial->tint = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
         // To create a negative effect, we enable blending, set the equation to be subtracted,
         // and set the factors to be one for both the source and the destination.
         highlightMaterial->pipelineState.blending.enabled = true;
-        highlightMaterial->pipelineState.blending.equation = GL_FUNC_SUBTRACT;
+        highlightMaterial->pipelineState.blending.equation = GL_FUNC_ADD;
         highlightMaterial->pipelineState.blending.sourceFactor = GL_ONE;
         highlightMaterial->pipelineState.blending.destinationFactor = GL_ONE;
 
@@ -87,13 +89,13 @@ class GameOverstate : public our::State {
         //      We leave it empty since button actions receive no input.
         // - The body {} which contains the code to be executed.
         // yes button
-        buttons[0].position = {393.0f, 466.37f};
-        buttons[0].size = {101.0f, 73.93f};
+        buttons[0].position = {369.41f, 436.65f};
+        buttons[0].size = {146.18f, 108.35f};
         buttons[0].action = [this]() { this->getApp()->changeState("play"); };
 
         // No button
-        buttons[1].position = {788.63f, 466.37f};
-        buttons[1].size = {93.75f, 73.93f};
+        buttons[1].position = {768.39f, 436.65f};
+        buttons[1].size = {134.23f, 108.35f};
         buttons[1].action = [this]() { this->getApp()->changeState("menu"); };
 
         // load data from the last frame so that it is used as a background
@@ -147,11 +149,12 @@ class GameOverstate : public our::State {
                     button.action();
             }
         }
-
         // Get the framebuffer size to set the viewport and the create the projection matrix.
         glm::ivec2 size = getApp()->getFrameBufferSize();
         // Make sure the viewport covers the whole size of the framebuffer.
         glViewport(0, 0, size.x, size.y);
+        std::cout << "mouse position: " << mousePosition.x / size.x << " " << 1 - mousePosition.y / size.y << std::endl;
+
 
         // The view matrix is an identity (there is no camera that moves around).
         // The projection matrix apply an orthographic projection whose size is the framebuffer size in pixels
@@ -172,11 +175,36 @@ class GameOverstate : public our::State {
         menuMaterial->setup();
         menuMaterial->shader->set("transform", VP * M);
         rectangle->draw();
+//        highlightMaterial->setup();
+//        highlightMaterial->shader->set("mouse_pos",
+//                                       glm::vec2(mousePosition.x / size.x, 1 - mousePosition.y / size.y));
+//        rectangle->draw();
+//        highlightMaterial->setup();
+//        highlightMaterial->shader->set("mouse_pos",
+//                                       glm::vec2(mousePosition.x, size.y - mousePosition.y));
 
+//        glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.3f, 0.3f, 0.3f));
+//////        translate to mouse position
+//        glm::mat4 translate = glm::translate(glm::mat4(1.0f),
+//                                             glm::vec3((mousePosition.x / size.x) * 2 - 1,
+//                                                       ((size.y - mousePosition.y) / size.y) * 2 - 1,
+//                                                       0.0f));
+//
+//        std::cout << "mouse position: " << mousePosition.x / size.x - 0.5 << " "
+//                  << (size.y - mousePosition.y) / size.y - 0.5 << std::endl;
+//
+//        highlightMaterial->shader->set("transform", translate * scale);
+//        rectangle->draw();
+//        highlightMaterial->shader->set("transform", VP * button.getLocalToWorld());
+        // For every button, check if the mouse is inside it. If the mouse is inside, we draw the highlight rectangle over it.
+//        highlightMaterial->shader->set("transform", VP * button.getLocalToWorld());
         // For every button, check if the mouse is inside it. If the mouse is inside, we draw the highlight rectangle over it.
         for (auto &button: buttons) {
             if (button.isInside(mousePosition)) {
                 highlightMaterial->setup();
+                highlightMaterial->shader->set("mouse_pos",
+                                               glm::vec2(mousePosition.x, size.y - mousePosition.y));
+
                 highlightMaterial->shader->set("transform", VP * button.getLocalToWorld());
                 rectangle->draw();
             }
