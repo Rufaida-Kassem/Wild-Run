@@ -192,5 +192,8 @@ class GameOverstate : public our::State {
         delete menuMaterial;
         delete highlightMaterial->shader;
         delete highlightMaterial;
+
+        renderer.destroy();
+
     }
 };
