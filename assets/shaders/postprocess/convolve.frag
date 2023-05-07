@@ -25,6 +25,7 @@ void main() {
     vec2(0.0f, +step_size.y),
     vec2(step_size.x, step_size.y)
     );
+    //    edge detection kernel
 
     //    float kernel[9] = float[](
     //    -1, -1, -1,
@@ -40,6 +41,7 @@ void main() {
     );
 
     vec4 sum = vec4(0.0);
+    //    sum with weights in the kernel taking a step in each direction determined by the offsets
     for (int i = 0; i < 9; i++) {
         sum += texture(tex, tex_coord + offsets[i]) * kernel[i];
     }

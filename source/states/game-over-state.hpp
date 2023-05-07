@@ -25,19 +25,28 @@ class GameOverstate : public our::State {
     // An array of the button that we can interact with
     std::array<Button, 2> buttons;
 
+    //to render a background image
+    our::ForwardRenderer renderer;
+    our::World world;
+    our::MovementSystem movementSystem;
+
     void onInitialize() override {
         // First, we create a material for the menu's background
         menuMaterial = new our::TexturedMaterial();
         // Here, we load the shader that will be used to draw the background
         menuMaterial->shader = new our::ShaderProgram();
         menuMaterial->shader->attach("assets/shaders/textured.vert", GL_VERTEX_SHADER);
-        menuMaterial->shader->attach("assets/shaders/textured.frag", GL_FRAGMENT_SHADER);
+        menuMaterial->shader->attach("assets/shaders/textured_alpha.frag", GL_FRAGMENT_SHADER);
         menuMaterial->shader->link();
         // Then we load the menu texture
-        menuMaterial->texture = our::texture_utils::loadImage("assets/textures/game-over.png");
+        menuMaterial->texture = our::texture_utils::loadImage("assets/textures/game-over2.png");
         // Initially, the menu material will be black, then it will fade in
         menuMaterial->tint = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
         menuMaterial->alphaThreshold = 0.5f;
+        menuMaterial->pipelineState.depthTesting.enabled = true;
+
+
+
         // Second, we create a material to highlight the hovered buttons
         highlightMaterial = new our::TintedMaterial();
         // Since the highlight is not textured, we used the tinted material shaders
@@ -56,7 +65,7 @@ class GameOverstate : public our::State {
 
         // Then we create a rectangle whose top-left corner is at the origin and its size is 1x1.
         // Note that the texture coordinates at the origin is (0.0, 1.0) since we will use the
-        // projection matrix to make the origin at the top-left corner of the screen.
+        // projection matrix to make the origin in the top-left corner of the screen.
         rectangle = new our::Mesh({
                                           {{0.0f, 0.0f, 0.0f}, {255, 255, 255, 255}, {0.0f, 1.0f}, {0.0f, 0.0f, 1.0f}},
                                           {{1.0f, 0.0f, 0.0f}, {255, 255, 255, 255}, {1.0f, 1.0f}, {0.0f, 0.0f, 1.0f}},
@@ -86,11 +95,34 @@ class GameOverstate : public our::State {
         buttons[1].position = {788.63f, 466.37f};
         buttons[1].size = {93.75f, 73.93f};
         buttons[1].action = [this]() { this->getApp()->changeState("menu"); };
+
+        // load data from the last frame so that it is used as a background
+        // when drawing the current frame
+
+
+        // First of all, we get the scene configuration from the app config
+        auto &config = getApp()->getConfig()["game-over-scene"];
+        // If we have assets in the scene config, we deserialize them
+        if (config.contains("assets")) {
+            our::deserializeAllAssets(config["assets"]);
+        }
+        // If we have a world in the scene config, we use it to populate our world
+        if (config.contains("game-over-world")) {
+            world.deserialize(config["game-over-world"]);
+        }
+        // We initialize the camera controller system since it needs a pointer to the app
+        // Then we initialize the renderer
+        auto size = getApp()->getFrameBufferSize();
+        renderer.initialize(size, config["renderer"]);
     }
 
     void onDraw(double deltaTime) override {
+
+        movementSystem.update(&world, (float) deltaTime);
+        renderer.render(&world);
         // Get a reference to the keyboard object
         auto &keyboard = getApp()->getKeyboard();
+
 
         if (keyboard.justPressed(GLFW_KEY_SPACE)) {
             // If the space key is pressed in this frame, go to the play state
@@ -122,7 +154,7 @@ class GameOverstate : public our::State {
         glViewport(0, 0, size.x, size.y);
 
         // The view matrix is an identity (there is no camera that moves around).
-        // The projection matrix applys an orthographic projection whose size is the framebuffer size in pixels
+        // The projection matrix apply an orthographic projection whose size is the framebuffer size in pixels
         // so that the we can define our object locations and sizes in pixels.
         // Note that the top is at 0.0 and the bottom is at the framebuffer height. This allows us to consider the top-left
         // corner of the window to be the origin which makes dealing with the mouse input easier.
