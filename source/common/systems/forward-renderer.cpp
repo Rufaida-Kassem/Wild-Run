@@ -2,17 +2,14 @@
 #include "../mesh/mesh-utils.hpp"
 #include "../texture/texture-utils.hpp"
 
-namespace our
-{
+namespace our {
 
-    void ForwardRenderer::initialize(glm::ivec2 windowSize, const nlohmann::json &config)
-    {
+    void ForwardRenderer::initialize(glm::ivec2 windowSize, const nlohmann::json &config) {
         // First, we store the window size for later use
         this->windowSize = windowSize;
 
         // Then we check if there is a sky texture in the configuration
-        if (config.contains("sky"))
-        {
+        if (config.contains("sky")) {
             // First, we create a sphere which will be used to draw the sky
             this->skySphere = mesh_utils::sphere(glm::ivec2(16, 16));
 
@@ -57,8 +54,7 @@ namespace our
         }
 
         // Then we check if there is a postprocessing shader in the configuration
-        if (config.contains("postprocess"))
-        {
+        if (config.contains("postprocess")) {
             // TODO: (Req 11) Create a framebuffer
             //. generation of framebuffer object
             //.  n=1 --> generates only one framebuffer object
@@ -114,7 +110,7 @@ namespace our
             postprocessShader->attach(config.value<std::string>("postprocess", ""), GL_FRAGMENT_SHADER);
             postprocessShader->link();
 
-            // Create a post processing material
+            // Create a post-processing material
             postprocessMaterial = new TexturedMaterial();
             postprocessMaterial->shader = postprocessShader;
             postprocessMaterial->texture = colorTarget;
@@ -125,11 +121,9 @@ namespace our
         }
     }
 
-    void ForwardRenderer::destroy()
-    {
+    void ForwardRenderer::destroy() {
         // Delete all objects related to the sky
-        if (skyMaterial)
-        {
+        if (skyMaterial) {
             delete skySphere;
             delete skyMaterial->shader;
             delete skyMaterial->texture;
@@ -137,8 +131,7 @@ namespace our
             delete skyMaterial;
         }
         // Delete all objects related to post processing
-        if (postprocessMaterial)
-        {
+        if (postprocessMaterial) {
             glDeleteFramebuffers(1, &postprocessFrameBuffer);
             glDeleteVertexArrays(1, &postProcessVertexArray);
             delete colorTarget;
@@ -149,20 +142,17 @@ namespace our
         }
     }
 
-    void ForwardRenderer::render(World *world)
-    {
+    void ForwardRenderer::render(World *world) {
         // First of all, we search for a camera and for all the mesh renderers
         CameraComponent *camera = nullptr;
         opaqueCommands.clear();
         transparentCommands.clear();
-        for (auto entity : world->getEntities())
-        {
+        for (auto entity: world->getEntities()) {
             // If we hadn't found a camera yet, we look for a camera in this entity
             if (!camera)
                 camera = entity->getComponent<CameraComponent>();
             // If this entity has a mesh renderer component
-            if (auto meshRenderer = entity->getComponent<MeshRendererComponent>(); meshRenderer)
-            {
+            if (auto meshRenderer = entity->getComponent<MeshRendererComponent>(); meshRenderer) {
                 // We construct a command from it
                 RenderCommand command;
                 command.localToWorld = meshRenderer->getOwner()->getLocalToWorldMatrix();
@@ -170,12 +160,9 @@ namespace our
                 command.mesh = meshRenderer->mesh;
                 command.material = meshRenderer->material;
                 // if it is transparent, we add it to the transparent commands list
-                if (command.material->transparent)
-                {
+                if (command.material->transparent) {
                     transparentCommands.push_back(command);
-                }
-                else
-                {
+                } else {
                     // Otherwise, we add it to the opaque command list
                     opaqueCommands.push_back(command);
                 }
@@ -193,15 +180,16 @@ namespace our
         //. we use the camera's local to world matrix to transform the forward vector of the camera
         glm::vec3 cameraForward = camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, -1, 0.0);
 
-        std::sort(transparentCommands.begin(), transparentCommands.end(), [cameraForward](const RenderCommand &first, const RenderCommand &second)
-                  {
-            //TODO: (Req 9) Finish this function            
-            // HINT: the following return should return true "first" should be drawn before "second". 
-            //. we draw the transparent objects from far to near
-            //. the dot product between the center of the object and the camera forward vector gives
-            //. the projection of the object on the camera forward vector,
-            //. the bigger the dot product the farther the object
-            return glm::dot(first.center, cameraForward) > glm::dot(second.center, cameraForward); });
+        std::sort(transparentCommands.begin(), transparentCommands.end(),
+                  [cameraForward](const RenderCommand &first, const RenderCommand &second) {
+                      //TODO: (Req 9) Finish this function
+                      // HINT: the following return should return true "first" should be drawn before "second".
+                      //. we draw the transparent objects from far to near
+                      //. the dot product between the center of the object and the camera forward vector gives
+                      //. the projection of the object on the camera forward vector,
+                      //. the bigger the dot product the farther the object
+                      return glm::dot(first.center, cameraForward) > glm::dot(second.center, cameraForward);
+                  });
 
         // TODO: (Req 9) Get the camera ViewProjection matrix and store it in VP
         glm::mat4 VP = camera->getProjectionMatrix(windowSize) * camera->getViewMatrix();
@@ -219,8 +207,7 @@ namespace our
         glDepthMask(true);
 
         // If there is a postprocess material, bind the framebuffer so that we can render to it
-        if (postprocessMaterial)
-        {
+        if (postprocessMaterial) {
             // TODO: (Req 11) bind the framebuffer
             glBindFramebuffer(GL_DRAW_FRAMEBUFFER, postprocessFrameBuffer);
         }
@@ -230,23 +217,22 @@ namespace our
 
         // TODO: (Req 9) Draw all the opaque commands
         //  Don't forget to set the "transform" uniform to be equal the model-view-projection matrix for each render command
-        for (auto command : opaqueCommands)
-        {
+        for (auto command: opaqueCommands) {
             command.material->setup();
             command.material->shader->set("transform", VP * command.localToWorld);
             command.mesh->draw();
         }
 
         // If there is a sky material, draw the sky
-        if (this->skyMaterial)
-        {
+        if (this->skyMaterial) {
             // TODO: (Req 10) setup the sky material
             skyMaterial->setup(); // first we will setup the material
 
             // TODO: (Req 10) Get the camera position  // TO ASK
             /// why does the camera position is the origin?
             /// because the camera is at the origin of the world
-            glm::vec3 cameraPosition = camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1); // the camera eye is @ origin
+            glm::vec3 cameraPosition =
+                    camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1); // the camera eye is @ origin
 
             // TODO: (Req 10) Create a model matrix for the sky such that it always follows the camera (sky sphere center = camera position)
             /// then we will create a model matrix
@@ -254,8 +240,8 @@ namespace our
             /// so we give it the camera position
             /// and we give it a matrix of 1s so that it will not change the camera position
             glm::mat4 skyModelMat = glm::translate(
-                glm::mat4(1.0f),
-                cameraPosition);
+                    glm::mat4(1.0f),
+                    cameraPosition);
 
             // TODO: (Req 10) We want the sky to be drawn behind everything (in NDC space, z=1) NDC --> Normalized Device Coordinates
             //  We can acheive the is by multiplying by an extra matrix after the projection but what values should we put in it?
@@ -270,13 +256,14 @@ namespace our
                 we get z = 1
             */
             glm::mat4 alwaysBehindTransform = glm::mat4(
-                1.0f, 0.0f, 0.0f, 0.0f,
-                0.0f, 1.0f, 0.0f, 0.0f,
-                0.0f, 0.0f, 0.0f, 0.0f,
-                0.0f, 0.0f, 1.0f, 1.0f);
+                    1.0f, 0.0f, 0.0f, 0.0f,
+                    0.0f, 1.0f, 0.0f, 0.0f,
+                    0.0f, 0.0f, 0.0f, 0.0f,
+                    0.0f, 0.0f, 1.0f, 1.0f);
 
             // TODO: (Req 10) set the "transform" uniform
-            skyMaterial->shader->set("transform", alwaysBehindTransform * camera->getProjectionMatrix(windowSize) * camera->getViewMatrix() * skyModelMat);
+            skyMaterial->shader->set("transform", alwaysBehindTransform * camera->getProjectionMatrix(windowSize) *
+                                                  camera->getViewMatrix() * skyModelMat);
             // model --> matrix for the sky as it transform from local space to world space
             // view --> matrix for the camera as it transform from world space to camera space
             // projection --> matrix for the camera as it transform from camera space to NDC space (canonical view volume) is this right?
@@ -287,8 +274,7 @@ namespace our
         }
         // TODO: (Req 9) Draw all the transparent commands
         //  Don't forget to set the "transform" uniform to be equal the model-view-projection matrix for each render command
-        for (auto command : transparentCommands)
-        {
+        for (auto command: transparentCommands) {
             command.material->setup();
             command.material->shader->set("transform", VP * command.localToWorld);
             command.mesh->draw();
@@ -296,8 +282,7 @@ namespace our
 
         //. If there is a postprocess material, apply postprocessing then draw the fullscreen triangle to the screen
         //. note that we might want to change this behavior later
-        if (postprocessMaterial)
-        {
+        if (postprocessMaterial) {
             // TODO: (Req 11) Return to the default framebuffer
             glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 

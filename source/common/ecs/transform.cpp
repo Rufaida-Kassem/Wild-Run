@@ -4,6 +4,8 @@
 #include <glm/gtx/euler_angles.hpp>
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 namespace our
 {
 
@@ -17,13 +19,13 @@ namespace our
         // then we multiply them together to get the final matrix
         //. T - translation matrix: moves the object to the position
         glm::mat4 T = glm::translate(glm::mat4(1.0f), position);
-        
+
         //. R - rotation matrix: rotates the object by the rotation angles (yaw, pitch, roll)
         //. yaw - rotation around the y axis
         //. pitch - rotation around the x axis
         //. roll - rotation around the z axis
         glm::mat4 R = glm::yawPitchRoll(rotation.y, rotation.x, rotation.z);
-        
+
         // S - scale matrix: scales the object by the scale vector
         glm::mat4 S = glm::scale(glm::mat4(1.0f), scale);
 
