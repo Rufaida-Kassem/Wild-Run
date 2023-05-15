@@ -105,30 +105,31 @@ class Playstate : public our::State {
         // ImGui::SetWindowSize(ImVec2(100, 500));
         ImGui::Text(current_coins.c_str());
         
+        // for debugging
         // print the position of camera and the roads
         // but the following will give error because the road1 and road2 are not initialized
-        if(roadController.controller && roadController.road1 && roadController.road2) {
-            std::string camerapos = std::to_string(roadController.controller->getOwner()->localTransform.position.z);
-            ImGui::Text(camerapos.c_str());
-            std::string road1pos = std::to_string(roadController.road1->getOwner()->localTransform.position.z);
-            ImGui::Text(road1pos.c_str());
-            std::string road2pos = std::to_string(roadController.road2->getOwner()->localTransform.position.z);
-            ImGui::Text(road2pos.c_str());
-        }
-        else{
-            if(!roadController.controller)
-                ImGui::Text("No controller");
-            else
-                ImGui::Text("controller exists");
-            if(!roadController.road1)
-                ImGui::Text("No road1");
-            else
-                ImGui::Text("road1 exists");
-            if(!roadController.road2)
-                ImGui::Text("No road2");
-            else
-                ImGui::Text("road2 exists");
-        }
+        // if(roadController.controller && roadController.road1 && roadController.road2) {
+        //     std::string camerapos = std::to_string(roadController.controller->getOwner()->localTransform.position.z);
+        //     ImGui::Text(camerapos.c_str());
+        //     std::string road1pos = std::to_string(roadController.road1->getOwner()->localTransform.position.z);
+        //     ImGui::Text(road1pos.c_str());
+        //     std::string road2pos = std::to_string(roadController.road2->getOwner()->localTransform.position.z);
+        //     ImGui::Text(road2pos.c_str());
+        // }
+        // else{
+        //     if(!roadController.controller)
+        //         ImGui::Text("No controller");
+        //     else
+        //         ImGui::Text("controller exists");
+        //     if(!roadController.road1)
+        //         ImGui::Text("No road1");
+        //     else
+        //         ImGui::Text("road1 exists");
+        //     if(!roadController.road2)
+        //         ImGui::Text("No road2");
+        //     else
+        //         ImGui::Text("road2 exists");
+        // }
 
         //our::Entity *E1 = world.getEntitiesByName("stick");
         //our::Entity *E2 = world.getEntitiesByName("MOON");
