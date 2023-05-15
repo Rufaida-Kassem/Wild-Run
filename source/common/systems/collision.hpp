@@ -26,6 +26,7 @@ namespace our
     class CollisionSystem
     {
         int coins_collected = 0;
+        int lives = 1110;
         bool is_lost = false;
 
     public:
@@ -43,6 +44,11 @@ namespace our
         int get_coins_collected()
         {
             return coins_collected;
+        }
+
+        int get_lives()
+        {
+            return lives;
         }
 
         //		bool AABBCollide(Entity* E1, Entity* E2)
@@ -186,7 +192,7 @@ namespace our
         int cc = 0;
 
         // This function is called every frame by the world to determine if there is any collision
-        void update(World *world, float )
+        void update(World *world, float)
         {
             // For each entity in the world
             std::vector<Entity *> entitiesToCollide;
@@ -200,7 +206,7 @@ namespace our
                 {
                     entitiesToCollide.push_back(entity);
                 }
-                if (entity->name == "stick")
+                if (entity->name == "player")
                 {
                     stick_index = entity;
                 }
@@ -232,7 +238,12 @@ namespace our
                         //                            std::cout << coins_collected << std::endl;
                         break;
                     case CollisionType::OBSTACLE:
-                        is_lost = true;
+                        lives--;
+                        if (lives == 0)
+                        {
+                            is_lost = true;
+                        }
+                        //                            is_lost = true;
                         //                            std::cout << "lost" << cc++ << std::endl;
                         break;
                     default:

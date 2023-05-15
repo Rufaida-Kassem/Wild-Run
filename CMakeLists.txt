@@ -39,7 +39,7 @@ set(COMMON_SOURCES
         source/common/asset-loader.cpp
         source/common/asset-loader.hpp
         source/common/deserialize-utils.hpp
-        
+
         source/common/shader/shader.hpp
         source/common/shader/shader.cpp
 
@@ -80,13 +80,23 @@ set(COMMON_SOURCES
         source/common/components/component-deserializer.hpp
         source/common/components/collision.hpp
         source/common/components/collision.cpp
+        source/common/components/road.hpp
+        source/common/components/road.cpp
+        source/common/components/coin.hpp
+        source/common/components/coin.cpp
+        source/common/components/obstacle.hpp
+        source/common/components/obstacle.cpp
 
         source/common/systems/forward-renderer.hpp
         source/common/systems/forward-renderer.cpp
         source/common/systems/free-camera-controller.hpp
         source/common/systems/movement.hpp
         source/common/systems/collision.hpp
-)
+        source/common/systems/road-movement-controller.hpp
+        source/common/systems/coin-controller.hpp
+        source/common/systems/obstacle-controller.hpp
+
+        )
 
 # Define the directories in which to search for the included headers
 include_directories(
@@ -110,7 +120,7 @@ set(STATES_SOURCES
         source/states/menu-state.hpp
         source/states/game-over-state.hpp
 
-)
+        )
 
 # For each example, we add an executable target
 # Each target compiles one example source file and the common & vendor source files
