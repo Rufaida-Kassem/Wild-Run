@@ -7,6 +7,10 @@
 #include <systems/free-camera-controller.hpp>
 #include <systems/movement.hpp>
 #include <systems/collision.hpp>
+#include <systems/coin-controller.hpp>
+// incllude the road movement controller
+#include <systems/road-movement-controller.hpp>
+#include <systems/obstacle-controller.hpp>
 #include <asset-loader.hpp>
 #include <components/collision.hpp>
 #include "glm/glm.hpp"
@@ -15,6 +19,10 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+// #include <irrKlang.h>
+// #pragma comment(lib, "irrKlang.lib")
+// using namespace irrklang;
+
 
 // This state shows how to use the ECS framework and deserialization.
 class Playstate : public our::State {
@@ -24,9 +32,15 @@ class Playstate : public our::State {
     our::FreeCameraControllerSystem cameraController;
     our::MovementSystem movementSystem;
     our::CollisionSystem collisionSystem;
-
+    our::RoadControllerSystem roadController;
+    our::CoinControllerSystem coinController;
+    our::ObstacleControllerSystem obstacleController;
+    //ISoundEngine *SoundEngine = createIrrKlangDevice();// = createIrrKlangDevice();
 
     void onInitialize() override {
+        //SoundEngine->play2D("assets/sounds/theme.wav", true);
+        // the following line gives an error 
+        // sndPlaySound("assets/sounds/theme.wav",SND_ASYNC);
         // First of all, we get the scene configuration from the app config
         auto &config = getApp()->getConfig()["scene"];
         // If we have assets in the scene config, we deserialize them
@@ -50,6 +64,12 @@ class Playstate : public our::State {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         movementSystem.update(&world, (float) deltaTime);
         cameraController.update(&world, (float) deltaTime);
+        // TODO: update the road movement controller
+        roadController.update(&world, (float) deltaTime);
+        coinController.update(&world, (float) deltaTime);
+        obstacleController.update(&world, (float) deltaTime);
+        
+        
         collisionSystem.update(&world, (float) deltaTime);
         world.deleteMarkedEntities();
         // And finally we use the renderer system to draw the scene
@@ -84,6 +104,32 @@ class Playstate : public our::State {
         // resize the window
         // ImGui::SetWindowSize(ImVec2(100, 500));
         ImGui::Text(current_coins.c_str());
+        
+        // for debugging
+        // print the position of camera and the roads
+        // but the following will give error because the road1 and road2 are not initialized
+        // if(roadController.controller && roadController.road1 && roadController.road2) {
+        //     std::string camerapos = std::to_string(roadController.controller->getOwner()->localTransform.position.z);
+        //     ImGui::Text(camerapos.c_str());
+        //     std::string road1pos = std::to_string(roadController.road1->getOwner()->localTransform.position.z);
+        //     ImGui::Text(road1pos.c_str());
+        //     std::string road2pos = std::to_string(roadController.road2->getOwner()->localTransform.position.z);
+        //     ImGui::Text(road2pos.c_str());
+        // }
+        // else{
+        //     if(!roadController.controller)
+        //         ImGui::Text("No controller");
+        //     else
+        //         ImGui::Text("controller exists");
+        //     if(!roadController.road1)
+        //         ImGui::Text("No road1");
+        //     else
+        //         ImGui::Text("road1 exists");
+        //     if(!roadController.road2)
+        //         ImGui::Text("No road2");
+        //     else
+        //         ImGui::Text("road2 exists");
+        // }
 
         //our::Entity *E1 = world.getEntitiesByName("stick");
         //our::Entity *E2 = world.getEntitiesByName("MOON");

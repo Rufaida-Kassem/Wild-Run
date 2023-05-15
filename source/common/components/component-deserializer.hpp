@@ -6,6 +6,9 @@
 #include "free-camera-controller.hpp"
 #include "movement.hpp"
 #include "collision.hpp"
+#include "road.hpp" /// phase 2
+#include "coin.hpp"
+#include "obstacle.hpp"
 
 namespace our
 {
@@ -36,6 +39,15 @@ namespace our
         else if (type == CollisionComponent::getID())
         {
             component = entity->addComponent<CollisionComponent>();
+        }
+        else if (type == RoadComponent::getID()) {  /// phase 2
+            component = entity->addComponent<RoadComponent>();
+        }
+        else if (type == CoinComponent::getID()){
+            component = entity->addComponent<CoinComponent>();
+        }
+        else if (type == ObstacleComponent::getID()){
+            component = entity->addComponent<ObstacleComponent>();
         }
         if (component)
             component->deserialize(data);

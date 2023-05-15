@@ -78,11 +78,24 @@ set(COMMON_SOURCES
         source/common/components/movement.hpp
         source/common/components/movement.cpp
         source/common/components/component-deserializer.hpp
+        source/common/components/collision.hpp
+        source/common/components/collision.cpp
+        source/common/components/road.hpp
+        source/common/components/road.cpp
+        source/common/components/coin.hpp
+        source/common/components/coin.cpp
+        source/common/components/obstacle.hpp
+        source/common/components/obstacle.cpp
 
         source/common/systems/forward-renderer.hpp
         source/common/systems/forward-renderer.cpp
         source/common/systems/free-camera-controller.hpp
         source/common/systems/movement.hpp
+        source/common/systems/collision.hpp
+        source/common/systems/road-movement-controller.hpp
+        source/common/systems/coin-controller.hpp
+        source/common/systems/obstacle-controller.hpp
+
 )
 
 # Define the directories in which to search for the included headers
@@ -95,6 +108,8 @@ include_directories(
         vendor/glm
         vendor/imgui
         vendor/utils
+        vendor/irrKlang-64bit-1.6.0/include
+        vendor/irrKlang-64bit-1.6.0/lib/Winx64-visualStudio
 )
 
 
@@ -105,19 +120,12 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/bin)
 set(STATES_SOURCES
         source/states/play-state.hpp
         source/states/menu-state.hpp
-        source/states/shader-test-state.hpp
-        source/states/mesh-test-state.hpp
-        source/states/transform-test-state.hpp
-        source/states/pipeline-test-state.hpp
-        source/states/texture-test-state.hpp
-        source/states/sampler-test-state.hpp
-        source/states/material-test-state.hpp
-        source/states/entity-test-state.hpp
-        source/states/renderer-test-state.hpp
+        source/states/game-over-state.hpp
+
 )
 
 # For each example, we add an executable target
 # Each target compiles one example source file and the common & vendor source files
 # Then we link GLFW with each target
 add_executable(GAME_APPLICATION source/main.cpp ${STATES_SOURCES} ${COMMON_SOURCES} ${VENDOR_SOURCES})
-target_link_libraries(GAME_APPLICATION glfw)
+target_link_libraries(GAME_APPLICATION glfw "${CMAKE_CURRENT_SOURCE_DIR}/vendor/irrKlang-64bit-1.6.0/lib/Winx64-visualStudio/irrKlang.lib")

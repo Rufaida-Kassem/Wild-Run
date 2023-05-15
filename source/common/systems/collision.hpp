@@ -182,7 +182,7 @@ namespace our {
                 if (coll) {
                     entitiesToCollide.push_back(entity);
                 }
-                if (entity->name == "stick") {
+                if (entity->name == "player") {
                     stick_index = entity;
                 }
             }
