@@ -82,4 +82,60 @@ namespace our
         sampler = AssetLoader<Sampler>::get(data.value("sampler", ""));
     }
 
+    // This function read the material data from a json object
+    void LitMaterial::deserialize(const nlohmann::json &data)
+    {
+        TexturedMaterial::deserialize(data);
+        if (!data.is_object())
+            return;
+        albedo = AssetLoader<Texture2D>::get(data.value("albedo", ""));
+        specular = AssetLoader<Texture2D>::get(data.value("specular", ""));
+        roughness = AssetLoader<Texture2D>::get(data.value("roughness", ""));
+        emissive = AssetLoader<Texture2D>::get(data.value("emissive", ""));
+        ambient_occlusion = AssetLoader<Texture2D>::get(data.value("ambient_occlusion", ""));
+    }
+
+    // This function should call the setup of its parent and
+    // bind the light texture and sampler to a texture unit and send the unit number to the uniform variable "lightTex"
+    void LitMaterial::setup() const
+    {
+        // albedo;
+        // roughness;
+        // emissive;
+        // ambient_occlusion;
+        // specular;
+        TexturedMaterial::setup();
+        if (albedo != nullptr)
+        {
+            glActiveTexture(GL_TEXTURE0);
+            albedo->bind();
+            shader->set("material.albedo", 0);
+        }
+        if (roughness != nullptr)
+        {
+            glActiveTexture(GL_TEXTURE1);
+            roughness->bind();
+            shader->set("material.roughness", 1);
+        }
+        if (emissive != nullptr)
+        {
+            glActiveTexture(GL_TEXTURE2);
+            emissive->bind();
+            shader->set("material.emissive", 2);
+        }
+        if (ambient_occlusion != nullptr)
+        {
+            glActiveTexture(GL_TEXTURE3);
+            ambient_occlusion->bind();
+            shader->set("material.ambient_occlusion", 3);
+        }
+        if (specular != nullptr)
+        {
+            glActiveTexture(GL_TEXTURE4);
+            specular->bind();
+            shader->set("material.specular", 4);
+        }
+        glActiveTexture(GL_TEXTURE0);
+    }
+
 }
