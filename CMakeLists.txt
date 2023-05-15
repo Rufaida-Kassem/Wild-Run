@@ -108,8 +108,7 @@ include_directories(
         vendor/glm
         vendor/imgui
         vendor/utils
-        vendor/irrKlang-64bit-1.6.0/include
-        vendor/irrKlang-64bit-1.6.0/lib/Winx64-visualStudio
+
 )
 
 
@@ -128,4 +127,4 @@ set(STATES_SOURCES
 # Each target compiles one example source file and the common & vendor source files
 # Then we link GLFW with each target
 add_executable(GAME_APPLICATION source/main.cpp ${STATES_SOURCES} ${COMMON_SOURCES} ${VENDOR_SOURCES})
-target_link_libraries(GAME_APPLICATION glfw "${CMAKE_CURRENT_SOURCE_DIR}/vendor/irrKlang-64bit-1.6.0/lib/Winx64-visualStudio/irrKlang.lib")
+target_link_libraries(GAME_APPLICATION glfw)
