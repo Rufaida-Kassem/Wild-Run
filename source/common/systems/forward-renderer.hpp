@@ -29,6 +29,7 @@ namespace our
     struct LightSource
     {
         int type;
+        bool isOn;
         glm::vec3 position;
         glm::vec3 direction;
         glm::vec3 color;
