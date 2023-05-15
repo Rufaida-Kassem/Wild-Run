@@ -68,8 +68,8 @@ class Playstate : public our::State {
         roadController.update(&world, (float) deltaTime);
         coinController.update(&world, (float) deltaTime);
         obstacleController.update(&world, (float) deltaTime);
-        
-        
+
+
         collisionSystem.update(&world, (float) deltaTime);
         world.deleteMarkedEntities();
         // And finally we use the renderer system to draw the scene
@@ -101,69 +101,13 @@ class Playstate : public our::State {
                         ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar;
         ImGui::Begin("Play State", nullptr, window_flags);
         const std::string current_coins = "Coins: " + std::to_string(collisionSystem.get_coins_collected());
+        const std::string current_lives = "Lives: " + std::to_string(collisionSystem.get_lives());
         // resize the window
-        // ImGui::SetWindowSize(ImVec2(100, 500));
+//        ImGui::SetWindowSize(ImVec2(300, 100));
+//            get the size of the text
+//        ImVec2 text_size = ImGui::CalcTextSize(current_coins.c_str());
         ImGui::Text(current_coins.c_str());
-        
-        // for debugging
-        // print the position of camera and the roads
-        // but the following will give error because the road1 and road2 are not initialized
-        // if(roadController.controller && roadController.road1 && roadController.road2) {
-        //     std::string camerapos = std::to_string(roadController.controller->getOwner()->localTransform.position.z);
-        //     ImGui::Text(camerapos.c_str());
-        //     std::string road1pos = std::to_string(roadController.road1->getOwner()->localTransform.position.z);
-        //     ImGui::Text(road1pos.c_str());
-        //     std::string road2pos = std::to_string(roadController.road2->getOwner()->localTransform.position.z);
-        //     ImGui::Text(road2pos.c_str());
-        // }
-        // else{
-        //     if(!roadController.controller)
-        //         ImGui::Text("No controller");
-        //     else
-        //         ImGui::Text("controller exists");
-        //     if(!roadController.road1)
-        //         ImGui::Text("No road1");
-        //     else
-        //         ImGui::Text("road1 exists");
-        //     if(!roadController.road2)
-        //         ImGui::Text("No road2");
-        //     else
-        //         ImGui::Text("road2 exists");
-        // }
-
-        //our::Entity *E1 = world.getEntitiesByName("stick");
-        //our::Entity *E2 = world.getEntitiesByName("MOON");
-        //our::CollisionComponent *comp1 = E1->getComponent<our::CollisionComponent>();
-        //our::CollisionComponent *comp2 = E2->getComponent<our::CollisionComponent>();
-        //glm::vec3 min1 = E1->getLocalToWorldMatrix() * glm::vec4(comp1->limit_min, 1);
-        //glm::vec3 max1 = E1->getLocalToWorldMatrix() * glm::vec4(comp1->limit_max, 1);
-        //glm::vec3 min2 = E2->getLocalToWorldMatrix() * glm::vec4(comp2->limit_min, 1);
-        //glm::vec3 max2 = E2->getLocalToWorldMatrix() * glm::vec4(comp2->limit_max, 1);
-        //ImGui::Text("stick");
-        //ImGui::Text("min1: %f %f %f", min1.x, min1.y, min1.z);
-        //ImGui::Text("max1: %f %f %f", max1.x, max1.y, max1.z);
-        //ImGui::Text("MOON");
-        //ImGui::Text("min2: %f %f %f", min2.x, min2.y, min2.z);
-        //ImGui::Text("max2: %f %f %f", max2.x, max2.y, max2.z);
-        //ImGui::Text("MNK1");
-        //E2 = world.getEntitiesByName("MNK1");
-        //comp2 = E2->getComponent<our::CollisionComponent>();
-        //min2 = E2->getLocalToWorldMatrix() * glm::vec4(comp2->limit_min, 1);
-        //max2 = E2->getLocalToWorldMatrix() * glm::vec4(comp2->limit_max, 1);
-        //ImGui::Text("min2: %f %f %f", min2.x, min2.y, min2.z);
-        //ImGui::Text("max2: %f %f %f", max2.x, max2.y, max2.z);
-        //// distance to monkey 1
-        //float dist = glm::distance(min1, min2);
-        //ImGui::Text("distance: %f", dist);
-
-        //ImGui::Text("MNK2");
-        //comp2 = E2->getComponent<our::CollisionComponent>();
-        //E2 = world.getEntitiesByName("MNK2");
-        //min2 = E2->getLocalToWorldMatrix() * glm::vec4(comp2->limit_min, 1);
-        //max2 = E2->getLocalToWorldMatrix() * glm::vec4(comp2->limit_max, 1);
-        //ImGui::Text("min2: %f %f %f", min2.x, min2.y, min2.z);
-        //ImGui::Text("max2: %f %f %f", max2.x, max2.y, max2.z);
-
+        ImGui::Text(current_lives.c_str());
         ImGui::End();
     }
 

@@ -23,6 +23,7 @@ namespace our {
     // For more information, see "common/components/movement.hpp"
     class CollisionSystem {
         int coins_collected = 0;
+        int lives = 1110;
         bool is_lost = false;
 
     public:
@@ -37,6 +38,10 @@ namespace our {
 
         int get_coins_collected() {
             return coins_collected;
+        }
+
+        int get_lives() {
+            return lives;
         }
 
 //		bool AABBCollide(Entity* E1, Entity* E2)
@@ -208,7 +213,11 @@ namespace our {
 //                            std::cout << coins_collected << std::endl;
                             break;
                         case CollisionType::OBSTACLE:
-                            is_lost = true;
+                            lives--;
+                            if (lives == 0) {
+                                is_lost = true;
+                            }
+//                            is_lost = true;
 //                            std::cout << "lost" << cc++ << std::endl;
                             break;
                         default:
