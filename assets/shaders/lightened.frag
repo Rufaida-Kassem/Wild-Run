@@ -4,7 +4,7 @@
 #define POINT       1
 #define SPOT        2
 
-struct Light {
+struct LightSource {
     int type;
     vec3 position;
     vec3 direction;
@@ -15,14 +15,14 @@ struct Light {
 
 #define MAX_LIGHTS 8
 
-uniform Light lights[MAX_LIGHTS];
-uniform int light_count;
+uniform LightSource lights[MAX_LIGHTS];
+uniform int light_sources_count;
 
-struct Sky {
+struct SkyLightEffect {
     vec3 top, horizon, bottom;
 };
 
-uniform Sky sky;
+uniform SkyLightEffect sky;
 
 vec3 compute_sky_light(vec3 normal){
     vec3 extreme = normal.y > 0 ? sky.top : sky.bottom;
@@ -74,8 +74,8 @@ void main() {
     vec3 world_to_light_dir;
     vec3 color = emissive + ambient_light * ambient;
 
-    for(int light_idx = 0; light_idx < min(MAX_LIGHTS, light_count); light_idx++){
-        Light light = lights[light_idx];
+    for(int light_idx = 0; light_idx < min(MAX_LIGHTS, light_sources_count); light_idx++){
+        LightSource light = lights[light_idx];
         float attenuation = 1.0;
         if(light.type == DIRECTIONAL){
             world_to_light_dir = -light.direction;
