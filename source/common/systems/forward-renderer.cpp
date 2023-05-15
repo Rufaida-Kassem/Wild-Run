@@ -167,6 +167,28 @@ namespace our {
                     opaqueCommands.push_back(command);
                 }
             }
+
+            //. if this entity has a light component
+            if (auto light = entity->getComponent<LightComponent>(); light) {
+                //. we add it to the lights list
+                LightSource light_source = {};
+                light_source.position = glm::vec3(light->getOwner()->getLocalToWorldMatrix() * glm::vec4(1, 1, 1, 1));
+                light_source.color = light->color;
+                //. for the light type, we need to convert the enum to an int
+                //. as the light type is an enum, we can cast it to an int
+                light_source.type = static_cast<int>(light->lightType);
+                light_source.attenuation = light->attenuation;
+                //. check if the light is a spot light
+                if (light-> lightType == LightType::SPOT)
+                {
+                    //. we need to get the cone angles
+                    light_source.cone_angles = glm::vec2(light->cone_angles.x, light->cone_angles.y);
+                }
+                //. we need to add the light direction
+                light_source.direction = glm::vec3(light->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, -1, 0));
+                //. we add the light source to the light sources list
+                light_sources.push_back(&light_source);
+            }
         }
 
         // If there is no camera, we return (we cannot render without a camera)
@@ -217,9 +239,44 @@ namespace our {
 
         // TODO: (Req 9) Draw all the opaque commands
         //  Don't forget to set the "transform" uniform to be equal the model-view-projection matrix for each render command
+        //. what if the material is lightedMaterial?
+        //. a special case for the lighted material
+        // for (auto command: opaqueCommands) {
+        //     if (auto lightedMaterial = dynamic_cast<LitMaterial *>(command.material); lightedMaterial) {
+
         for (auto command: opaqueCommands) {
             command.material->setup();
             command.material->shader->set("transform", VP * command.localToWorld);
+
+            //. calculate the sky light effect
+            glm::vec3 sky_top = glm::vec3(0.1, 0.0, 0.0);
+            glm::vec3 sky_horizon = glm::vec3(0.0, 0.5, 0.0);
+            glm::vec3 sky_bottom = glm::vec3(0.0, 0.0, 0.3);
+
+            //. send the sky light effect to the shader
+            command.material->shader->set("sky.top", sky_top);
+            command.material->shader->set("sky.horizon", sky_horizon);
+            command.material->shader->set("sky.bottom", sky_bottom);
+
+            //. single pass forward lighting approach
+            //. send the light sources count to the shader
+            int light_sources_count = light_sources.size();
+            command.material->shader->set("light_sources_count", light_sources_count);
+            //. send the light sources to the shader
+            for (size_t i = 0; i < light_sources.size(); i++) {
+                command.material->shader->set("light_sources[" + std::to_string(i) + "].position",
+                                              light_sources[i]->position);
+                command.material->shader->set("light_sources[" + std::to_string(i) + "].color",
+                                              light_sources[i]->color);
+                command.material->shader->set("light_sources[" + std::to_string(i) + "].type",
+                                              light_sources[i]->type);
+                command.material->shader->set("light_sources[" + std::to_string(i) + "].attenuation",
+                                              light_sources[i]->attenuation);
+                command.material->shader->set("light_sources[" + std::to_string(i) + "].cone_angles",
+                                              light_sources[i]->cone_angles);
+                command.material->shader->set("light_sources[" + std::to_string(i) + "].direction",
+                                              light_sources[i]->direction);
+            }
             command.mesh->draw();
         }
 
