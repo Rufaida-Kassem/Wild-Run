@@ -27,7 +27,8 @@ namespace our
 
 		bool GoingLeft = false;
 		bool GoingRight = false;
-		float DistanceBetweenTracks = 5.0f;
+		float DistanceBetweenTracks = 1.0f;
+		float jumpDistance = 1.0f;
 
 		enum Track
 		{
@@ -135,24 +136,6 @@ namespace our
 			// to continuously move the world and the player forward
 			position += front * (deltaTime * current_sensitivity.z);
 			WorldPosition += front * (deltaTime * current_sensitivity.z);
-			// We change the camera position based on the keys WASD/QE
-			// S & W moves the player back and forth
-			if (app->getKeyboard().isPressed(GLFW_KEY_W))
-				position += front * (deltaTime * current_sensitivity.z);
-			if (app->getKeyboard().isPressed(GLFW_KEY_S))
-				position -= front * (deltaTime * current_sensitivity.z);
-			// Q & E moves the player up and down
-			if (app->getKeyboard().isPressed(GLFW_KEY_Q))
-				position += up * (deltaTime * current_sensitivity.y);
-			if (app->getKeyboard().isPressed(GLFW_KEY_E))
-				position -= up * (deltaTime * current_sensitivity.y);
-			// A & D moves the player left or right
-			if (app->getKeyboard().isPressed(GLFW_KEY_D))
-			{
-				position += right * (deltaTime * current_sensitivity.x);
-			}
-			if (app->getKeyboard().isPressed(GLFW_KEY_A))
-				position -= right * (deltaTime * current_sensitivity.x);
 
 			// left arrow moves the player to the left track
 			if (app->getKeyboard().justPressed(GLFW_KEY_LEFT))
@@ -197,7 +180,7 @@ namespace our
 				if (GoingUp)
 				{
 					position += up * (deltaTime * current_sensitivity.y);
-					if (position.y > 5)
+					if (position.y > jumpDistance)
 						GoingUp = false;
 				}
 				else
