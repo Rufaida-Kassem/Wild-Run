@@ -41,7 +41,7 @@ class GameOverstate : public our::State {
         // Then we load the menu texture
         menuMaterial->texture = our::texture_utils::loadImage("assets/textures/game-over2.png");
         // Initially, the menu material will be black, then it will fade in
-        menuMaterial->tint = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+        menuMaterial->tint = glm::vec4(1.0f);
 //        menuMaterial->alphaThreshold = 0.5f;
         menuMaterial->pipelineState.blending.enabled = true;
         menuMaterial->pipelineState.blending.equation = GL_FUNC_ADD;
@@ -153,7 +153,7 @@ class GameOverstate : public our::State {
         glm::ivec2 size = getApp()->getFrameBufferSize();
         // Make sure the viewport covers the whole size of the framebuffer.
         glViewport(0, 0, size.x, size.y);
-        std::cout << "mouse position: " << mousePosition.x / size.x << " " << 1 - mousePosition.y / size.y << std::endl;
+        //std::cout << "mouse position: " << mousePosition.x / size.x << " " << 1 - mousePosition.y / size.y << std::endl;
 
 
         // The view matrix is an identity (there is no camera that moves around).
@@ -175,29 +175,7 @@ class GameOverstate : public our::State {
         menuMaterial->setup();
         menuMaterial->shader->set("transform", VP * M);
         rectangle->draw();
-//        highlightMaterial->setup();
-//        highlightMaterial->shader->set("mouse_pos",
-//                                       glm::vec2(mousePosition.x / size.x, 1 - mousePosition.y / size.y));
-//        rectangle->draw();
-//        highlightMaterial->setup();
-//        highlightMaterial->shader->set("mouse_pos",
-//                                       glm::vec2(mousePosition.x, size.y - mousePosition.y));
 
-//        glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.3f, 0.3f, 0.3f));
-//////        translate to mouse position
-//        glm::mat4 translate = glm::translate(glm::mat4(1.0f),
-//                                             glm::vec3((mousePosition.x / size.x) * 2 - 1,
-//                                                       ((size.y - mousePosition.y) / size.y) * 2 - 1,
-//                                                       0.0f));
-//
-//        std::cout << "mouse position: " << mousePosition.x / size.x - 0.5 << " "
-//                  << (size.y - mousePosition.y) / size.y - 0.5 << std::endl;
-//
-//        highlightMaterial->shader->set("transform", translate * scale);
-//        rectangle->draw();
-//        highlightMaterial->shader->set("transform", VP * button.getLocalToWorld());
-        // For every button, check if the mouse is inside it. If the mouse is inside, we draw the highlight rectangle over it.
-//        highlightMaterial->shader->set("transform", VP * button.getLocalToWorld());
         // For every button, check if the mouse is inside it. If the mouse is inside, we draw the highlight rectangle over it.
         for (auto &button: buttons) {
             if (button.isInside(mousePosition)) {
@@ -220,8 +198,8 @@ class GameOverstate : public our::State {
         delete menuMaterial;
         delete highlightMaterial->shader;
         delete highlightMaterial;
-
+        world.clear();
         renderer.destroy();
-
+        our::clearAllAssets();
     }
 };
