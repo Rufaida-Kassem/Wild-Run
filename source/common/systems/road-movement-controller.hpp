@@ -85,15 +85,15 @@ namespace our
             // i.e., let its z equals to the second road z + its length
 			if(position1.z < position2.z)
 			{
-				if (position2 .z >= camera_position.z + 10) // 20 is the length of the road (scalling in y)
+				if (position2 .z >= camera_position.z + 30) // 20 is the length of the road (scalling in y)
 				{
-					position2.z =  position2.z - 40;
+					position2.z =  position1.z - 60;
 				}
 			}
 			else{
-				if (position1 .z >= camera_position.z + 10) // 20 is the length of the road (scalling in y)
+				if (position1 .z >= camera_position.z + 30) // 20 is the length of the road (scalling in y)
 				{
-					position1.z =  position1.z - 40;
+					position1.z =  position2.z - 60;
 				}
 			}
             
