@@ -248,35 +248,35 @@ namespace our {
             command.material->setup();
             command.material->shader->set("transform", VP * command.localToWorld);
 
-            //. calculate the sky light effect
-            glm::vec3 sky_top = glm::vec3(0.1, 0.0, 0.0);
-            glm::vec3 sky_horizon = glm::vec3(0.0, 0.5, 0.0);
-            glm::vec3 sky_bottom = glm::vec3(0.0, 0.0, 0.3);
+            // //. calculate the sky light effect
+            // glm::vec3 sky_top = glm::vec3(0.1, 0.0, 0.0);
+            // glm::vec3 sky_horizon = glm::vec3(0.0, 0.5, 0.0);
+            // glm::vec3 sky_bottom = glm::vec3(0.0, 0.0, 0.3);
 
-            //. send the sky light effect to the shader
-            command.material->shader->set("sky.top", sky_top);
-            command.material->shader->set("sky.horizon", sky_horizon);
-            command.material->shader->set("sky.bottom", sky_bottom);
+            // //. send the sky light effect to the shader
+            // command.material->shader->set("sky.top", sky_top);
+            // command.material->shader->set("sky.horizon", sky_horizon);
+            // command.material->shader->set("sky.bottom", sky_bottom);
 
-            //. single pass forward lighting approach
-            //. send the light sources count to the shader
-            int light_sources_count = light_sources.size();
-            command.material->shader->set("light_sources_count", light_sources_count);
-            //. send the light sources to the shader
-            for (size_t i = 0; i < light_sources.size(); i++) {
-                command.material->shader->set("light_sources[" + std::to_string(i) + "].position",
-                                              light_sources[i]->position);
-                command.material->shader->set("light_sources[" + std::to_string(i) + "].color",
-                                              light_sources[i]->color);
-                command.material->shader->set("light_sources[" + std::to_string(i) + "].type",
-                                              light_sources[i]->type);
-                command.material->shader->set("light_sources[" + std::to_string(i) + "].attenuation",
-                                              light_sources[i]->attenuation);
-                command.material->shader->set("light_sources[" + std::to_string(i) + "].cone_angles",
-                                              light_sources[i]->cone_angles);
-                command.material->shader->set("light_sources[" + std::to_string(i) + "].direction",
-                                              light_sources[i]->direction);
-            }
+            // //. single pass forward lighting approach
+            // //. send the light sources count to the shader
+            // int light_sources_count = light_sources.size();
+            // command.material->shader->set("light_sources_count", light_sources_count);
+            // //. send the light sources to the shader
+            // for (size_t i = 0; i < light_sources.size(); i++) {
+            //     command.material->shader->set("light_sources[" + std::to_string(i) + "].position",
+            //                                   light_sources[i]->position);
+            //     command.material->shader->set("light_sources[" + std::to_string(i) + "].color",
+            //                                   light_sources[i]->color);
+            //     command.material->shader->set("light_sources[" + std::to_string(i) + "].type",
+            //                                   light_sources[i]->type);
+            //     command.material->shader->set("light_sources[" + std::to_string(i) + "].attenuation",
+            //                                   light_sources[i]->attenuation);
+            //     command.material->shader->set("light_sources[" + std::to_string(i) + "].cone_angles",
+            //                                   light_sources[i]->cone_angles);
+            //     command.material->shader->set("light_sources[" + std::to_string(i) + "].direction",
+            //                                   light_sources[i]->direction);
+            // }
             command.mesh->draw();
         }
 
