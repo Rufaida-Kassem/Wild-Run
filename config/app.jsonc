@@ -10,7 +10,7 @@
   },
   "scene": {
     "renderer": {
-      //       "sky": "assets/textures/sky.jpg",
+      // "sky": "assets/textures/sky.jpg",
       "sky": "assets/textures/nite.jpg",
       "postprocess": "assets/shaders/postprocess/vignette.frag"
     },
@@ -184,9 +184,6 @@
         "components": [
           {
             "type": "Camera"
-          },
-          {
-            "type": "Free Camera Controller"
           }
         ],
         "children": [
@@ -391,6 +388,9 @@
               1
             ],
             "objType": "coin"
+          },
+          {
+            "type": "Free Camera Controller"
           }
         ]
       },
