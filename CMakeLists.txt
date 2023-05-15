@@ -86,6 +86,8 @@ set(COMMON_SOURCES
         source/common/components/coin.cpp
         source/common/components/obstacle.hpp
         source/common/components/obstacle.cpp
+        source/common/components/light.hpp
+        source/common/components/light.cpp
 
         source/common/systems/forward-renderer.hpp
         source/common/systems/forward-renderer.cpp
