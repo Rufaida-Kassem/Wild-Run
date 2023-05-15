@@ -19,11 +19,12 @@ namespace our
     {
     public:
         LightType lightType; //. The type of the light
+        bool isOn;           //. Whether the light is on or off
         glm::vec4 color;     //. The color of the light
-        float intensity;     //. The intensity of the light
-        glm::vec3 diffuse;   //. The diffuse coefficient of the light
-        glm::vec3 specular;  //. The specular coefficient of the light
-        glm::vec3 ambient;   //. The ambient coefficient of the light
+        // float intensity;     //. The intensity of the light
+        // glm::vec3 diffuse;   //. The diffuse coefficient of the light
+        // glm::vec3 specular;  //. The specular coefficient of the light
+        // glm::vec3 ambient;   //. The ambient coefficient of the light
         glm::vec3 attenuation; //. x*d^2 + y*d + z
         glm::vec2 cone_angles; //. x: inner_angle, y: outer_angle
         //. Reads light parameters from the given json object

@@ -12,6 +12,9 @@ namespace our
             return;
         std::string lightTypeStr = data.value("lightType", "directional");
 
+        //. if the light is on
+        isOn = data.value("isOn", true);
+
         if (lightTypeStr == "directional")
         {
             lightType = LightType::DIRECTIONAL;
@@ -28,22 +31,22 @@ namespace our
         //. same for all light types
         color = glm::vec4(1.0f);
         // glm::vec4(data.value("color", glm::vec4(1.0f)));
-        intensity = data.value("intensity", 1.0f);
-        diffuse = glm::vec3(1.0f);
-        // glm::vec3(data.value("diffuse", glm::vec3(1.0f)));
-        specular = glm::vec3(1.0f);
-        // glm::vec3(data.value("specular", glm::vec3(1.0f)));
+        // intensity = data.value("intensity", 1.0f);
+        // diffuse = glm::vec3(1.0f);
+        // // glm::vec3(data.value("diffuse", glm::vec3(1.0f)));
+        // specular = glm::vec3(1.0f);
+        // // glm::vec3(data.value("specular", glm::vec3(1.0f)));
 
         //. for directional light, the ambient coefficient is always 1
         //. to decide later if we want to change it
 
-        if (lightType == LightType::DIRECTIONAL)
+        // if (lightType == LightType::DIRECTIONAL)
+        // {
+        //     ambient = glm::vec3(1.0f);
+        // }
+        if (lightType != LightType::DIRECTIONAL)
         {
-            ambient = glm::vec3(1.0f);
-        }
-        else
-        {
-            ambient = glm::vec3(0.5f);
+            // ambient = glm::vec3(0.5f);
             // data.value("ambient", glm::vec3(0.0f));
             attenuation = glm::vec3(1.0f, 0.0f, 0.0f);
             // data.value("attenuation", glm::vec3(1.0f, 0.0f, 0.0f));
