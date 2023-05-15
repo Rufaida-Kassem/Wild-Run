@@ -26,6 +26,14 @@ namespace our {
             this->world = world;
         }
 
+        int getCurrentPlayer() {
+            return current_player;
+        }
+
+        int getPlayerCount() {
+            return playersList.size();
+        }
+
         void deserializePlayers(const nlohmann::json &data) {
             if (!data.is_array()) return;
             /// loop around the data

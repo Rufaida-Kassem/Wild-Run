@@ -62,7 +62,7 @@ class Menustate : public our::State {
         // We initialize the camera controller system since it needs a pointer to the app
         // Then we initialize the renderer
         auto size = getApp()->getFrameBufferSize();
-        renderer.initialize(size, config["renderer"]);
+        renderer.initialize({size.x, size.y * 3 / 4}, config["renderer"]);
         previewController.enter(getApp(), &world);
         previewController.deserializePlayers(config["players-entities"]);
     }
@@ -87,6 +87,41 @@ class Menustate : public our::State {
             getApp()->close();
         }
     }
+
+    int i = 0;
+
+    void onImmediateGui() {
+//        ImGui::ShowDemoWindow();
+        ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration |
+                                        ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
+                                        ImGuiWindowFlags_NoSavedSettings |
+                                        ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav |
+                                        ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar;
+        ImGui::Begin("Menu", nullptr, window_flags);
+        ImGui::Text("Press space to play");
+        ImGui::Text("Press escape to quit");
+        ImGui::Text("Left and right arrows to choose the player");
+        ImGui::End();
+
+        ImGui::Begin("Players", nullptr, window_flags);
+        ImGui::SetCursorPos(ImVec2(110, 222));
+        ImGui::Text("Player %d", previewController.getCurrentPlayer());
+
+//        vertical slider to choose the player
+        ImGui::SetCursorPos(ImVec2(110, 250));
+        i = previewController.getCurrentPlayer();
+        ImGui::VSliderInt("##v", ImVec2(18, 160), &i, 0,
+                          previewController.getPlayerCount() - 1, "");
+        if (i != previewController.getCurrentPlayer()) {
+            previewController.changePlayer(i);
+        }
+        ImGui::End();
+
+
+//        imgui tabs to show thee chosen player index from the players
+
+    }
+
 
     void onDestroy() override {
         // Delete all the allocated resources

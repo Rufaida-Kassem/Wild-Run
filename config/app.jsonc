@@ -1043,7 +1043,7 @@
         "monkey": "assets/models/monkey.obj",
         "plane": "assets/models/plane.obj",
         "sphere": "assets/models/sphere.obj",
-        "turtle": "assets/models/20446_Sea_Turtle_v1 Textured.obj"
+        "turtle": "assets/models/20446_Sea_Turtle_v1 Textured_centered.obj"
       },
       "samplers": {
         "default": {},
@@ -1211,7 +1211,7 @@
         "name": "turtle",
         "rotation": [
           -90,
-          0,
+          42,
           0
         ],
         "position": [
@@ -1235,13 +1235,18 @@
       {
         "rotation": [
           -45,
-          0,
+          42,
           0
         ],
         "position": [
           -0.5,
           -0.5,
           0
+        ],
+        "scale": [
+          2,
+          2,
+          2
         ],
         "name": "MNK2",
         "components": [
