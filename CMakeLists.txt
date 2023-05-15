@@ -82,6 +82,10 @@ set(COMMON_SOURCES
         source/common/components/collision.cpp
         source/common/components/road.hpp
         source/common/components/road.cpp
+        source/common/components/coin.hpp
+        source/common/components/coin.cpp
+        source/common/components/obstacle.hpp
+        source/common/components/obstacle.cpp
 
         source/common/systems/forward-renderer.hpp
         source/common/systems/forward-renderer.cpp
@@ -89,6 +93,9 @@ set(COMMON_SOURCES
         source/common/systems/movement.hpp
         source/common/systems/collision.hpp
         source/common/systems/road-movement-controller.hpp
+        source/common/systems/coin-controller.hpp
+        source/common/systems/obstacle-controller.hpp
+
 )
 
 # Define the directories in which to search for the included headers
@@ -101,6 +108,8 @@ include_directories(
         vendor/glm
         vendor/imgui
         vendor/utils
+        vendor/irrKlang-64bit-1.6.0/include
+        vendor/irrKlang-64bit-1.6.0/lib/Winx64-visualStudio
 )
 
 
@@ -119,4 +128,4 @@ set(STATES_SOURCES
 # Each target compiles one example source file and the common & vendor source files
 # Then we link GLFW with each target
 add_executable(GAME_APPLICATION source/main.cpp ${STATES_SOURCES} ${COMMON_SOURCES} ${VENDOR_SOURCES})
-target_link_libraries(GAME_APPLICATION glfw)
+target_link_libraries(GAME_APPLICATION glfw "${CMAKE_CURRENT_SOURCE_DIR}/vendor/irrKlang-64bit-1.6.0/lib/Winx64-visualStudio/irrKlang.lib")
