@@ -23,6 +23,10 @@
         "textured": {
           "vs": "assets/shaders/textured.vert",
           "fs": "assets/shaders/textured.frag"
+        },
+        "lightened": {
+          "vs": "assets/shaders/lightened.vert",
+          "fs": "assets/shaders/lightened.frag"
         }
       },
       "textures": {
@@ -34,7 +38,11 @@
         "turtle": "assets/textures/20446_Sea_Turtle_diff.jpg",
         "player": "assets/textures/player.png",
         "coin": "assets/textures/yellowCoin.png",
-        "obstacle": "assets/textures/obstacle.png"
+        "obstacle": "assets/textures/obstacle.png",
+        "white": "assets/textures/white.png",
+        "black": "assets/textures/black.png",
+        "albedo": "assets/textures/albedo.png",
+        "turtle_roughness": "assets/textures/roughness.jpg"
       },
       "meshes": {
         "cube": "assets/models/cube.obj",
@@ -139,8 +147,8 @@
           "sampler": "default"
         },
         "turtle": {
-          "type": "textured",
-          "shader": "textured",
+          "type": "lightened",
+          "shader": "lightened",
           "pipelineState": {
             "faceCulling": {
               "enabled": false
@@ -156,7 +164,12 @@
             1
           ],
           "texture": "turtle",
-          "sampler": "default"
+          "sampler": "default",
+          "albedo": "turtle",
+          "specular": "white",
+          "roughness": "roughness",
+          "emissive": "black",
+          "ambient_occlusion": "white"
         },
         "moon": {
           "type": "textured",
@@ -178,68 +191,73 @@
           "texture": "moon",
           "sampler": "default"
         },
-        "player":{
+        "player": {
           "type": "textured",
           "shader": "textured",
           "pipelineState": {
-              "faceCulling":{
-                  "enabled": false
-              },
-              "depthTesting":{
-                  "enabled": true
-              },
-              "blending":{
-                  "enabled": false,
-                  "sourceFactor": "GL_SRC_ALPHA",
-                  "destinationFactor": "GL_ONE_MINUS_SRC_ALPHA"
-              },
-              "depthMask": false
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            },
+            "blending": {
+              "enabled": false,
+              "sourceFactor": "GL_SRC_ALPHA",
+              "destinationFactor": "GL_ONE_MINUS_SRC_ALPHA"
+            },
+            "depthMask": false
           },
           "transparent": false,
-          "tint": [1, 1, 1, 1],
+          "tint": [
+            1,
+            1,
+            1,
+            1
+          ],
           "texture": "player",
           "sampler": "default"
-      },
-      "coin": {
-        "type": "textured",
-        "shader": "textured",
-        "pipelineState": {
-          "faceCulling": {
-            "enabled": false
-          },
-          "depthTesting": {
-            "enabled": true
-          }
         },
-        "tint": [
-          1,
-          1,
-          1,
-          1
-        ],
-        "texture": "coin",
-        "sampler": "default"
-      },
-      "obstacle": {
-        "type": "textured",
-        "shader": "textured",
-        "pipelineState": {
-          "faceCulling": {
-            "enabled": false
+        "coin": {
+          "type": "textured",
+          "shader": "textured",
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
           },
-          "depthTesting": {
-            "enabled": true
-          }
+          "tint": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "texture": "coin",
+          "sampler": "default"
         },
-        "tint": [
-          0.5,
-          0.5,
-          0.5,
-          1
-        ],
-        "texture": "obstacle",
-        "sampler": "default"
-      }
+        "obstacle": {
+          "type": "textured",
+          "shader": "textured",
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "tint": [
+            0.5,
+            0.5,
+            0.5,
+            1
+          ],
+          "texture": "obstacle",
+          "sampler": "default"
+        }
       }
     },
     "world": [
@@ -1005,11 +1023,10 @@
           3
         ],
         "scale": [
-          1,  // blocking obstacle
+          1, // blocking obstacle
           0.5,
           1
         ],
-
         "components": [
           {
             "type": "Obstacle"
@@ -1119,7 +1136,7 @@
           0,
           -1,
           10
-        ], 
+        ],
         "scale": [
           1.8, // scale horizontally (width)
           30, // scale vertically (length)
@@ -1139,7 +1156,6 @@
             "mesh": "plane",
             "material": "grass"
           }
-
         ]
       },
       {
@@ -1156,7 +1172,7 @@
         ],
         "scale": [
           1.8, // scale horizontally (width)
-          30,  // scale vertically (length)
+          30, // scale vertically (length)
           1
         ],
         "components": [
@@ -1374,68 +1390,73 @@
           "texture": "moon",
           "sampler": "default"
         },
-        "player":{
+        "player": {
           "type": "textured",
           "shader": "textured",
           "pipelineState": {
-              "faceCulling":{
-                  "enabled": false
-              },
-              "depthTesting":{
-                  "enabled": true
-              },
-              "blending":{
-                  "enabled": false,
-                  "sourceFactor": "GL_SRC_ALPHA",
-                  "destinationFactor": "GL_ONE_MINUS_SRC_ALPHA"
-              },
-              "depthMask": false
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            },
+            "blending": {
+              "enabled": false,
+              "sourceFactor": "GL_SRC_ALPHA",
+              "destinationFactor": "GL_ONE_MINUS_SRC_ALPHA"
+            },
+            "depthMask": false
           },
           "transparent": false,
-          "tint": [1, 1, 1, 1],
+          "tint": [
+            1,
+            1,
+            1,
+            1
+          ],
           "texture": "player",
           "sampler": "default"
-      },
-      "coin": {
-        "type": "textured",
-        "shader": "textured",
-        "pipelineState": {
-          "faceCulling": {
-            "enabled": false
-          },
-          "depthTesting": {
-            "enabled": true
-          }
         },
-        "tint": [
-          1,
-          1,
-          1,
-          1
-        ],
-        "texture": "coin",
-        "sampler": "default"
-      },
-      "obstacle": {
-        "type": "textured",
-        "shader": "textured",
-        "pipelineState": {
-          "faceCulling": {
-            "enabled": false
+        "coin": {
+          "type": "textured",
+          "shader": "textured",
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
           },
-          "depthTesting": {
-            "enabled": true
-          }
+          "tint": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "texture": "coin",
+          "sampler": "default"
         },
-        "tint": [
-          0.5,
-          0.5,
-          0.5,
-          1
-        ],
-        "texture": "obstacle",
-        "sampler": "default"
-      }
+        "obstacle": {
+          "type": "textured",
+          "shader": "textured",
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "tint": [
+            0.5,
+            0.5,
+            0.5,
+            1
+          ],
+          "texture": "obstacle",
+          "sampler": "default"
+        }
       }
     },
     "game-over-world": [
@@ -1727,6 +1748,72 @@
             "type": "Mesh Renderer",
             "mesh": "plane",
             "material": "glass"
+          }
+        ]
+      },
+      //---------------- lightSources
+      {
+        "position": [
+          0,
+          -5,
+          -10
+        ],
+        "components": [
+          {
+            "type": "light"
+          },
+          {
+            "type": "light",
+            "typeOfLight": "POINT",
+            "diffuse": [
+              0,
+              0,
+              1
+            ],
+            "specular": [
+              0,
+              0,
+              1
+            ],
+            "attenuation": [
+              0.001,
+              0.001,
+              0.0001
+            ]
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [
+              0,
+              90,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "position": [
+          0,
+          -10,
+          -40
+        ],
+        "components": [
+          {
+            "type": "light"
+          },
+          {
+            "type": "light",
+            "typeOfLight": "DIRECTIONAL",
+            "diffuse": [
+              1,
+              0,
+              0
+            ],
+            "specular": [
+              1,
+              0,
+              0
+            ]
           }
         ]
       }
