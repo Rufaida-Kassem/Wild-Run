@@ -2,6 +2,7 @@
 #include "../ecs/entity.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include "deserialize-utils.hpp"
 
 namespace our
 {
@@ -29,13 +30,11 @@ namespace our
         }
 
         //. same for all light types
-        color = glm::vec4(1.0f);
+        // color = glm::vec4(1.0f);
         // glm::vec4(data.value("color", glm::vec4(1.0f)));
         // intensity = data.value("intensity", 1.0f);
-        // diffuse = glm::vec3(1.0f);
-        // // glm::vec3(data.value("diffuse", glm::vec3(1.0f)));
-        // specular = glm::vec3(1.0f);
-        // // glm::vec3(data.value("specular", glm::vec3(1.0f)));
+        diffuse = glm::vec3(data.value("diffuse", glm::vec3(1.0f)));
+        specular = glm::vec3(data.value("specular", glm::vec3(1.0f)));
 
         //. for directional light, the ambient coefficient is always 1
         //. to decide later if we want to change it
