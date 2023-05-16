@@ -23,16 +23,21 @@ namespace our
         else if (lightTypeStr == "point")
         {
             lightType = LightType::POINT;
+        } 
+        else if (lightTypeStr == "sky")
+        {
+            lightType = LightType::SKY;
         }
         else
         {
             lightType = LightType::SPOT;
         }
 
-        //. same for all light types
-        // color = glm::vec4(1.0f);
-        // glm::vec4(data.value("color", glm::vec4(1.0f)));
+        //. same for the three light types
+        color = glm::vec4(data.value("color", glm::vec4(1.0f)));
+
         // intensity = data.value("intensity", 1.0f);
+        
         diffuse = glm::vec3(data.value("diffuse", glm::vec3(1.0f)));
         specular = glm::vec3(data.value("specular", glm::vec3(1.0f)));
 
@@ -60,5 +65,12 @@ namespace our
             // glm::radians(data.value("cone_angles", glm::vec2(30.0f, 45.0f)));
         }
 
+        //. for sky light, we need to get the three colors
+        if (lightType == LightType::SKY)
+        {
+            sky_top = glm::vec3(data.value("sky_top", glm::vec3(0.0f)));
+            sky_middle = glm::vec3(data.value("sky_middle", glm::vec3(0.0f)));
+            sky_bottom = glm::vec3(data.value("sky_bottom", glm::vec3(0.0f)));
+        }
     }
 }

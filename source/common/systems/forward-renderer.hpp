@@ -42,7 +42,7 @@ namespace our
     //. it is used to pass sky light data to the shader
     struct SkyLightEffect
     {
-        glm::vec3 top, horizon, bottom;
+        glm::vec3 top, middle, bottom;
     };
 
     // A forward renderer is a renderer that draw the object final color directly to the framebuffer
@@ -55,6 +55,10 @@ namespace our
         //. it is an array of pointers to light components
         //. the size of the array is the number of light components
         std::vector<LightSource *> light_sources;
+
+        //. create sky light effect and pass it to the shader
+        SkyLightEffect sky_light_effect;
+        
         // These window size will be used on multiple occasions (setting the viewport, computing the aspect ratio, etc.)
         glm::ivec2 windowSize;
         // These are two vectors in which we will store the opaque and the transparent commands.

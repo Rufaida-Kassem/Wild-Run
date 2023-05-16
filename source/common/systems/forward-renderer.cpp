@@ -183,12 +183,24 @@ namespace our
 
             //. if this entity has a light component
             if (auto light = entity->getComponent<LightComponent>(); light)
-            {
+            {   
+                //. if it is a sky light
+                if (light->lightType == LightType::SKY)
+                {
+                    //. we need to add the sky light effect
+                    sky_light_effect.top = light->sky_top;
+                    sky_light_effect.middle = light->sky_middle;
+                    sky_light_effect.bottom = light->sky_bottom;
+                    continue;
+                }
+
                 //. if the light is off, we don't need to add it to the lights list
                 if (!light->isOn)
                     continue;
+
                 //. we add it to the lights list
                 LightSource light_source = {};
+
                 //. if the light is on
                 light_source.isOn = light->isOn;
 
@@ -211,11 +223,14 @@ namespace our
                 {
                     //. we need to get the cone angles
                     light_source.cone_angles = glm::vec2(light->cone_angles.x, light->cone_angles.y);
+                    light_source.direction = glm::vec3(light->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, -1, 0, 0));
                 }
+                else
+                {
+                    //. we need to add the light direction
 
-                //. we need to add the light direction
-                
-                light_source.direction = glm::vec3(light->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, -1, 0, 0));
+                    light_source.direction = glm::vec3(light->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, -1, 0));
+                }
 
                 //. we add the light source to the light sources list
                 light_sources.push_back(&light_source);
@@ -294,17 +309,13 @@ namespace our
                 command.material->shader->set("M_it", glm::transpose(glm::inverse(command.localToWorld)));
                 //. send the light sources count to the shader
                 size_t light_sources_count = light_sources.size();
-                // command.material->shader->set("light_sources_count", light_sources_count);
                 //. send the light sources to the shader
-                //. calculate the sky light effect
-                glm::vec3 sky_top = glm::vec3(0.1, 0.0, 0.0);
-                glm::vec3 sky_horizon = glm::vec3(0.0, 0.5, 0.0);
-                glm::vec3 sky_bottom = glm::vec3(0.0, 0.0, 0.3);
 
                 //. send the sky light effect to the shader
-                command.material->shader->set("sky_light.top_color", sky_top);
-                command.material->shader->set("sky_light.middle_color", sky_horizon);
-                command.material->shader->set("sky_light.bottom_color", sky_bottom);
+                command.material->shader->set("sky.top", sky_light_effect.top);
+                command.material->shader->set("sky.middle", sky_light_effect.middle);
+                command.material->shader->set("sky.bottom", sky_light_effect.bottom);
+
 
                 //. single pass forward lighting approach
                 //. send the light sources count to the shader
@@ -323,9 +334,10 @@ namespace our
                     command.material->shader->set(light_sources_prefix + "cone_angles", light_sources[i]->cone_angles);
                 }
             }
-            else {
+            else
+            {
                 //. if the material is not lighted material
-                command.material->shader->set("transform",  VP * command.localToWorld);
+                command.material->shader->set("transform", VP * command.localToWorld);
             }
             command.mesh->draw();
         }
