@@ -2,14 +2,17 @@
 #include "../mesh/mesh-utils.hpp"
 #include "../texture/texture-utils.hpp"
 
-namespace our {
+namespace our
+{
 
-    void ForwardRenderer::initialize(glm::ivec2 windowSize, const nlohmann::json &config) {
+    void ForwardRenderer::initialize(glm::ivec2 windowSize, const nlohmann::json &config)
+    {
         // First, we store the window size for later use
         this->windowSize = windowSize;
 
         // Then we check if there is a sky texture in the configuration
-        if (config.contains("sky")) {
+        if (config.contains("sky"))
+        {
             // First, we create a sphere which will be used to draw the sky
             this->skySphere = mesh_utils::sphere(glm::ivec2(16, 16));
 
@@ -54,7 +57,8 @@ namespace our {
         }
 
         // Then we check if there is a postprocessing shader in the configuration
-        if (config.contains("postprocess")) {
+        if (config.contains("postprocess"))
+        {
             // TODO: (Req 11) Create a framebuffer
             //. generation of framebuffer object
             //.  n=1 --> generates only one framebuffer object
@@ -121,9 +125,11 @@ namespace our {
         }
     }
 
-    void ForwardRenderer::destroy() {
+    void ForwardRenderer::destroy()
+    {
         // Delete all objects related to the sky
-        if (skyMaterial) {
+        if (skyMaterial)
+        {
             delete skySphere;
             delete skyMaterial->shader;
             delete skyMaterial->texture;
@@ -131,7 +137,8 @@ namespace our {
             delete skyMaterial;
         }
         // Delete all objects related to post processing
-        if (postprocessMaterial) {
+        if (postprocessMaterial)
+        {
             glDeleteFramebuffers(1, &postprocessFrameBuffer);
             glDeleteVertexArrays(1, &postProcessVertexArray);
             delete colorTarget;
@@ -142,17 +149,20 @@ namespace our {
         }
     }
 
-    void ForwardRenderer::render(World *world) {
+    void ForwardRenderer::render(World *world)
+    {
         // First of all, we search for a camera and for all the mesh renderers
         CameraComponent *camera = nullptr;
         opaqueCommands.clear();
         transparentCommands.clear();
-        for (auto entity: world->getEntities()) {
+        for (auto entity : world->getEntities())
+        {
             // If we hadn't found a camera yet, we look for a camera in this entity
             if (!camera)
                 camera = entity->getComponent<CameraComponent>();
             // If this entity has a mesh renderer component
-            if (auto meshRenderer = entity->getComponent<MeshRendererComponent>(); meshRenderer) {
+            if (auto meshRenderer = entity->getComponent<MeshRendererComponent>(); meshRenderer)
+            {
                 // We construct a command from it
                 RenderCommand command;
                 command.localToWorld = meshRenderer->getOwner()->getLocalToWorldMatrix();
@@ -160,32 +170,49 @@ namespace our {
                 command.mesh = meshRenderer->mesh;
                 command.material = meshRenderer->material;
                 // if it is transparent, we add it to the transparent commands list
-                if (command.material->transparent) {
+                if (command.material->transparent)
+                {
                     transparentCommands.push_back(command);
-                } else {
+                }
+                else
+                {
                     // Otherwise, we add it to the opaque command list
                     opaqueCommands.push_back(command);
                 }
             }
 
             //. if this entity has a light component
-            if (auto light = entity->getComponent<LightComponent>(); light) {
+            if (auto light = entity->getComponent<LightComponent>(); light)
+            {
+                //. if the light is off, we don't need to add it to the lights list
+                if (!light->isOn)
+                    continue;
                 //. we add it to the lights list
                 LightSource light_source = {};
-                light_source.position = glm::vec3(light->getOwner()->getLocalToWorldMatrix() * glm::vec4(1, 1, 1, 1));
+                //. if the light is on
+                light_source.isOn = light->isOn;
+
+                //. we need to add the light position
+                light_source.position = glm::vec3(light->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1));
+
+                //. the light color to calculate the light components
                 light_source.color = light->color;
+
                 //. for the light type, we need to convert the enum to an int
                 //. as the light type is an enum, we can cast it to an int
                 light_source.type = static_cast<int>(light->lightType);
                 light_source.attenuation = light->attenuation;
+
                 //. check if the light is a spot light
-                if (light-> lightType == LightType::SPOT)
+                if (light->lightType == LightType::SPOT)
                 {
                     //. we need to get the cone angles
                     light_source.cone_angles = glm::vec2(light->cone_angles.x, light->cone_angles.y);
                 }
+
                 //. we need to add the light direction
                 light_source.direction = glm::vec3(light->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, -1, 0));
+
                 //. we add the light source to the light sources list
                 light_sources.push_back(&light_source);
             }
@@ -203,9 +230,10 @@ namespace our {
         glm::vec3 cameraForward = camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, -1, 0.0);
 
         std::sort(transparentCommands.begin(), transparentCommands.end(),
-                  [cameraForward](const RenderCommand &first, const RenderCommand &second) {
-                      //TODO: (Req 9) Finish this function
-                      // HINT: the following return should return true "first" should be drawn before "second".
+                  [cameraForward](const RenderCommand &first, const RenderCommand &second)
+                  {
+                      // TODO: (Req 9) Finish this function
+                      //  HINT: the following return should return true "first" should be drawn before "second".
                       //. we draw the transparent objects from far to near
                       //. the dot product between the center of the object and the camera forward vector gives
                       //. the projection of the object on the camera forward vector,
@@ -229,7 +257,8 @@ namespace our {
         glDepthMask(true);
 
         // If there is a postprocess material, bind the framebuffer so that we can render to it
-        if (postprocessMaterial) {
+        if (postprocessMaterial)
+        {
             // TODO: (Req 11) bind the framebuffer
             glBindFramebuffer(GL_DRAW_FRAMEBUFFER, postprocessFrameBuffer);
         }
@@ -244,44 +273,64 @@ namespace our {
         // for (auto command: opaqueCommands) {
         //     if (auto lightedMaterial = dynamic_cast<LitMaterial *>(command.material); lightedMaterial) {
 
-        for (auto command: opaqueCommands) {
+        for (auto command : opaqueCommands)
+        {
             command.material->setup();
-            command.material->shader->set("transform", VP * command.localToWorld);
 
-            // //. calculate the sky light effect
-            // glm::vec3 sky_top = glm::vec3(0.1, 0.0, 0.0);
-            // glm::vec3 sky_horizon = glm::vec3(0.0, 0.5, 0.0);
-            // glm::vec3 sky_bottom = glm::vec3(0.0, 0.0, 0.3);
+            //. if the material is lighted material
+            if (auto lightedMaterial = dynamic_cast<LitMaterial *>(command.material); lightedMaterial)
+            {
+                //. send the camera position to the shader
+                command.material->shader->set("camera_position", camera->getOwner()->getLocalToWorldMatrix());
+                //. send the VP matrix to the shader
+                command.material->shader->set("VP", VP);
+                //. send the model matrix to the shader
+                command.material->shader->set("M", command.localToWorld);
+                //. send the inverse transpose of the model matrix to the shader
+                command.material->shader->set("M_it", glm::transpose(glm::inverse(command.localToWorld)));
+                //. send the light sources count to the shader
+                int light_sources_count = light_sources.size();
+                // command.material->shader->set("light_sources_count", light_sources_count);
+                //. send the light sources to the shader
+                //. calculate the sky light effect
+                glm::vec3 sky_top = glm::vec3(0.1, 0.0, 0.0);
+                glm::vec3 sky_horizon = glm::vec3(0.0, 0.5, 0.0);
+                glm::vec3 sky_bottom = glm::vec3(0.0, 0.0, 0.3);
 
-            // //. send the sky light effect to the shader
-            // command.material->shader->set("sky.top", sky_top);
-            // command.material->shader->set("sky.horizon", sky_horizon);
-            // command.material->shader->set("sky.bottom", sky_bottom);
+                //. send the sky light effect to the shader
+                command.material->shader->set("sky_light.top_color", sky_top);
+                command.material->shader->set("sky_light.middle_color", sky_horizon);
+                command.material->shader->set("sky_light.bottom_color", sky_bottom);
 
-            // //. single pass forward lighting approach
-            // //. send the light sources count to the shader
-            // int light_sources_count = light_sources.size();
-            // command.material->shader->set("light_sources_count", light_sources_count);
-            // //. send the light sources to the shader
-            // for (size_t i = 0; i < light_sources.size(); i++) {
-            //     command.material->shader->set("light_sources[" + std::to_string(i) + "].position",
-            //                                   light_sources[i]->position);
-            //     command.material->shader->set("light_sources[" + std::to_string(i) + "].color",
-            //                                   light_sources[i]->color);
-            //     command.material->shader->set("light_sources[" + std::to_string(i) + "].type",
-            //                                   light_sources[i]->type);
-            //     command.material->shader->set("light_sources[" + std::to_string(i) + "].attenuation",
-            //                                   light_sources[i]->attenuation);
-            //     command.material->shader->set("light_sources[" + std::to_string(i) + "].cone_angles",
-            //                                   light_sources[i]->cone_angles);
-            //     command.material->shader->set("light_sources[" + std::to_string(i) + "].direction",
-            //                                   light_sources[i]->direction);
-            // }
+                //. single pass forward lighting approach
+                //. send the light sources count to the shader
+                // int light_sources_count = light_sources.size();
+                command.material->shader->set("light_count", light_sources_count);
+                //. send the light sources to the shader
+                for (size_t i = 0; i < light_sources.size(); i++)
+                {
+                    std::string light_sources_prefix = "lights[" + std::to_string(i) + "].";
+                    command.material->shader->set(light_sources_prefix + "type", light_sources[i]->type);
+                    command.material->shader->set(light_sources_prefix + "position", light_sources[i]->position);
+                    command.material->shader->set(light_sources_prefix + "direction", light_sources[i]->direction);
+                    command.material->shader->set(light_sources_prefix + "color", light_sources[i]->color);
+                    command.material->shader->set(light_sources_prefix + "attenuation_constant", light_sources[i]->attenuation.z);
+                    command.material->shader->set(light_sources_prefix + "attenuation_linear", light_sources[i]->attenuation.y);
+                    command.material->shader->set(light_sources_prefix + "attenuation_quadratic", light_sources[i]->attenuation.x);
+                    command.material->shader->set(light_sources_prefix + "inner_angle", light_sources[i]->cone_angles.x);
+                    command.material->shader->set(light_sources_prefix + "outer_angle", light_sources[i]->cone_angles.y);
+                }
+            }
+            else {
+                //. if the material is not lighted material
+                command.material->shader->set("transform",  VP * command.localToWorld);
+            }
             command.mesh->draw();
         }
 
         // If there is a sky material, draw the sky
-        if (this->skyMaterial) {
+        if (this->skyMaterial)
+        {
             // TODO: (Req 10) setup the sky material
             skyMaterial->setup(); // first we will setup the material
 
@@ -289,7 +338,7 @@ namespace our {
             /// why does the camera position is the origin?
             /// because the camera is at the origin of the world
             glm::vec3 cameraPosition =
-                    camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1); // the camera eye is @ origin
+                camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1); // the camera eye is @ origin
 
             // TODO: (Req 10) Create a model matrix for the sky such that it always follows the camera (sky sphere center = camera position)
             /// then we will create a model matrix
@@ -297,8 +346,8 @@ namespace our {
             /// so we give it the camera position
             /// and we give it a matrix of 1s so that it will not change the camera position
             glm::mat4 skyModelMat = glm::translate(
-                    glm::mat4(1.0f),
-                    cameraPosition);
+                glm::mat4(1.0f),
+                cameraPosition);
 
             // TODO: (Req 10) We want the sky to be drawn behind everything (in NDC space, z=1) NDC --> Normalized Device Coordinates
             //  We can acheive the is by multiplying by an extra matrix after the projection but what values should we put in it?
@@ -313,14 +362,14 @@ namespace our {
                 we get z = 1
             */
             glm::mat4 alwaysBehindTransform = glm::mat4(
-                    1.0f, 0.0f, 0.0f, 0.0f,
-                    0.0f, 1.0f, 0.0f, 0.0f,
-                    0.0f, 0.0f, 0.0f, 0.0f,
-                    0.0f, 0.0f, 1.0f, 1.0f);
+                1.0f, 0.0f, 0.0f, 0.0f,
+                0.0f, 1.0f, 0.0f, 0.0f,
+                0.0f, 0.0f, 0.0f, 0.0f,
+                0.0f, 0.0f, 1.0f, 1.0f);
 
             // TODO: (Req 10) set the "transform" uniform
             skyMaterial->shader->set("transform", alwaysBehindTransform * camera->getProjectionMatrix(windowSize) *
-                                                  camera->getViewMatrix() * skyModelMat);
+                                                      camera->getViewMatrix() * skyModelMat);
             // model --> matrix for the sky as it transform from local space to world space
             // view --> matrix for the camera as it transform from world space to camera space
             // projection --> matrix for the camera as it transform from camera space to NDC space (canonical view volume) is this right?
@@ -331,7 +380,8 @@ namespace our {
         }
         // TODO: (Req 9) Draw all the transparent commands
         //  Don't forget to set the "transform" uniform to be equal the model-view-projection matrix for each render command
-        for (auto command: transparentCommands) {
+        for (auto command : transparentCommands)
+        {
             command.material->setup();
             command.material->shader->set("transform", VP * command.localToWorld);
             command.mesh->draw();
@@ -339,7 +389,8 @@ namespace our {
 
         //. If there is a postprocess material, apply postprocessing then draw the fullscreen triangle to the screen
         //. note that we might want to change this behavior later
-        if (postprocessMaterial) {
+        if (postprocessMaterial)
+        {
             // TODO: (Req 11) Return to the default framebuffer
             glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 

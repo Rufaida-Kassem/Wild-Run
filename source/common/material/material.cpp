@@ -109,31 +109,36 @@ namespace our
         {
             glActiveTexture(GL_TEXTURE0);
             albedo->bind();
-            shader->set("material.albedo", 0);
+            shader->set("material.albedo_map", 0);
+            shader->set("material.albedo_tint", tint);
         }
         if (roughness != nullptr)
         {
             glActiveTexture(GL_TEXTURE1);
             roughness->bind();
-            shader->set("material.roughness", 1);
+            shader->set("material.roughness_map", 1);
+            shader->set("material.roughness_tint", tint);
         }
         if (emissive != nullptr)
         {
             glActiveTexture(GL_TEXTURE2);
             emissive->bind();
-            shader->set("material.emissive", 2);
+            shader->set("material.emissive_map", 2);
+            shader->set("material.emissive_tint", tint);
         }
         if (ambient_occlusion != nullptr)
         {
             glActiveTexture(GL_TEXTURE3);
             ambient_occlusion->bind();
-            shader->set("material.ambient_occlusion", 3);
+            shader->set("material.ambient_occlusion_map", 3);
+            shader->set("material.ambient_occlusion_tint", tint);
         }
         if (specular != nullptr)
         {
             glActiveTexture(GL_TEXTURE4);
             specular->bind();
-            shader->set("material.specular", 4);
+            shader->set("material.specular_map", 4);
+            shader->set("material.specular_tint", tint);
         }
         glActiveTexture(GL_TEXTURE0);
     }
