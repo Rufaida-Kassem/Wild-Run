@@ -289,7 +289,7 @@ namespace our
                 //. send the inverse transpose of the model matrix to the shader
                 command.material->shader->set("M_it", glm::transpose(glm::inverse(command.localToWorld)));
                 //. send the light sources count to the shader
-                int light_sources_count = light_sources.size();
+                size_t light_sources_count = light_sources.size();
                 // command.material->shader->set("light_sources_count", light_sources_count);
                 //. send the light sources to the shader
                 //. calculate the sky light effect
@@ -305,7 +305,7 @@ namespace our
                 //. single pass forward lighting approach
                 //. send the light sources count to the shader
                 // int light_sources_count = light_sources.size();
-                command.material->shader->set("light_count", light_sources_count);
+                command.material->shader->set("light_count", (int)light_sources_count);
                 //. send the light sources to the shader
                 for (size_t i = 0; i < light_sources.size(); i++)
                 {
