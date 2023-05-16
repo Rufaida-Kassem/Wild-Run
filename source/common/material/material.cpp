@@ -89,10 +89,10 @@ namespace our
         if (!data.is_object())
             return;
         albedo = AssetLoader<Texture2D>::get(data.value("albedo", ""));
-        specular = AssetLoader<Texture2D>::get(data.value("specular", ""));
-        roughness = AssetLoader<Texture2D>::get(data.value("roughness", ""));
-        emissive = AssetLoader<Texture2D>::get(data.value("emissive", ""));
-        ambient_occlusion = AssetLoader<Texture2D>::get(data.value("ambient_occlusion", ""));
+        specular = AssetLoader<Texture2D>::get(data.value("specular", "white"));
+        roughness = AssetLoader<Texture2D>::get(data.value("roughness", "black"));
+        emissive = AssetLoader<Texture2D>::get(data.value("emissive", "black"));
+        ambient_occlusion = AssetLoader<Texture2D>::get(data.value("ambient_occlusion", "white"));
     }
 
     // This function should call the setup of its parent and
@@ -109,36 +109,36 @@ namespace our
         {
             glActiveTexture(GL_TEXTURE0);
             albedo->bind();
-            shader->set("material.albedo_map", 0);
-            shader->set("material.albedo_tint", tint);
+            sampler->bind(0);
+            shader->set("material.albedo", 0);
         }
         if (roughness != nullptr)
         {
             glActiveTexture(GL_TEXTURE1);
             roughness->bind();
-            shader->set("material.roughness_map", 1);
-            shader->set("material.roughness_tint", tint);
+            sampler->bind(1);
+            shader->set("material.roughness", 1);
         }
         if (emissive != nullptr)
         {
             glActiveTexture(GL_TEXTURE2);
             emissive->bind();
-            shader->set("material.emissive_map", 2);
-            shader->set("material.emissive_tint", tint);
+            sampler->bind(2);
+            shader->set("material.emissive", 2);
         }
         if (ambient_occlusion != nullptr)
         {
             glActiveTexture(GL_TEXTURE3);
             ambient_occlusion->bind();
-            shader->set("material.ambient_occlusion_map", 3);
-            shader->set("material.ambient_occlusion_tint", tint);
+            sampler->bind(3);
+            shader->set("material.ambient_occlusion", 3);
         }
         if (specular != nullptr)
         {
             glActiveTexture(GL_TEXTURE4);
             specular->bind();
-            shader->set("material.specular_map", 4);
-            shader->set("material.specular_tint", tint);
+            sampler->bind(4);
+            shader->set("material.specular", 4);
         }
         glActiveTexture(GL_TEXTURE0);
     }
