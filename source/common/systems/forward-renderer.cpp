@@ -195,8 +195,11 @@ namespace our
                 //. we need to add the light position
                 light_source.position = glm::vec3(light->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1));
 
-                //. the light color to calculate the light components
-                light_source.color = light->color;
+                //. we need to add the diffuse color
+                light_source.diffuse = light->diffuse;
+
+                //. we need to add the specular color
+                light_source.specular = light->specular;
 
                 //. for the light type, we need to convert the enum to an int
                 //. as the light type is an enum, we can cast it to an int
@@ -211,7 +214,8 @@ namespace our
                 }
 
                 //. we need to add the light direction
-                light_source.direction = glm::vec3(light->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, -1, 0));
+                
+                light_source.direction = glm::vec3(light->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, -1, 0, 0));
 
                 //. we add the light source to the light sources list
                 light_sources.push_back(&light_source);
@@ -313,12 +317,10 @@ namespace our
                     command.material->shader->set(light_sources_prefix + "type", light_sources[i]->type);
                     command.material->shader->set(light_sources_prefix + "position", light_sources[i]->position);
                     command.material->shader->set(light_sources_prefix + "direction", light_sources[i]->direction);
-                    command.material->shader->set(light_sources_prefix + "color", light_sources[i]->color);
-                    command.material->shader->set(light_sources_prefix + "attenuation_constant", light_sources[i]->attenuation.z);
-                    command.material->shader->set(light_sources_prefix + "attenuation_linear", light_sources[i]->attenuation.y);
-                    command.material->shader->set(light_sources_prefix + "attenuation_quadratic", light_sources[i]->attenuation.x);
-                    command.material->shader->set(light_sources_prefix + "inner_angle", light_sources[i]->cone_angles.x);
-                    command.material->shader->set(light_sources_prefix + "outer_angle", light_sources[i]->cone_angles.y);
+                    command.material->shader->set(light_sources_prefix + "diffuse", light_sources[i]->diffuse);
+                    command.material->shader->set(light_sources_prefix + "specular", light_sources[i]->specular);
+                    command.material->shader->set(light_sources_prefix + "attenuation", light_sources[i]->attenuation);
+                    command.material->shader->set(light_sources_prefix + "cone_angles", light_sources[i]->cone_angles);
                 }
             }
             else {

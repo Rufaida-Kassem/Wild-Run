@@ -32,7 +32,8 @@ namespace our
         bool isOn;
         glm::vec3 position;
         glm::vec3 direction;
-        glm::vec3 color;
+        glm::vec3 diffuse;
+        glm::vec3 specular;
         glm::vec3 attenuation;
         glm::vec2 cone_angles;
     };
