@@ -12,6 +12,7 @@ namespace our {
     // For a more complex example of how to use the ECS framework, see "free-camera-controller.hpp"
     class CoinComponent : public Component {
     public:
+        bool collided = false;
         //glm::vec3 linearVelocity = {0, 0, 0}; // Each frame, the entity should move as follows: position += linearVelocity * deltaTime 
         //glm::vec3 angularVelocity = {0, 0, 0}; // Each frame, the entity should rotate as follows: rotation += angularVelocity * deltaTime
 

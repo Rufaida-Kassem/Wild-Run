@@ -2,6 +2,7 @@
 
 #include "../ecs/world.hpp"
 #include "../components/collision.hpp"
+#include "../components/coin.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
@@ -211,12 +212,16 @@ namespace our {
                         case CollisionType::COIN:
                             coins_collected++;
 //                            std::cout << coins_collected << std::endl;
+                            entity2->getComponent<CoinComponent>()->getOwner()->localTransform.position.z -= 50;
+                            entity2->getComponent<CoinComponent>()->collided = true;
+
                             break;
                         case CollisionType::OBSTACLE:
                             lives--;
                             if (lives == 0) {
                                 is_lost = true;
                             }
+                            world->markForRemoval(entity2);
 //                            is_lost = true;
 //                            std::cout << "lost" << cc++ << std::endl;
                             break;
@@ -224,7 +229,7 @@ namespace our {
                             break;
                     }
 
-                    world->markForRemoval(entity2);
+                    
                 }
             }
         }
