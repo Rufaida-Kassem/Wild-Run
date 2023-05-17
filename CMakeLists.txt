@@ -39,7 +39,7 @@ set(COMMON_SOURCES
         source/common/asset-loader.cpp
         source/common/asset-loader.hpp
         source/common/deserialize-utils.hpp
-        
+
         source/common/shader/shader.hpp
         source/common/shader/shader.cpp
 
@@ -98,7 +98,7 @@ set(COMMON_SOURCES
         source/common/systems/coin-controller.hpp
         source/common/systems/obstacle-controller.hpp
 
-)
+        )
 
 # Define the directories in which to search for the included headers
 include_directories(
@@ -110,7 +110,8 @@ include_directories(
         vendor/glm
         vendor/imgui
         vendor/utils
-
+        #        vendor/irrKlang-64bit-1.6.0/include
+        #        vendor/irrKlang-64bit-1.6.0/lib/Winx64-visualStudio
 )
 
 
@@ -123,7 +124,7 @@ set(STATES_SOURCES
         source/states/menu-state.hpp
         source/states/game-over-state.hpp
 
-)
+        )
 
 # For each example, we add an executable target
 # Each target compiles one example source file and the common & vendor source files

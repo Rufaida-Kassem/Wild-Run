@@ -2,6 +2,7 @@
 
 #include "../ecs/world.hpp"
 #include "../components/collision.hpp"
+#include "../components/coin.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
@@ -23,6 +24,7 @@ namespace our {
     // For more information, see "common/components/movement.hpp"
     class CollisionSystem {
         int coins_collected = 0;
+        int lives = 1110;
         bool is_lost = false;
 
     public:
@@ -37,6 +39,10 @@ namespace our {
 
         int get_coins_collected() {
             return coins_collected;
+        }
+
+        int get_lives() {
+            return lives;
         }
 
 //		bool AABBCollide(Entity* E1, Entity* E2)
@@ -206,16 +212,24 @@ namespace our {
                         case CollisionType::COIN:
                             coins_collected++;
 //                            std::cout << coins_collected << std::endl;
+                            entity2->getComponent<CoinComponent>()->getOwner()->localTransform.position.z -= 50;
+                            entity2->getComponent<CoinComponent>()->collided = true;
+
                             break;
                         case CollisionType::OBSTACLE:
-                            is_lost = true;
+                            lives--;
+                            if (lives == 0) {
+                                is_lost = true;
+                            }
+                            world->markForRemoval(entity2);
+//                            is_lost = true;
 //                            std::cout << "lost" << cc++ << std::endl;
                             break;
                         default:
                             break;
                     }
 
-                    world->markForRemoval(entity2);
+                    
                 }
             }
         }

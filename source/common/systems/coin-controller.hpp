@@ -21,14 +21,17 @@ namespace our
 
 
 	public:
+		CoinComponent* coin = nullptr;
+		// make array of coins
+		std::vector<CoinComponent*> coins;
+		FreeCameraControllerComponent* controller = nullptr;
+
+
 
 		// This should be called every frame to update all entities containing a FreeCameraControllerComponent 
 		void update(World* world, float deltaTime) {
 			// search for the coins
-			CoinComponent* coin = nullptr;
-			// make array of coins
-			std::vector<CoinComponent*> coins;
-			FreeCameraControllerComponent* controller = nullptr;
+			
 			for (auto entity : world->getEntities()) {
 				coin = entity->getComponent<CoinComponent>();
 				if(!controller)
@@ -59,10 +62,14 @@ namespace our
 				// get the position of the coin
 				glm::vec3& coin_position = coin->getOwner()->localTransform.position;
 				// check if the coin is behind the camera
-				if (coin_position.z > camera_position.z) {
+				if (coin_position.z > camera_position.z && coin->collided == false) {
 					// make the coin in front of the camera
 					// we will let this coin in front of the farest coin
 					coin_position.z = coin_position.z - 50;
+					
+				}
+				if(coin->collided == true){
+					coin->collided = false;
 				}
 			}
 
