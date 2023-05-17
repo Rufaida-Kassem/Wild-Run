@@ -42,6 +42,7 @@ namespace our
     //. it is used to pass sky light data to the shader
     struct SkyLightEffect
     {
+        bool isOn;
         glm::vec3 top, middle, bottom;
     };
 

@@ -183,14 +183,27 @@ namespace our
 
             //. if this entity has a light component
             if (auto light = entity->getComponent<LightComponent>(); light)
-            {   
+            {
                 //. if it is a sky light
                 if (light->lightType == LightType::SKY)
                 {
-                    //. we need to add the sky light effect
-                    sky_light_effect.top = light->sky_top;
-                    sky_light_effect.middle = light->sky_middle;
-                    sky_light_effect.bottom = light->sky_bottom;
+
+                    //. is enabled
+                    sky_light_effect.isOn = light->isOn;
+                    if (!light->isOn)
+                    {
+                        //. make the sky light effect black
+                        sky_light_effect.top = glm::vec3(0, 0, 0);
+                        sky_light_effect.middle = glm::vec3(0, 0, 0);
+                        sky_light_effect.bottom = glm::vec3(0, 0, 0);
+                    }
+                    else
+                    {
+                        //. we need to add the sky light effect
+                        sky_light_effect.top = light->sky_top;
+                        sky_light_effect.middle = light->sky_middle;
+                        sky_light_effect.bottom = light->sky_bottom;
+                    }
                     continue;
                 }
 
@@ -315,7 +328,6 @@ namespace our
                 command.material->shader->set("sky.top", sky_light_effect.top);
                 command.material->shader->set("sky.middle", sky_light_effect.middle);
                 command.material->shader->set("sky.bottom", sky_light_effect.bottom);
-
 
                 //. single pass forward lighting approach
                 //. send the light sources count to the shader
