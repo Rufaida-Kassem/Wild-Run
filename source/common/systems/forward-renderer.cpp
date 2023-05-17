@@ -155,6 +155,7 @@ namespace our
         CameraComponent *camera = nullptr;
         opaqueCommands.clear();
         transparentCommands.clear();
+        light_sources.clear();
         for (auto entity : world->getEntities())
         {
             // If we hadn't found a camera yet, we look for a camera in this entity
@@ -236,7 +237,7 @@ namespace our
                 {
                     //. we need to get the cone angles
                     light_source.cone_angles = glm::vec2(light->cone_angles.x, light->cone_angles.y);
-                    light_source.direction = glm::vec3(light->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, -1, 0, 0));
+                    light_source.direction = glm::vec3(light->getOwner()->getLocalToWorldMatrix() * glm::vec4(-1, 0, 0, 0));
                 }
                 else
                 {

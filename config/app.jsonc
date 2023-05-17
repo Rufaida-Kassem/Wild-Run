@@ -169,7 +169,7 @@
           "specular": "white",
           "roughness": "roughness",
           "emissive": "black",
-          "ambient_occlusion": "white"
+          "ambient_occlusion": "turtle"
         },
         "moon": {
           "type": "textured",
@@ -219,8 +219,20 @@
           "sampler": "default"
         },
         "coin": {
-          "type": "textured",
-          "shader": "textured",
+          "type": "lightened",
+          "shader": "lightened",
+          "sampler": "default",
+          "albedo": "coin",
+          "specular": "white",
+          "roughness": "roughness",
+          "emissive": "black",
+          "ambient_occlusion": "white",
+          "tint": [
+            1,
+            1,
+            1,
+            1
+          ],
           "pipelineState": {
             "faceCulling": {
               "enabled": false
@@ -228,15 +240,7 @@
             "depthTesting": {
               "enabled": true
             }
-          },
-          "tint": [
-            1,
-            1,
-            1,
-            1
-          ],
-          "texture": "coin",
-          "sampler": "default"
+          }
         },
         "obstacle": {
           "type": "textured",
@@ -294,6 +298,56 @@
               0.05
             ],
             "components": [
+              {
+                "type": "Light",
+                "lightType": "Spot",
+                // "direction": [
+                //   -1,
+                //   0,
+                //   0
+                // ],
+                "diffuse": [
+                  1,
+                  1,
+                  1
+                ],
+                "specular": [
+                  1,
+                  1,
+                  1
+                ],
+                "attenuation": [
+                  0.0095,
+                  0.0095,
+                  0.00095
+                ],
+                "cone_angles": [20, 50]
+              },
+              {
+                "type": "Light",
+                "lightType": "Spot",
+                "direction": [
+                  0,
+                  0,
+                  -1
+                ],
+                "diffuse": [
+                  1,
+                  1,
+                  1
+                ],
+                "specular": [
+                  1,
+                  1,
+                  1
+                ],
+                "attenuation": [
+                  0.0095,
+                  0.0095,
+                  0.00095
+                ],
+                "cone_angles": [20, 50]
+              },
               {
                 "type": "Mesh Renderer",
                 "mesh": "turtle",
@@ -395,6 +449,11 @@
               0
             ]
           }
+          // ,
+          // {
+          //   "type":"light",
+          //   "lightType ": "point"
+          // }
           // ,{
           //   "type": "Collision",
           //   "objType": "coin",
@@ -1750,73 +1809,70 @@
             "material": "glass"
           }
         ]
-      },
-      //---------------- lightSources
-      {
-        "position": [
-          0,
-          -5,
-          -10
-        ],
-        "components": [
-          {
-            "type": "light"
-          },
-          {
-            "type": "light",
-            "typeOfLight": "POINT",
-            "diffuse": [
-              0,
-              0,
-              1
-            ],
-            "specular": [
-              0,
-              0,
-              1
-            ],
-            "attenuation": [
-              0.001,
-              0.001,
-              0.0001
-            ]
-          },
-          {
-            "type": "Movement",
-            "angularVelocity": [
-              0,
-              90,
-              0
-            ]
-          }
-        ]
-      },
-      {
-        "position": [
-          0,
-          -10,
-          -40
-        ],
-        "components": [
-          {
-            "type": "light"
-          },
-          {
-            "type": "light",
-            "typeOfLight": "DIRECTIONAL",
-            "diffuse": [
-              1,
-              0,
-              0
-            ],
-            "specular": [
-              1,
-              0,
-              0
-            ]
-          }
-        ]
       }
+      // ,
+      ////////////////////////////// light Sources ///////////////////////////////////////////////
+      // {
+      //   "position": [
+      //     0,
+      //     0.5,
+      //     0.5
+      //   ],
+      //   "components": [
+      //     {
+      //       "type": "light",
+      //       "lightType": "POINT",
+      //       "color": [
+      //         0,
+      //         0,
+      //         1
+      //       ],
+      //       "attenuation": [
+      //         0.001,
+      //         0.001,
+      //         0.0001
+      //       ]
+      //     }
+      //     ,
+      //     {
+      //       "type": "Movement",
+      //       "angularVelocity": [
+      //         0,
+      //         90,
+      //         0
+      //       ]
+      //     }
+      //   ]
+      // },
+      // {
+      //   "position": [
+      //     0,
+      //     0,
+      //     0
+      //   ],
+      //   "components": [
+      //     {
+      //       "type": "light",
+      //       "lightType": "DIRECTIONAL",
+      //       "color": [
+      //         1,
+      //         1,
+      //         1
+      //       ]
+      //     }
+      //   ]
+      // },
+      // {
+      //   "components":[
+      //     {
+      //       "type": "light",
+      //       "lightType": "sky",
+      //       "sky_top" : [1.0, 0.0, 0.0],
+      //       "sky_bottom" : [0.0, 0.0, 1.0],
+      //       "sky_middle": [0.0, 1.0, 0.0]
+      //     }
+      //   ]
+      // }
     ]
   }
 }

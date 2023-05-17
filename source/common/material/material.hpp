@@ -59,7 +59,7 @@ namespace our
     };
 
     //. Light material
-    class LitMaterial : public TexturedMaterial
+    class LitMaterial : public Material
     {
     public:
         Texture2D *albedo;
@@ -67,6 +67,7 @@ namespace our
         Texture2D *emissive;
         Texture2D *ambient_occlusion;
         Texture2D *specular;
+        Sampler *sampler;
 
         void setup() const override;
         void deserialize(const nlohmann::json &data) override;
