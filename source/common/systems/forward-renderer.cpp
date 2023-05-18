@@ -1,7 +1,13 @@
 #include "forward-renderer.hpp"
 #include "../mesh/mesh-utils.hpp"
 #include "../texture/texture-utils.hpp"
+// #include <iostream>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
 
+using namespace std;
 namespace our
 {
 
@@ -195,14 +201,14 @@ namespace our
                     {
                         //. make the sky light effect black
                         sky_light_effect.top = glm::vec3(0, 0, 0);
-                        sky_light_effect.middle = glm::vec3(0, 0, 0);
+                        sky_light_effect.horizon = glm::vec3(0, 0, 0);
                         sky_light_effect.bottom = glm::vec3(0, 0, 0);
                     }
                     else
                     {
                         //. we need to add the sky light effect
                         sky_light_effect.top = light->sky_top;
-                        sky_light_effect.middle = light->sky_middle;
+                        sky_light_effect.horizon = light->sky_middle;
                         sky_light_effect.bottom = light->sky_bottom;
                     }
                     continue;
@@ -221,11 +227,13 @@ namespace our
                 //. we need to add the light position
                 light_source.position = glm::vec3(light->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1));
 
-                //. we need to add the diffuse color
-                light_source.diffuse = light->diffuse;
+                //. we need to add the light color
+                light_source.color = light->color;
+                // //. we need to add the diffuse color
+                // light_source.diffuse = light->diffuse;
 
-                //. we need to add the specular color
-                light_source.specular = light->specular;
+                // //. we need to add the specular color
+                // light_source.specular = light->specular;
 
                 //. for the light type, we need to convert the enum to an int
                 //. as the light type is an enum, we can cast it to an int
@@ -313,6 +321,8 @@ namespace our
             //. if the material is lighted material
             if (auto lightedMaterial = dynamic_cast<LitMaterial *>(command.material); lightedMaterial)
             {
+                //. try to send some value x
+                command.material->shader->set("x", 5);
                 //. send the camera position to the shader
                 command.material->shader->set("camera_position", camera->getOwner()->getLocalToWorldMatrix());
                 //. send the VP matrix to the shader
@@ -320,14 +330,14 @@ namespace our
                 //. send the model matrix to the shader
                 command.material->shader->set("M", command.localToWorld);
                 //. send the inverse transpose of the model matrix to the shader
-                command.material->shader->set("M_it", glm::transpose(glm::inverse(command.localToWorld)));
+                command.material->shader->set("M_IT", glm::transpose(glm::inverse(command.localToWorld)));
                 //. send the light sources count to the shader
                 size_t light_sources_count = light_sources.size();
                 //. send the light sources to the shader
 
                 //. send the sky light effect to the shader
                 command.material->shader->set("sky.top", sky_light_effect.top);
-                command.material->shader->set("sky.middle", sky_light_effect.middle);
+                command.material->shader->set("sky.horizon", sky_light_effect.horizon);
                 command.material->shader->set("sky.bottom", sky_light_effect.bottom);
 
                 //. single pass forward lighting approach
@@ -341,8 +351,7 @@ namespace our
                     command.material->shader->set(light_sources_prefix + "type", light_sources[i]->type);
                     command.material->shader->set(light_sources_prefix + "position", light_sources[i]->position);
                     command.material->shader->set(light_sources_prefix + "direction", light_sources[i]->direction);
-                    command.material->shader->set(light_sources_prefix + "diffuse", light_sources[i]->diffuse);
-                    command.material->shader->set(light_sources_prefix + "specular", light_sources[i]->specular);
+                    command.material->shader->set(light_sources_prefix + "color", light_sources[i]->color);
                     command.material->shader->set(light_sources_prefix + "attenuation", light_sources[i]->attenuation);
                     command.material->shader->set(light_sources_prefix + "cone_angles", light_sources[i]->cone_angles);
                 }
@@ -429,5 +438,11 @@ namespace our
 
             glDrawArrays(GL_TRIANGLES, 0, 3);
         }
+        for (int i = 0; i < light_sources.size(); i++)
+            std::cout << light_sources[i] << endl;
+        // print light_sources to console
+        // printf(light_sources[0]->type);
+        // printf(light_sources[1]->type);
+// 
     }
 }
