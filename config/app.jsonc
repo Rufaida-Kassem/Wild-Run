@@ -38,11 +38,14 @@
         "turtle": "assets/textures/20446_Sea_Turtle_diff.jpg",
         "player": "assets/textures/player.png",
         "coin": "assets/textures/yellowCoin.png",
-        "obstacle": "assets/textures/obstacle.png",
+        "obstacle": "assets/textures/wood.jpg",
         "white": "assets/textures/white.png",
-        "black": "assets/textures/black.png",
-        "albedo": "assets/textures/albedo.png",
-        "turtle_roughness": "assets/textures/roughness.jpg"
+        "black": "assets/textures/black.jpg",
+        "albedo": "assets/textures/albedo.jpg",
+        "turtle_roughness": "assets/textures/roughness.jpg",
+        "specular": "assets/textures/specular.jpg",
+        "roughness": "assets/textures/roughness.png",
+        "ambient_occlusion": "assets/textures/ambient_occlusion.jpg"
       },
       "meshes": {
         "cube": "assets/models/cube.obj",
@@ -52,7 +55,8 @@
         "turtle": "assets/models/20446_Sea_Turtle_v1 Textured.obj",
         "player": "assets/models/player.obj",
         "coin": "assets/models/yellowCoin.obj",
-        "obstacle": "assets/models/obstacle.obj"
+        "obstacle": "assets/models/obstacle.obj",
+        "suzanne": "assets/models/suzanne.obj"
       },
       "samplers": {
         "default": {},
@@ -197,6 +201,33 @@
           "sampler": "default"
         }
         ,
+        "suzanne":
+        {
+          "type": "lightened",
+          "shader": "lightened",
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          // "tint": [
+          //   1,
+          //   1,
+          //   1,
+          //   1
+          // ],
+          // "texture": "suzanne",
+          "sampler": "default",
+          "albedo": "albedo",
+          "specular": "specular",
+          "roughness": "roughness",
+          "emissive": "black",
+          "ambient_occlusion": "ambient_occlusion"
+        },
+        
         // "player": {
         //   "type": "lightened",
         //   "shader": "lightened",
@@ -240,12 +271,12 @@
           "roughness": "roughness",
           "emissive": "black",
           "ambient_occlusion": "white",
-          "tint": [
-            1,
-            1,
-            1,
-            1
-          ],
+          // "tint": [
+          //   1,
+          //   1,
+          //   1,
+          //   1
+          // ],
           "pipelineState": {
             "faceCulling": {
               "enabled": false
@@ -298,17 +329,17 @@
             "position": [
               0,
               -0.6,
-              -0.8
+              -1
             ],
             "rotation": [
-              270,
-              180,
+              0,
+              0,
               0
             ],
             "scale": [
-              0.05,
-              0.05,
-              0.05
+              0.2,
+              0.2,
+              0.2
             ],
             "components": [
               // {
@@ -356,8 +387,8 @@
               // },
               {
                 "type": "Mesh Renderer",
-                "mesh": "turtle",
-                "material": "turtle"
+                "mesh": "suzanne",
+                "material": "suzanne"
               },
               {
                 "type": "Collision",
@@ -1873,33 +1904,34 @@
           // }
         ]
       }
-      // ,
-      // {
-      //   "position": [
-      //     0,
-      //     0,
-      //     0
-      //   ],
-      //   "components": [
-      //     {
-      //       "type": "light",
-      //       "lightType": "directional",
-      //       "color": [
-      //         1,
-      //         1,
-      //         1
-      //       ]
-      //     }
-      //   ]
-      // },
-      // {
+      ,
+      {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "components": [
+          {
+            "type": "light",
+            "lightType": "directional",
+            "color": [
+              1,
+              1,
+              1
+            ]
+          }
+        ]
+      }
+      // ,{
+      //   "position": [0, 1, -25],
       //   "components":[
       //     {
       //       "type": "light",
       //       "lightType": "sky",
-      //       "sky_top" : [1.0, 0.0, 0.0],
-      //       "sky_bottom" : [0.0, 0.0, 1.0],
-      //       "sky_middle": [0.0, 1.0, 0.0]
+      //       "sky_top" : [1.0, 1.0, 0.0],
+      //       "sky_bottom" : [1.0, 0.0, 1.0],
+      //       "sky_middle": [0.0, 1.0, 1.0]
       //     }
       //   ]
       // }
