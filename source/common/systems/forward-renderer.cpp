@@ -200,9 +200,9 @@ namespace our
                     if (!light->isOn)
                     {
                         //. make the sky light effect black
-                        sky_light_effect.top = glm::vec3(0, 0, 0);
-                        sky_light_effect.horizon = glm::vec3(0, 0, 0);
-                        sky_light_effect.bottom = glm::vec3(0, 0, 0);
+                        sky_light_effect.top = glm::vec3(0, 1, 0);
+                        sky_light_effect.horizon = glm::vec3(0, 0, 1);
+                        sky_light_effect.bottom = glm::vec3(0, 1, 0);
                     }
                     else
                     {
@@ -335,6 +335,11 @@ namespace our
                 size_t light_sources_count = light_sources.size();
                 //. send the light sources to the shader
 
+                //. make the sky light effect black
+                sky_light_effect.top = glm::vec3(0, 1, 0);
+                sky_light_effect.horizon = glm::vec3(0, 0, 1);
+                sky_light_effect.bottom = glm::vec3(0, 1, 0);
+
                 //. send the sky light effect to the shader
                 command.material->shader->set("sky.top", sky_light_effect.top);
                 command.material->shader->set("sky.horizon", sky_light_effect.horizon);
@@ -443,6 +448,6 @@ namespace our
         // print light_sources to console
         // printf(light_sources[0]->type);
         // printf(light_sources[1]->type);
-// 
+        //
     }
 }
