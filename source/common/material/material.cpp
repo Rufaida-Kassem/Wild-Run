@@ -107,8 +107,7 @@ namespace our
         // specular;
         Material::setup();
         if (albedo != nullptr)
-        {   //. for testing
-            std::cout << "albedo" << std::endl;
+        {  
             glActiveTexture(GL_TEXTURE0);
             albedo->bind();
             sampler->bind(0);
@@ -116,8 +115,6 @@ namespace our
         }
         if (roughness != nullptr)
         {
-            //. for testing
-            std::cout << "roughness" << std::endl;
             glActiveTexture(GL_TEXTURE3);
             roughness->bind();
             sampler->bind(3);
@@ -125,8 +122,6 @@ namespace our
         }
         if (emissive != nullptr)
         {
-            //. for testing
-            std::cout << "emissive" << std::endl;
             glActiveTexture(GL_TEXTURE2);
             emissive->bind();
             sampler->bind(2);
@@ -134,8 +129,6 @@ namespace our
         }
         if (ambient_occlusion != nullptr)
         {
-            //. for testing
-            std::cout << "ambient_occlusion" << std::endl;
             glActiveTexture(GL_TEXTURE4);
             ambient_occlusion->bind();
             sampler->bind(4);
@@ -143,8 +136,6 @@ namespace our
         }
         if (specular != nullptr)
         {
-            //. for testing
-            std::cout << "specular" << std::endl;
             glActiveTexture(GL_TEXTURE1);
             specular->bind();
             sampler->bind(1);

@@ -164,14 +164,6 @@ namespace our
         light_sources.clear();
         for (auto entity : world->getEntities())
         {
-            //. trial for testing
-            if (entity->name == "sky")
-            {
-                //. make the sky light effect black
-                sky_light_effect.top = glm::vec3(0, 1, 0);
-                sky_light_effect.horizon = glm::vec3(0, 0, 1);
-                sky_light_effect.bottom = glm::vec3(0, 1, 0);
-            }
             // If we hadn't found a camera yet, we look for a camera in this entity
             if (!camera)
                 camera = entity->getComponent<CameraComponent>();
