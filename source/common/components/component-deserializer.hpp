@@ -51,6 +51,9 @@ namespace our
             component = entity->addComponent<ObstacleComponent>();
         }
         else if (type == LightComponent::getID()){
+            //. found light component
+            //. for testing
+            std::cout << "found light component" << std::endl;
             component = entity->addComponent<LightComponent>();
         }
         else
