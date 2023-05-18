@@ -21,7 +21,7 @@ namespace our
     public:
         LightType lightType; //. The type of the light
         bool isOn;           //. Whether the light is on or off
-        glm::vec4 color;     //. The color of the light
+        glm::vec3 color;     //. The color of the light
         // float intensity;     //. The intensity of the light
         glm::vec3 diffuse;   //. The diffuse coefficient of the light
         glm::vec3 specular;  //. The specular coefficient of the light

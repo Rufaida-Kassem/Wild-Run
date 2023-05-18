@@ -28,18 +28,18 @@ namespace our
         {
             lightType = LightType::SKY;
         }
-        else
+        else if (lightTypeStr == "spot")
         {
             lightType = LightType::SPOT;
         }
 
         //. same for the three light types
-        color = glm::vec4(data.value("color", glm::vec4(1.0f)));
+        color = glm::vec3(data.value("color", glm::vec3(0.0f)));
 
         // intensity = data.value("intensity", 1.0f);
         
-        diffuse = glm::vec3(data.value("diffuse", glm::vec3(1.0f)));
-        specular = glm::vec3(data.value("specular", glm::vec3(1.0f)));
+        // diffuse = glm::vec3(data.value("diffuse", glm::vec3(1.0f)));
+        // specular = glm::vec3(data.value("specular", glm::vec3(1.0f)));
 
         //. for directional light, the ambient coefficient is always 1
         //. to decide later if we want to change it
@@ -52,8 +52,7 @@ namespace our
         {
             // ambient = glm::vec3(0.5f);
             // data.value("ambient", glm::vec3(0.0f));
-            attenuation = glm::vec3(1.0f, 0.0f, 0.0f);
-            // data.value("attenuation", glm::vec3(1.0f, 0.0f, 0.0f));
+            attenuation = data.value("attenuation", glm::vec3(1.0f, 0.0f, 0.0f));
 
         }
         
@@ -61,8 +60,7 @@ namespace our
         //. the default values can be changed later
         if (lightType == LightType::SPOT)
         {
-            cone_angles = glm::radians(glm::vec2(30.0f, 45.0f));
-            // glm::radians(data.value("cone_angles", glm::vec2(30.0f, 45.0f)));
+            cone_angles = glm::radians(data.value("cone_angles", glm::vec2(30.0f, 45.0f)));
         }
 
         //. for sky light, we need to get the three colors
