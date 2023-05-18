@@ -307,7 +307,7 @@
         ],
         "components": [
           {
-            "isOn": false,
+            "isOn": true,
             "type": "light",
             "lightType": "directional",
             "color": [
@@ -363,21 +363,11 @@
         ],
         "children": [
           {
-            "name": "player",
+            "name": "player_light",
             "position": [
-              0,
-              -0.6,
-              -1
-            ],
-            "rotation": [
               0,
               0,
               0
-            ],
-            "scale": [
-              0.2,
-              0.2,
-              0.2
             ],
             "components": [
               {
@@ -398,7 +388,47 @@
                   45,
                   90
                 ]
-              },
+                
+              }
+            ]
+            },
+          {
+            "name": "player",
+            "position": [
+              0,
+              -0.6,
+              -1
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "scale": [
+              0.2,
+              0.2,
+              0.2
+            ],
+            "components": [
+              // {
+              //   "type": "light",
+              //   "isOn": true,
+              //   "lightType": "point",
+              //   "color": [
+              //     1,
+              //     1,
+              //     1
+              //   ],
+              //   "attenuation": [
+              //     1,
+              //     1,
+              //     1
+              //   ],
+              //   "cone_angles": [
+              //     45,
+              //     90
+              //   ]
+              // },
               // {
               //   "type": "light",
               //   "lightType": "spot",
@@ -465,7 +495,7 @@
           {
             "isOn": true,
             "type": "light",
-            "lightType": "spot",
+            "lightType": "point",
             "color": [
               1,
               1,
@@ -525,7 +555,7 @@
         "name": "coin",
         "components": [
           {
-            "isOn": true,
+            "isOn": false,
             "type": "light",
             "lightType": "spot",
             "color": [
@@ -592,7 +622,7 @@
         "name": "coin",
         "components": [
           {
-            "isOn": true,
+            "isOn": false,
             "type": "light",
             "lightType": "spot",
             "color": [
@@ -654,7 +684,7 @@
         "name": "coin",
         "components": [
           {
-            "isOn": true,
+            "isOn": false,
             "type": "light",
             "lightType": "spot",
             "color": [
@@ -716,7 +746,7 @@
         "name": "coin",
         "components": [
           {
-            "isOn": true,
+            "isOn": false,
             "type": "light",
             "lightType": "spot",
             "color": [
@@ -778,7 +808,7 @@
         "name": "coin",
         "components": [
           {
-            "isOn": true,
+            "isOn": false,
             "type": "light",
             "lightType": "spot",
             "color": [
@@ -840,7 +870,7 @@
         "name": "coin",
         "components": [
           {
-            "isOn": true,
+            "isOn": false,
             "type": "light",
             "lightType": "spot",
             "color": [
@@ -902,7 +932,7 @@
         "name": "coin",
         "components": [
           {
-            "isOn": true,
+            "isOn": false,
             "type": "light",
             "lightType": "spot",
             "color": [
@@ -964,7 +994,7 @@
         "name": "coin",
         "components": [
           {
-            "isOn": true,
+            "isOn": false,
             "type": "light",
             "lightType": "spot",
             "color": [
@@ -1026,7 +1056,7 @@
         "name": "coin",
         "components": [
           {
-            "isOn": true,
+            "isOn": false,
             "type": "light",
             "lightType": "spot",
             "color": [
@@ -1088,7 +1118,7 @@
         "name": "coin",
         "components": [
           {
-            "isOn": true,
+            "isOn": false,
             "type": "light",
             "lightType": "spot",
             "color": [
@@ -1150,7 +1180,7 @@
         "name": "coin",
         "components": [
           {
-            "isOn": true,
+            "isOn": false,
             "type": "light",
             "lightType": "spot",
             "color": [
@@ -1212,7 +1242,7 @@
         "name": "coin",
         "components": [
           {
-            "isOn": true,
+            "isOn": false,
             "type": "light",
             "lightType": "spot",
             "color": [
@@ -1274,7 +1304,7 @@
         "name": "coin",
         "components": [
           {
-            "isOn": true,
+            "isOn": false,
             "type": "light",
             "lightType": "spot",
             "color": [

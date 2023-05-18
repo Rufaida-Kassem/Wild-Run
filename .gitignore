@@ -5,6 +5,9 @@ build/
 out/
 bin/
 
+# for rufaida
+test.txt
+
 # imgui saved state
 imgui.ini
 

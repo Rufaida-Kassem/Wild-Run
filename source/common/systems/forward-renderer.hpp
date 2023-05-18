@@ -9,7 +9,7 @@
 #include <glad/gl.h>
 #include <vector>
 #include <algorithm>
-
+#include <fstream>
 namespace our
 {
 
@@ -56,7 +56,7 @@ namespace our
         //. create light sources array and pass it to the shader
         //. it is an array of pointers to light components
         //. the size of the array is the number of light components
-        std::vector<LightSource *> light_sources;
+        std::vector<LightSource> light_sources;
 
         //. create sky light effect and pass it to the shader
         SkyLightEffect sky_light_effect;
@@ -76,6 +76,11 @@ namespace our
         GLuint postprocessFrameBuffer, postProcessVertexArray;
         Texture2D *colorTarget, *depthTarget;
         TexturedMaterial *postprocessMaterial;
+
+        //. for testing
+        //. declare an output file stream
+        
+        std::ofstream test_file;
 
     public:
         // Initialize the renderer including the sky and the Postprocessing objects.
