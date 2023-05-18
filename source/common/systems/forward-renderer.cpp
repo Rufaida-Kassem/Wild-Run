@@ -200,9 +200,9 @@ namespace our
                     if (!light->isOn)
                     {
                         //. make the sky light effect black
-                        sky_light_effect.top = glm::vec3(0, 1, 0);
-                        sky_light_effect.horizon = glm::vec3(0, 0, 1);
-                        sky_light_effect.bottom = glm::vec3(0, 1, 0);
+                        sky_light_effect.top = glm::vec3(0, 0, 0);
+                        sky_light_effect.horizon = glm::vec3(0, 0, 0);
+                        sky_light_effect.bottom = glm::vec3(0, 0, 0);
                     }
                     else
                     {
@@ -244,8 +244,9 @@ namespace our
                 if (light->lightType == LightType::SPOT)
                 {
                     //. we need to get the cone angles
-                    light_source.cone_angles = glm::vec2(light->cone_angles.x, light->cone_angles.y);
-                    light_source.direction = glm::vec3(light->getOwner()->getLocalToWorldMatrix() * glm::vec4(-1, 0, 0, 0));
+                    light_source.cone_angles = glm::vec2(light->cone_angles);
+                    // glm::vec2(light->cone_angles.x, light->cone_angles.y);
+                    light_source.direction = glm::vec3(light->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 1, 0, 0));
                 }
                 else
                 {
@@ -443,11 +444,5 @@ namespace our
 
             glDrawArrays(GL_TRIANGLES, 0, 3);
         }
-        for (int i = 0; i < light_sources.size(); i++)
-            std::cout << light_sources[i] << endl;
-        // print light_sources to console
-        // printf(light_sources[0]->type);
-        // printf(light_sources[1]->type);
-        //
     }
 }

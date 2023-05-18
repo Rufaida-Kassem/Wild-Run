@@ -42,9 +42,8 @@
         "white": "assets/textures/white.png",
         "black": "assets/textures/black.jpg",
         "albedo": "assets/textures/albedo.jpg",
-        "turtle_roughness": "assets/textures/roughness.jpg",
+        "roughness": "assets/textures/roughness.jpg",
         "specular": "assets/textures/specular.jpg",
-        "roughness": "assets/textures/roughness.png",
         "ambient_occlusion": "assets/textures/ambient_occlusion.jpg"
       },
       "meshes": {
@@ -121,19 +120,19 @@
               "enabled": true
             }
           },
-          "tint": [
-            1,
-            1,
-            1,
-            1
-          ],
-          "texture": "grass",
-          "sampler": "default" ,
+          // "tint": [
+          //   1,
+          //   1,
+          //   1,
+          //   1
+          // ],
+          // "texture": "grass",
+          "sampler": "default",
           "albedo": "grass",
-          "specular": "white",
+          "specular": "specular",
           "roughness": "roughness", //gray
           "emissive": "black",
-          "ambient_occlusion": "white"
+          "ambient_occlusion": "ambient_occlusion"
         },
         "monkey": {
           "type": "textured",
@@ -199,10 +198,8 @@
           ],
           "texture": "moon",
           "sampler": "default"
-        }
-        ,
-        "suzanne":
-        {
+        },
+        "suzanne": {
           "type": "lightened",
           "shader": "lightened",
           "pipelineState": {
@@ -213,13 +210,6 @@
               "enabled": true
             }
           },
-          // "tint": [
-          //   1,
-          //   1,
-          //   1,
-          //   1
-          // ],
-          // "texture": "suzanne",
           "sampler": "default",
           "albedo": "albedo",
           "specular": "specular",
@@ -227,7 +217,6 @@
           "emissive": "black",
           "ambient_occlusion": "ambient_occlusion"
         },
-        
         // "player": {
         //   "type": "lightened",
         //   "shader": "lightened",
@@ -318,6 +307,7 @@
         ],
         "components": [
           {
+            "isOn": false,
             "type": "light",
             "lightType": "directional",
             "color": [
@@ -327,21 +317,36 @@
             ]
           }
         ]
-      }
-      ,{
-        "name": "sky",
-        "position": [0, 1, -25],
-        "components":[
+      },
+      {
+        "position": [
+          0,
+          1,
+          -25
+        ],
+        "components": [
           {
+            "isOn": true,
             "type": "light",
             "lightType": "sky",
-            "sky_top" : [1.0, 1.0, 0.0],
-            "sky_bottom" : [1.0, 0.0, 1.0],
-            "sky_middle": [0.0, 1.0, 1.0]
+            "sky_top": [
+              0.0,
+              0.1,
+              0.5
+            ],
+            "sky_bottom": [
+              0.3,
+              0.3,
+              0.3
+            ],
+            "sky_middle": [
+              0.1,
+              0.1,
+              0.1
+            ]
           }
         ]
-      }
-,
+      },
       {
         "position": [
           0,
@@ -375,24 +380,25 @@
               0.2
             ],
             "components": [
-              // {
-              //   "type": "light",
-              //   "lightType": "spot",
-              //   "color": [
-              //     0.5,
-              //     1,
-              //     0.5
-              //   ],
-              //   "attenuation": [
-              //     0.0095,
-              //     0.0095,
-              //     0.00095
-              //   ],
-              //   "cone_angles": [
-              //     20,
-              //     50
-              //   ]
-              // },
+              {
+                "type": "light",
+                "isOn": true,
+                "lightType": "point",
+                "color": [
+                  1,
+                  1,
+                  1
+                ],
+                "attenuation": [
+                  0,
+                  1,
+                  0
+                ],
+                "cone_angles": [
+                  45,
+                  90
+                ]
+              },
               // {
               //   "type": "light",
               //   "lightType": "spot",
@@ -457,6 +463,21 @@
         "name": "coin",
         "components": [
           {
+            "isOn": true,
+            "type": "light",
+            "lightType": "spot",
+            "color": [
+              1,
+              1,
+              1
+            ],
+            "attenuation": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
             "type": "Coin"
           },
           {
@@ -503,6 +524,21 @@
         ],
         "name": "coin",
         "components": [
+          {
+            "isOn": true,
+            "type": "light",
+            "lightType": "spot",
+            "color": [
+              1,
+              1,
+              1
+            ],
+            "attenuation": [
+              0,
+              1,
+              0
+            ]
+          },
           {
             "type": "Coin"
           },
@@ -556,6 +592,21 @@
         "name": "coin",
         "components": [
           {
+            "isOn": true,
+            "type": "light",
+            "lightType": "spot",
+            "color": [
+              1,
+              1,
+              1
+            ],
+            "attenuation": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
             "type": "Coin"
           },
           {
@@ -602,6 +653,21 @@
         ],
         "name": "coin",
         "components": [
+          {
+            "isOn": true,
+            "type": "light",
+            "lightType": "spot",
+            "color": [
+              1,
+              1,
+              1
+            ],
+            "attenuation": [
+              0,
+              1,
+              0
+            ]
+          },
           {
             "type": "Coin"
           },
@@ -650,6 +716,21 @@
         "name": "coin",
         "components": [
           {
+            "isOn": true,
+            "type": "light",
+            "lightType": "spot",
+            "color": [
+              1,
+              1,
+              1
+            ],
+            "attenuation": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
             "type": "Coin"
           },
           {
@@ -696,6 +777,21 @@
         ],
         "name": "coin",
         "components": [
+          {
+            "isOn": true,
+            "type": "light",
+            "lightType": "spot",
+            "color": [
+              1,
+              1,
+              1
+            ],
+            "attenuation": [
+              0,
+              1,
+              0
+            ]
+          },
           {
             "type": "Coin"
           },
@@ -744,6 +840,21 @@
         "name": "coin",
         "components": [
           {
+            "isOn": true,
+            "type": "light",
+            "lightType": "spot",
+            "color": [
+              1,
+              1,
+              1
+            ],
+            "attenuation": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
             "type": "Coin"
           },
           {
@@ -790,6 +901,21 @@
         ],
         "name": "coin",
         "components": [
+          {
+            "isOn": true,
+            "type": "light",
+            "lightType": "spot",
+            "color": [
+              1,
+              1,
+              1
+            ],
+            "attenuation": [
+              0,
+              1,
+              0
+            ]
+          },
           {
             "type": "Coin"
           },
@@ -838,6 +964,21 @@
         "name": "coin",
         "components": [
           {
+            "isOn": true,
+            "type": "light",
+            "lightType": "spot",
+            "color": [
+              1,
+              1,
+              1
+            ],
+            "attenuation": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
             "type": "Coin"
           },
           {
@@ -884,6 +1025,21 @@
         ],
         "name": "coin",
         "components": [
+          {
+            "isOn": true,
+            "type": "light",
+            "lightType": "spot",
+            "color": [
+              1,
+              1,
+              1
+            ],
+            "attenuation": [
+              0,
+              1,
+              0
+            ]
+          },
           {
             "type": "Coin"
           },
@@ -932,6 +1088,21 @@
         "name": "coin",
         "components": [
           {
+            "isOn": true,
+            "type": "light",
+            "lightType": "spot",
+            "color": [
+              1,
+              1,
+              1
+            ],
+            "attenuation": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
             "type": "Coin"
           },
           {
@@ -978,6 +1149,21 @@
         ],
         "name": "coin",
         "components": [
+          {
+            "isOn": true,
+            "type": "light",
+            "lightType": "spot",
+            "color": [
+              1,
+              1,
+              1
+            ],
+            "attenuation": [
+              0,
+              1,
+              0
+            ]
+          },
           {
             "type": "Coin"
           },
@@ -1026,6 +1212,21 @@
         "name": "coin",
         "components": [
           {
+            "isOn": true,
+            "type": "light",
+            "lightType": "spot",
+            "color": [
+              1,
+              1,
+              1
+            ],
+            "attenuation": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
             "type": "Coin"
           },
           {
@@ -1072,6 +1273,21 @@
         ],
         "name": "coin",
         "components": [
+          {
+            "isOn": true,
+            "type": "light",
+            "lightType": "spot",
+            "color": [
+              1,
+              1,
+              1
+            ],
+            "attenuation": [
+              0,
+              1,
+              0
+            ]
+          },
           {
             "type": "Coin"
           },
@@ -1879,88 +2095,40 @@
             "material": "glass"
           }
         ]
-      },
+      }
       ////////////////////////////// light Sources ///////////////////////////////////////////////
       // {
-        // "position": [
-          // 0,
-          // 0.5,
-          // 0.5
-        // ],
-        // "components": [
-          // {
-            // "type": "light",
-            // "lightType": "point",
-            // "color": [
-              // 0,
-              // 0,
-              // 1
-            // ],
-            // "attenuation": [
-              // 0.001,
-              // 0.001,
-              // 0.0001
-            // ]
-          // },
-          // {
-            // "type": "Movement",
-            // "angularVelocity": [
-              // 0,
-              // 90,
-              // 0
-            // ]
-          // }
-        // ]
+      // "position": [
+      // 0,
+      // 0.5,
+      // 0.5
+      // ],
+      // "components": [
+      // {
+      // "type": "light",
+      // "lightType": "point",
+      // "color": [
+      // 0,
+      // 0,
+      // 1
+      // ],
+      // "attenuation": [
+      // 0.001,
+      // 0.001,
+      // 0.0001
+      // ]
+      // },
+      // {
+      // "type": "Movement",
+      // "angularVelocity": [
+      // 0,
+      // 90,
+      // 0
+      // ]
+      // }
+      // ]
       // }
       // ,
-      {
-        "position": [0, 1,25],
-        "rotation": [90, 0, 45],
-        "components": [
-          {
-            "type": "light",
-            "lightType": "spot",
-            "color": [1, 1, 1],
-            //"specular": [20, 8, 15],
-            "attenuation": [0.0, 1.0, 0.0],
-            "cone_angles": [360,0]
-            
-          
-          }
-        ]
-      }
-      ,
-      {
-        "position": [
-          0,
-          0,
-          0
-        ],
-        "components": [
-          {
-            "type": "light",
-            "lightType": "directional",
-            "color": [
-              1,
-              1,
-              1
-            ]
-          }
-        ]
-      }
-      ,{
-        "name": "sky",
-        "position": [0, 1, -25],
-        "components":[
-          {
-            "type": "light",
-            "lightType": "sky",
-            "sky_top" : [1.0, 1.0, 0.0],
-            "sky_bottom" : [1.0, 0.0, 1.0],
-            "sky_middle": [0.0, 1.0, 1.0]
-          }
-        ]
-      }
     ]
   }
 }
