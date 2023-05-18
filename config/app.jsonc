@@ -107,8 +107,8 @@
           "sampler": "pixelated"
         },
         "grass": {
-          "type": "textured",
-          "shader": "textured",
+          "type": "lightened",
+          "shader": "lightened",
           "pipelineState": {
             "faceCulling": {
               "enabled": false
@@ -124,7 +124,12 @@
             1
           ],
           "texture": "grass",
-          "sampler": "default"
+          "sampler": "default" ,
+          "albedo": "grass",
+          "specular": "white",
+          "roughness": "roughness", //gray
+          "emissive": "black",
+          "ambient_occlusion": "white"
         },
         "monkey": {
           "type": "textured",
@@ -157,13 +162,13 @@
               "enabled": true
             }
           },
-          "tint": [
-            1,
-            1,
-            1,
-            1
-          ],
-          "texture": "turtle",
+          // "tint": [
+          //   1,
+          //   1,
+          //   1,
+          //   1
+          // ],
+          // "texture": "turtle",
           "sampler": "default",
           "albedo": "turtle",
           "specular": "white",
@@ -190,34 +195,42 @@
           ],
           "texture": "moon",
           "sampler": "default"
-        },
-        "player": {
-          "type": "textured",
-          "shader": "textured",
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            },
-            "blending": {
-              "enabled": false,
-              "sourceFactor": "GL_SRC_ALPHA",
-              "destinationFactor": "GL_ONE_MINUS_SRC_ALPHA"
-            },
-            "depthMask": false
-          },
-          "transparent": false,
-          "tint": [
-            1,
-            1,
-            1,
-            1
-          ],
-          "texture": "player",
-          "sampler": "default"
-        },
+        }
+        ,
+        // "player": {
+        //   "type": "lightened",
+        //   "shader": "lightened",
+        //   "sampler": "default",
+        //   "albedo": "turtle",
+        //   "specular": "white",
+        //   "roughness": "roughness",
+        //   "emissive": "black",
+        //   "ambient_occlusion": "white",
+        //   "pipelineState": {
+        //     "faceCulling": {
+        //       "enabled": false
+        //     },
+        //     "depthTesting": {
+        //       "enabled": true
+        //     },
+        //     "blending": {
+        //       "enabled": false,
+        //       "sourceFactor": "GL_SRC_ALPHA",
+        //       "destinationFactor": "GL_ONE_MINUS_SRC_ALPHA"
+        //     },
+        //     "depthMask": false
+        //   },
+        //   "transparent": false
+        //   // ,
+        //   // "tint": [
+        //   //   1,
+        //   //   1,
+        //   //   1,
+        //   //   1
+        //   // ],
+        //   // "texture": "player",
+        //   // "sampler": "default"
+        // },
         "coin": {
           "type": "lightened",
           "shader": "lightened",
@@ -298,56 +311,49 @@
               0.05
             ],
             "components": [
-              {
-                "type": "Light",
-                "lightType": "Spot",
-                // "direction": [
-                //   -1,
-                //   0,
-                //   0
-                // ],
-                "diffuse": [
-                  1,
-                  1,
-                  1
-                ],
-                "specular": [
-                  1,
-                  1,
-                  1
-                ],
-                "attenuation": [
-                  0.0095,
-                  0.0095,
-                  0.00095
-                ],
-                "cone_angles": [20, 50]
-              },
-              {
-                "type": "Light",
-                "lightType": "Spot",
-                "direction": [
-                  0,
-                  0,
-                  -1
-                ],
-                "diffuse": [
-                  1,
-                  1,
-                  1
-                ],
-                "specular": [
-                  1,
-                  1,
-                  1
-                ],
-                "attenuation": [
-                  0.0095,
-                  0.0095,
-                  0.00095
-                ],
-                "cone_angles": [20, 50]
-              },
+              // {
+              //   "type": "light",
+              //   "lightType": "spot",
+              //   "color": [
+              //     0.5,
+              //     1,
+              //     0.5
+              //   ],
+              //   "attenuation": [
+              //     0.0095,
+              //     0.0095,
+              //     0.00095
+              //   ],
+              //   "cone_angles": [
+              //     20,
+              //     50
+              //   ]
+              // },
+              // {
+              //   "type": "light",
+              //   "lightType": "spot",
+              //   "direction": [
+              //     0,
+              //     0,
+              //     -1
+              //   ],
+              //   "diffuse": [
+              //     1,
+              //     1,
+              //     1
+              //   ],
+              //   "specular": [
+              //     1,
+              //     1,
+              //     1
+              //   ],
+              //   "attenuation": [
+              //     0.0095,
+              //     0.0095,
+              //     0.00095
+              //   ],
+              //   "cone_angles": [20, 50]
+              // },
               {
                 "type": "Mesh Renderer",
                 "mesh": "turtle",
@@ -1410,8 +1416,8 @@
           "sampler": "default"
         },
         "turtle": {
-          "type": "textured",
-          "shader": "textured",
+          "type": "lightened",
+          "shader": "lightened",
           "pipelineState": {
             "faceCulling": {
               "enabled": false
@@ -1450,8 +1456,8 @@
           "sampler": "default"
         },
         "player": {
-          "type": "textured",
-          "shader": "textured",
+          "type": "lightened",
+          "shader": "lightened",
           "pipelineState": {
             "faceCulling": {
               "enabled": false
@@ -1809,41 +1815,65 @@
             "material": "glass"
           }
         ]
-      }
-      // ,
+      },
       ////////////////////////////// light Sources ///////////////////////////////////////////////
       // {
-      //   "position": [
-      //     0,
-      //     0.5,
-      //     0.5
-      //   ],
-      //   "components": [
-      //     {
-      //       "type": "light",
-      //       "lightType": "POINT",
-      //       "color": [
-      //         0,
-      //         0,
-      //         1
-      //       ],
-      //       "attenuation": [
-      //         0.001,
-      //         0.001,
-      //         0.0001
-      //       ]
-      //     }
-      //     ,
-      //     {
-      //       "type": "Movement",
-      //       "angularVelocity": [
-      //         0,
-      //         90,
-      //         0
-      //       ]
-      //     }
-      //   ]
-      // },
+        // "position": [
+          // 0,
+          // 0.5,
+          // 0.5
+        // ],
+        // "components": [
+          // {
+            // "type": "light",
+            // "lightType": "point",
+            // "color": [
+              // 0,
+              // 0,
+              // 1
+            // ],
+            // "attenuation": [
+              // 0.001,
+              // 0.001,
+              // 0.0001
+            // ]
+          // },
+          // {
+            // "type": "Movement",
+            // "angularVelocity": [
+              // 0,
+              // 90,
+              // 0
+            // ]
+          // }
+        // ]
+      // }
+      // ,
+      {
+        "position": [0, 1,25],
+        "rotation": [90, 0, 45],
+        "components": [
+          // {
+          //   "type": "light"
+          // },
+          {
+            "type": "light",
+            "lightType": "spot",
+            "color": [1, 1, 1],
+            //"specular": [20, 8, 15],
+            "attenuation": [0.0, 1.0, 0.0],
+            "cone_angles": [360,0]
+            
+          
+          }
+          // ,
+          // {
+            // "type": "Movement",
+            // "angularVelocity": [0, 90, 0]
+          // }
+        ]
+      }
+      // ,
       // {
       //   "position": [
       //     0,
@@ -1853,7 +1883,7 @@
       //   "components": [
       //     {
       //       "type": "light",
-      //       "lightType": "DIRECTIONAL",
+      //       "lightType": "directional",
       //       "color": [
       //         1,
       //         1,
