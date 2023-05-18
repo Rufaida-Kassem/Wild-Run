@@ -22,7 +22,7 @@ struct Sky {
     vec3 top, horizon, bottom;
 };
 
-
+uniform int x;
 uniform Sky sky;
 
 vec3 compute_sky_light(vec3 normal){
@@ -101,7 +101,7 @@ void main() {
         color += (computed_diffuse + computed_specular) * attenuation;
 
     }
-    
-    frag_color = vec4(color, 1.0);
+    //. added x for testing
+    frag_color = vec4(color * x, 1.0);
     // frag_color = vec4(fs_in.normal, 1.0);
 }
