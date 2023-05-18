@@ -1884,9 +1884,6 @@
         "position": [0, 1,25],
         "rotation": [90, 0, 45],
         "components": [
-          // {
-          //   "type": "light"
-          // },
           {
             "type": "light",
             "lightType": "spot",
@@ -1897,11 +1894,6 @@
             
           
           }
-          // ,
-          // {
-            // "type": "Movement",
-            // "angularVelocity": [0, 90, 0]
-          // }
         ]
       }
       ,
@@ -1923,18 +1915,19 @@
           }
         ]
       }
-      // ,{
-      //   "position": [0, 1, -25],
-      //   "components":[
-      //     {
-      //       "type": "light",
-      //       "lightType": "sky",
-      //       "sky_top" : [1.0, 1.0, 0.0],
-      //       "sky_bottom" : [1.0, 0.0, 1.0],
-      //       "sky_middle": [0.0, 1.0, 1.0]
-      //     }
-      //   ]
-      // }
+      ,{
+        "name": "sky",
+        "position": [0, 1, -25],
+        "components":[
+          {
+            "type": "light",
+            "lightType": "sky",
+            "sky_top" : [1.0, 1.0, 0.0],
+            "sky_bottom" : [1.0, 0.0, 1.0],
+            "sky_middle": [0.0, 1.0, 1.0]
+          }
+        ]
+      }
     ]
   }
 }
