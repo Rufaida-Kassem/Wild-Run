@@ -9,6 +9,7 @@
 #include "road.hpp" /// phase 2
 #include "coin.hpp"
 #include "obstacle.hpp"
+#include "light.hpp"
 
 namespace our
 {
@@ -48,6 +49,14 @@ namespace our
         }
         else if (type == ObstacleComponent::getID()){
             component = entity->addComponent<ObstacleComponent>();
+        }
+        else if (type == LightComponent::getID()){
+            component = entity->addComponent<LightComponent>();
+        }
+        else
+        {
+            std::cerr << "Unknown component type: " << type << std::endl;
+            return;
         }
         if (component)
             component->deserialize(data);
