@@ -309,6 +309,39 @@
       }
     },
     "world": [
+      // ,
+      {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "components": [
+          {
+            "type": "light",
+            "lightType": "directional",
+            "color": [
+              1,
+              1,
+              1
+            ]
+          }
+        ]
+      }
+      ,{
+        "name": "sky",
+        "position": [0, 1, -25],
+        "components":[
+          {
+            "type": "light",
+            "lightType": "sky",
+            "sky_top" : [1.0, 1.0, 0.0],
+            "sky_bottom" : [1.0, 0.0, 1.0],
+            "sky_middle": [0.0, 1.0, 1.0]
+          }
+        ]
+      }
+,
       {
         "position": [
           0,
