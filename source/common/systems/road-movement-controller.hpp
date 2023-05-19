@@ -91,6 +91,13 @@ namespace our
 
 		}
 
+		// clean the road
+		void cleanUp(){
+			road1 = nullptr;
+			road2 = nullptr;
+			controller = nullptr;
+		}
+
 	};
 
 }
