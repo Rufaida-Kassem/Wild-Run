@@ -6,20 +6,16 @@
 
 namespace our {
 
-    // This component denotes that the MovementSystem will move the owning entity by a certain linear and angular velocity.
-    // This component is added as a simple example for how use the ECS framework to implement logic.
-    // For more information, see "common/systems/movement.hpp"
-    // For a more complex example of how to use the ECS framework, see "free-camera-controller.hpp"
+    // this is a coin component to read it from the josn file and hence we can apply operations on the coins
+    // such as collision, lightening and redrawing cause our game is infinite
     class CoinComponent : public Component {
     public:
         bool collided = false;
-        //glm::vec3 linearVelocity = {0, 0, 0}; // Each frame, the entity should move as follows: position += linearVelocity * deltaTime 
-        //glm::vec3 angularVelocity = {0, 0, 0}; // Each frame, the entity should rotate as follows: rotation += angularVelocity * deltaTime
-
-        // The ID of this component type is "Player"
+        
+        // The ID of this component type is "Coin"
         static std::string getID() { return "Coin"; }
 
-        // Reads linearVelocity & angularVelocity from the given json object
+        // this is the decleratoin of the deserialize function
         void deserialize(const nlohmann::json& data) override;
     };
 
