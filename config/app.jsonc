@@ -57,51 +57,6 @@
         }
       },
       "materials": {
-        "metal": {
-          "type": "tinted",
-          "shader": "tinted",
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            }
-          },
-          "tint": [
-            0.45,
-            0.4,
-            0.5,
-            1
-          ]
-        },
-        "glass": {
-          "type": "textured",
-          "shader": "textured",
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            },
-            "blending": {
-              "enabled": true,
-              "sourceFactor": "GL_SRC_ALPHA",
-              "destinationFactor": "GL_ONE_MINUS_SRC_ALPHA"
-            },
-            "depthMask": false
-          },
-          "transparent": true,
-          "tint": [
-            1,
-            1,
-            1,
-            1
-          ],
-          "texture": "glass",
-          "sampler": "pixelated"
-        },
         "grass": {
           "type": "textured",
           "shader": "textured",
@@ -180,53 +135,6 @@
             1
           ],
           "texture": "duck",
-          "sampler": "default"
-        },
-        "moon": {
-          "type": "textured",
-          "shader": "textured",
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            }
-          },
-          "tint": [
-            1,
-            1,
-            1,
-            1
-          ],
-          "texture": "moon",
-          "sampler": "default"
-        },
-        "player": {
-          "type": "textured",
-          "shader": "textured",
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            },
-            "blending": {
-              "enabled": false,
-              "sourceFactor": "GL_SRC_ALPHA",
-              "destinationFactor": "GL_ONE_MINUS_SRC_ALPHA"
-            },
-            "depthMask": false
-          },
-          "transparent": false,
-          "tint": [
-            1,
-            1,
-            1,
-            1
-          ],
-          "texture": "player",
           "sampler": "default"
         },
         "coin": {
