@@ -27,7 +27,7 @@ namespace our
 
         // number of lives the player has
         // when it reaches 0, the player loses
-        int lives = 3;
+        int lives;
 
         // a boolean that indicates whether the player has lost or not
         bool is_lost = false;
@@ -37,6 +37,7 @@ namespace our
         {
             is_lost = false;
             coins_collected = 0;
+            lives = 3;
         }
 
         // get the is_lost boolean
@@ -111,7 +112,7 @@ namespace our
                 FaceNormals2.push_back(glm::normalize(glm::cross(e1, e2)));
             }
 
-            // Compute the axes to project onto 
+            // Compute the axes to project onto
             // axes will be used to detect collisions
             std::vector<glm::vec3> axes;
             for (glm::vec3 e : edges1)
@@ -153,7 +154,7 @@ namespace our
                 // if there is a gap between the projections, then the boxes do not intersect
                 if (max1 < min2 || max2 < min1)
                 {
-                    return false; 
+                    return false;
                 }
             }
 
@@ -161,13 +162,14 @@ namespace our
             return true;
         }
 
-
         // This function is called every frame by the world to determine if there is any collision
         void update(World *world, float)
         {
             // For each entity in the world
             std::vector<Entity *> entitiesToCollide;
-            Entity *stick_index = nullptr;
+            Entity *player_index = nullptr;
+            // get all the entities that have a collision component
+            // and add them to the vector of entities to collide
             for (auto &entity : world->getEntities())
             {
                 // Get the movement component if it exists
@@ -179,19 +181,19 @@ namespace our
                 }
                 if (entity->name == "player")
                 {
-                    stick_index = entity;
+                    player_index = entity;
                 }
             }
-
-            if (!stick_index)
+            // if the player is not found, then return
+            if (!player_index)
             {
                 return;
             }
-            Entity *entity1 = stick_index;
+            Entity *entity1 = player_index;
             // check if the stick is colliding with the any of the other entities
             for (auto &i : entitiesToCollide)
             {
-                if (i == stick_index)
+                if (i == player_index)
                 {
                     continue;
                 }
@@ -206,7 +208,6 @@ namespace our
                     {
                     case CollisionType::COIN:
                         coins_collected++;
-                        //                            std::cout << coins_collected << std::endl;
                         // if the coin is collided, marke it as collided
                         // so that the coin system will not redraw it again
                         // (to avoid confilict of both classes
@@ -228,9 +229,6 @@ namespace our
                         }
                         entity2->getComponent<ObstacleComponent>()->collided = true;
                         entity2->getComponent<ObstacleComponent>()->getOwner()->localTransform.position.z -= 50;
-                        // world->markForRemoval(entity2);
-                        //                            is_lost = true;
-                        //                            std::cout << "lost" << cc++ << std::endl;
                         break;
                     default:
                         break;

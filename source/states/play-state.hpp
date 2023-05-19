@@ -24,7 +24,6 @@
 // #pragma comment(lib, "irrKlang.lib")
 // using namespace irrklang;
 
-
 // This state shows how to use the ECS framework and deserialization.
 class Playstate : public our::State {
 
@@ -37,13 +36,15 @@ class Playstate : public our::State {
     our::CoinControllerSystem coinController;
     our::ObstacleControllerSystem obstacleController;
     our::LightPoleControllerSystem lightpoleController;
-    //ISoundEngine *SoundEngine = createIrrKlangDevice();// = createIrrKlangDevice();
+    our::PreviewCameraControllerSystem previewController;
+
+    // ISoundEngine *SoundEngine = createIrrKlangDevice();// = createIrrKlangDevice();
 
     void onInitialize() override {
-        //SoundEngine->play2D("assets/sounds/theme.wav", true);
-        // the following line gives an error 
-        // sndPlaySound("assets/sounds/theme.wav",SND_ASYNC);
-        // First of all, we get the scene configuration from the app config
+        // SoundEngine->play2D("assets/sounds/theme.wav", true);
+        //  the following line gives an error
+        //  sndPlaySound("assets/sounds/theme.wav",SND_ASYNC);
+        //  First of all, we get the scene configuration from the app config
         auto &config = getApp()->getConfig()["scene"];
         // If we have assets in the scene config, we deserialize them
         if (config.contains("assets")) {
@@ -59,6 +60,9 @@ class Playstate : public our::State {
         auto size = getApp()->getFrameBufferSize();
         renderer.initialize(size, config["renderer"]);
         collisionSystem.OnInitialize();
+        previewController.enter(getApp(), &world);
+        previewController.deserializePlayers(config["players-entities"]);
+
     }
 
     void onDraw(double deltaTime) override {
@@ -71,7 +75,6 @@ class Playstate : public our::State {
         coinController.update(&world, (float) deltaTime);
         obstacleController.update(&world, (float) deltaTime);
         lightpoleController.update(&world, (float) deltaTime);
-
 
         collisionSystem.update(&world, (float) deltaTime);
         world.deleteMarkedEntities();
@@ -103,12 +106,14 @@ class Playstate : public our::State {
                         ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav |
                         ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar;
         ImGui::Begin("Play State", nullptr, window_flags);
+        ImGui::SetWindowPos(ImVec2(0, 0));
+        ImGui::SetWindowSize(ImVec2(300, 100));
         const std::string current_coins = "Coins: " + std::to_string(collisionSystem.get_coins_collected());
         const std::string current_lives = "Lives: " + std::to_string(collisionSystem.get_lives());
         // resize the window
-//        ImGui::SetWindowSize(ImVec2(300, 100));
-//            get the size of the text
-//        ImVec2 text_size = ImGui::CalcTextSize(current_coins.c_str());
+        //        ImGui::SetWindowSize(ImVec2(300, 100));
+        //            get the size of the text
+        //        ImVec2 text_size = ImGui::CalcTextSize(current_coins.c_str());
         ImGui::Text(current_coins.c_str());
         ImGui::Text(current_lives.c_str());
         ImGui::End();

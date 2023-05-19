@@ -291,6 +291,128 @@
         }
       }
     },
+    "players-entities": [
+      {
+        "name": "player_child",
+        "position": [
+          0,
+          -1,
+          -1.5
+        ],
+        "rotation": [
+          270,
+          180,
+          0
+        ],
+        "scale": [
+          0.01,
+          0.01,
+          0.01
+        ],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "turtle",
+            "material": "turtle"
+          },
+          {
+            "type": "Collision",
+            "W": [
+              -10,
+              12
+            ],
+            "H": [
+              -11,
+              15
+            ],
+            "D": [
+              -0.0671,
+              9.656
+            ]
+          }
+        ]
+      },
+      {
+        "name": "player_child",
+        "position": [
+          0,
+          -0.5,
+          -1.5
+        ],
+        "rotation": [
+          0,
+          180,
+          0
+        ],
+        "scale": [
+          0.3,
+          0.3,
+          0.3
+        ],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "monkey",
+            "material": "monkey"
+          },
+          {
+            "type": "Collision",
+            "W": [
+              -1.367188,
+              1.367188
+            ],
+            "H": [
+              -0.984375,
+              0.984375
+            ],
+            "D": [
+              -0.851562,
+              0.851562
+            ]
+          }
+        ]
+      },
+      {
+        "name": "player_child",
+        "position": [
+          0,
+          -1,
+          -1.5
+        ],
+        "rotation": [
+          270,
+          180,
+          0
+        ],
+        "scale": [
+          0.01,
+          0.01,
+          0.01
+        ],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "duck",
+            "material": "duck"
+          },
+          {
+            "type": "Collision",
+            "W": [
+              -14.0372,
+              14.0372
+            ],
+            "H": [
+              -22.5254,
+              30.7442
+            ],
+            "D": [
+              -0.0458,
+              54.7152
+            ]
+          }
+        ]
+      }
+    ],
     "world": [
       {
         "position": [
@@ -308,44 +430,7 @@
         ],
         "children": [
           {
-            "name": "player",
-            "position": [
-              0,
-              -1,
-              -1.5
-            ],
-            "rotation": [
-              270,
-              180,
-              0
-            ],
-            "scale": [
-              0.01,
-              0.01,
-              0.01
-            ],
-            "components": [
-              {
-                "type": "Mesh Renderer",
-                "mesh": "turtle",
-                "material": "turtle"
-              },
-              {
-                "type": "Collision",
-                "W": [
-                  -10,
-                  12
-                ],
-                "H": [
-                  -11,
-                  15
-                ],
-                "D": [
-                  -0.0671,
-                  9.656
-                ]
-              }
-            ]
+            "name": "player"
           }
         ]
       },
@@ -1410,14 +1495,11 @@
       "textures": {
         "moon": "assets/textures/moon.jpg",
         "grass": "assets/textures/grass_ground_d.jpg",
-        "wood": "assets/textures/wood.jpg",
         "glass": "assets/textures/glass-panels.png",
         "monkey": "assets/textures/monkey.png",
         "turtle": "assets/textures/20446_Sea_Turtle_diff.jpg",
         "game-over": "assets/textures/game-over2.png",
-        "player": "assets/textures/player.png",
-        "coin": "assets/textures/yellowCoin.png",
-        "obstacle": "assets/textures/obstacle.png"
+        "player": "assets/textures/player.png"
       },
       "meshes": {
         "cube": "assets/models/cube.obj",
@@ -1426,8 +1508,7 @@
         "sphere": "assets/models/sphere.obj",
         "turtle": "assets/models/20446_Sea_Turtle_v1 Textured.obj",
         "player": "assets/models/player.obj",
-        "coin": "assets/models/yellowCoin.obj",
-        "obstacle": "assets/models/obstacle.obj"
+        "coin": "assets/models/yellowCoin.obj"
       },
       "samplers": {
         "default": {},
