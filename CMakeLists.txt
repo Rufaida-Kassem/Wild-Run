@@ -101,15 +101,13 @@ set(COMMON_SOURCES
 # Define the directories in which to search for the included headers
 include_directories(
         source/common
-        source/**
+        # source/**
         vendor/glfw/include
         vendor/glfw/include/GLFW
         vendor/glad/include
         vendor/glm
         vendor/imgui
         vendor/utils
-        #        vendor/irrKlang-64bit-1.6.0/include
-        #        vendor/irrKlang-64bit-1.6.0/lib/Winx64-visualStudio
 )
 
 

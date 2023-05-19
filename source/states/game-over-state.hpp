@@ -10,9 +10,9 @@
 #include <functional>
 #include <array>
 
-
 // This state shows how to use some of the abstractions we created to make a menu.
-class GameOverstate : public our::State {
+class GameOverstate : public our::State
+{
 
     // A material holding the menu shader and the menu texture to draw
     our::TexturedMaterial *menuMaterial;
@@ -25,41 +25,43 @@ class GameOverstate : public our::State {
     // An array of the button that we can interact with
     std::array<Button, 2> buttons;
 
-    //to render a background image
+    // to render a background image
     our::ForwardRenderer renderer;
     our::World world;
     our::MovementSystem movementSystem;
 
-    void onInitialize() override {
+    void onInitialize() override
+    {
         // First, we create a material for the menu's background
         menuMaterial = new our::TexturedMaterial();
         // Here, we load the shader that will be used to draw the background
         menuMaterial->shader = new our::ShaderProgram();
         menuMaterial->shader->attach("assets/shaders/textured.vert", GL_VERTEX_SHADER);
-        menuMaterial->shader->attach("assets/shaders/textured_alpha.frag", GL_FRAGMENT_SHADER);
+        menuMaterial->shader->attach("assets/shaders/textured.frag", GL_FRAGMENT_SHADER);
         menuMaterial->shader->link();
         // Then we load the menu texture
         menuMaterial->texture = our::texture_utils::loadImage("assets/textures/game-over2.png");
         // Initially, the menu material will be black, then it will fade in
         menuMaterial->tint = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-        menuMaterial->alphaThreshold = 0.5f;
-        menuMaterial->pipelineState.depthTesting.enabled = true;
-
-
+        //        menuMaterial->alphaThreshold = 0.5f;
+        menuMaterial->pipelineState.blending.enabled = true;
+        menuMaterial->pipelineState.blending.equation = GL_FUNC_ADD;
+        menuMaterial->pipelineState.blending.sourceFactor = GL_SRC_ALPHA;
+        menuMaterial->pipelineState.blending.destinationFactor = GL_ONE_MINUS_SRC_ALPHA;
 
         // Second, we create a material to highlight the hovered buttons
         highlightMaterial = new our::TintedMaterial();
         // Since the highlight is not textured, we used the tinted material shaders
         highlightMaterial->shader = new our::ShaderProgram();
         highlightMaterial->shader->attach("assets/shaders/tinted.vert", GL_VERTEX_SHADER);
-        highlightMaterial->shader->attach("assets/shaders/tinted.frag", GL_FRAGMENT_SHADER);
+        highlightMaterial->shader->attach("assets/shaders/mouse_track.frag", GL_FRAGMENT_SHADER);
         highlightMaterial->shader->link();
         // The tint is white since we will subtract the background color from it to create a negative effect.
         highlightMaterial->tint = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
         // To create a negative effect, we enable blending, set the equation to be subtracted,
         // and set the factors to be one for both the source and the destination.
         highlightMaterial->pipelineState.blending.enabled = true;
-        highlightMaterial->pipelineState.blending.equation = GL_FUNC_SUBTRACT;
+        highlightMaterial->pipelineState.blending.equation = GL_FUNC_ADD;
         highlightMaterial->pipelineState.blending.sourceFactor = GL_ONE;
         highlightMaterial->pipelineState.blending.destinationFactor = GL_ONE;
 
@@ -67,12 +69,18 @@ class GameOverstate : public our::State {
         // Note that the texture coordinates at the origin is (0.0, 1.0) since we will use the
         // projection matrix to make the origin in the top-left corner of the screen.
         rectangle = new our::Mesh({
-                                          {{0.0f, 0.0f, 0.0f}, {255, 255, 255, 255}, {0.0f, 1.0f}, {0.0f, 0.0f, 1.0f}},
-                                          {{1.0f, 0.0f, 0.0f}, {255, 255, 255, 255}, {1.0f, 1.0f}, {0.0f, 0.0f, 1.0f}},
-                                          {{1.0f, 1.0f, 0.0f}, {255, 255, 255, 255}, {1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}},
-                                          {{0.0f, 1.0f, 0.0f}, {255, 255, 255, 255}, {0.0f, 0.0f}, {0.0f, 0.0f, 1.0f}},
-                                  }, {
-                                          0, 1, 2, 2, 3, 0,
+                                      {{0.0f, 0.0f, 0.0f}, {255, 255, 255, 255}, {0.0f, 1.0f}, {0.0f, 0.0f, 1.0f}},
+                                      {{1.0f, 0.0f, 0.0f}, {255, 255, 255, 255}, {1.0f, 1.0f}, {0.0f, 0.0f, 1.0f}},
+                                      {{1.0f, 1.0f, 0.0f}, {255, 255, 255, 255}, {1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}},
+                                      {{0.0f, 1.0f, 0.0f}, {255, 255, 255, 255}, {0.0f, 0.0f}, {0.0f, 0.0f, 1.0f}},
+                                  },
+                                  {
+                                      0,
+                                      1,
+                                      2,
+                                      2,
+                                      3,
+                                      0,
                                   });
 
         // Reset the time elapsed since the state is entered.
@@ -87,27 +95,30 @@ class GameOverstate : public our::State {
         //      We leave it empty since button actions receive no input.
         // - The body {} which contains the code to be executed.
         // yes button
-        buttons[0].position = {393.0f, 466.37f};
-        buttons[0].size = {101.0f, 73.93f};
-        buttons[0].action = [this]() { this->getApp()->changeState("play"); };
+        buttons[0].position = {369.41f, 436.65f};
+        buttons[0].size = {146.18f, 108.35f};
+        buttons[0].action = [this]()
+        { this->getApp()->changeState("play"); };
 
         // No button
-        buttons[1].position = {788.63f, 466.37f};
-        buttons[1].size = {93.75f, 73.93f};
-        buttons[1].action = [this]() { this->getApp()->changeState("menu"); };
+        buttons[1].position = {768.39f, 436.65f};
+        buttons[1].size = {134.23f, 108.35f};
+        buttons[1].action = [this]()
+        { this->getApp()->changeState("menu"); };
 
         // load data from the last frame so that it is used as a background
         // when drawing the current frame
 
-
         // First of all, we get the scene configuration from the app config
         auto &config = getApp()->getConfig()["game-over-scene"];
         // If we have assets in the scene config, we deserialize them
-        if (config.contains("assets")) {
+        if (config.contains("assets"))
+        {
             our::deserializeAllAssets(config["assets"]);
         }
         // If we have a world in the scene config, we use it to populate our world
-        if (config.contains("game-over-world")) {
+        if (config.contains("game-over-world"))
+        {
             world.deserialize(config["game-over-world"]);
         }
         // We initialize the camera controller system since it needs a pointer to the app
@@ -116,19 +127,20 @@ class GameOverstate : public our::State {
         renderer.initialize(size, config["renderer"]);
     }
 
-    void onDraw(double deltaTime) override {
+    void onDraw(double deltaTime) override
+    {
 
-        movementSystem.update(&world, (float) deltaTime);
+        movementSystem.update(&world, (float)deltaTime);
         renderer.render(&world);
         // Get a reference to the keyboard object
         auto &keyboard = getApp()->getKeyboard();
 
-
-        if (keyboard.justPressed(GLFW_KEY_SPACE)) {
+        if (keyboard.justPressed(GLFW_KEY_SPACE))
+        {
             // If the space key is pressed in this frame, go to the play state
             getApp()->changeState("play");
         }
-        //else if (keyboard.justPressed(GLFW_KEY_ESCAPE)) {
+        // else if (keyboard.justPressed(GLFW_KEY_ESCAPE)) {
         //	// If the escape key is pressed in this frame, exit the game
         //	//getApp()->close();
         //	getApp()->changeState("menu");
@@ -141,30 +153,32 @@ class GameOverstate : public our::State {
 
         // If the mouse left-button is just pressed, check if the mouse was inside
         // any menu button. If it was inside a menu button, run the action of the button.
-        if (mouse.justPressed(0)) {
-            for (auto &button: buttons) {
+        if (mouse.justPressed(0))
+        {
+            for (auto &button : buttons)
+            {
                 if (button.isInside(mousePosition))
                     button.action();
             }
         }
-
         // Get the framebuffer size to set the viewport and the create the projection matrix.
         glm::ivec2 size = getApp()->getFrameBufferSize();
         // Make sure the viewport covers the whole size of the framebuffer.
         glViewport(0, 0, size.x, size.y);
+        // std::cout << "mouse position: " << mousePosition.x / size.x << " " << 1 - mousePosition.y / size.y << std::endl;
 
         // The view matrix is an identity (there is no camera that moves around).
         // The projection matrix apply an orthographic projection whose size is the framebuffer size in pixels
         // so that the we can define our object locations and sizes in pixels.
         // Note that the top is at 0.0 and the bottom is at the framebuffer height. This allows us to consider the top-left
         // corner of the window to be the origin which makes dealing with the mouse input easier.
-        glm::mat4 VP = glm::ortho(0.0f, (float) size.x, (float) size.y, 0.0f, 1.0f, -1.0f);
+        glm::mat4 VP = glm::ortho(0.0f, (float)size.x, (float)size.y, 0.0f, 1.0f, -1.0f);
         // The local to world (model) matrix of the background which is just a scaling matrix to make the menu cover the whole
         // window. Note that we defind the scale in pixels.
         glm::mat4 M = glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 1.0f));
 
         // First, we apply the fading effect.
-        time += (float) deltaTime;
+        time += (float)deltaTime;
         menuMaterial->tint = glm::vec4(glm::smoothstep(0.00f, 2.00f, time));
         // Then we render the menu background
         // Notice that I don't clear the screen first, since I assume that the menu rectangle will draw over the whole
@@ -172,19 +186,46 @@ class GameOverstate : public our::State {
         menuMaterial->setup();
         menuMaterial->shader->set("transform", VP * M);
         rectangle->draw();
+        //        highlightMaterial->setup();
+        //        highlightMaterial->shader->set("mouse_pos",
+        //                                       glm::vec2(mousePosition.x / size.x, 1 - mousePosition.y / size.y));
+        //        rectangle->draw();
+        //        highlightMaterial->setup();
+        //        highlightMaterial->shader->set("mouse_pos",
+        //                                       glm::vec2(mousePosition.x, size.y - mousePosition.y));
 
+        //        glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.3f, 0.3f, 0.3f));
+        //////        translate to mouse position
+        //        glm::mat4 translate = glm::translate(glm::mat4(1.0f),
+        //                                             glm::vec3((mousePosition.x / size.x) * 2 - 1,
+        //                                                       ((size.y - mousePosition.y) / size.y) * 2 - 1,
+        //                                                       0.0f));
+        //
+        //        std::cout << "mouse position: " << mousePosition.x / size.x - 0.5 << " "
+        //                  << (size.y - mousePosition.y) / size.y - 0.5 << std::endl;
+        //
+        //        highlightMaterial->shader->set("transform", translate * scale);
+        //        rectangle->draw();
+        //        highlightMaterial->shader->set("transform", VP * button.getLocalToWorld());
         // For every button, check if the mouse is inside it. If the mouse is inside, we draw the highlight rectangle over it.
-        for (auto &button: buttons) {
-            if (button.isInside(mousePosition)) {
+        //        highlightMaterial->shader->set("transform", VP * button.getLocalToWorld());
+        // For every button, check if the mouse is inside it. If the mouse is inside, we draw the highlight rectangle over it.
+        for (auto &button : buttons)
+        {
+            if (button.isInside(mousePosition))
+            {
                 highlightMaterial->setup();
+                highlightMaterial->shader->set("mouse_pos",
+                                               glm::vec2(mousePosition.x, size.y - mousePosition.y));
+
                 highlightMaterial->shader->set("transform", VP * button.getLocalToWorld());
                 rectangle->draw();
             }
         }
-
     }
 
-    void onDestroy() override {
+    void onDestroy() override
+    {
         // Delete all the allocated resources
         delete rectangle;
         delete menuMaterial->texture;
@@ -194,6 +235,5 @@ class GameOverstate : public our::State {
         delete highlightMaterial;
 
         renderer.destroy();
-
     }
 };
