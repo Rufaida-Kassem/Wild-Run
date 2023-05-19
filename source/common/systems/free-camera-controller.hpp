@@ -12,13 +12,15 @@
 #include <glm/gtx/fast_trigonometry.hpp>
 #include <iostream>
 
-namespace our {
+namespace our
+{
 
     // The free camera controller system is responsible for moving every entity which contains a FreeCameraControllerComponent.
     // This system is added as a slightly complex example for how use the ECS framework to implement logic.
     // For more information, see "common/components/free-camera-controller.hpp"
-    class FreeCameraControllerSystem {
-        Application *app;           // The application in which the state runs
+    class FreeCameraControllerSystem
+    {
+        Application *app;          // The application in which the state runs
         bool mouse_locked = false; // Is the mouse locked
         bool IsJump = false;
         bool GoingUp = false;
@@ -28,7 +30,8 @@ namespace our {
         float DistanceBetweenTracks = 1.0f;
         float jumpDistance = 1.2f;
 
-        enum Track {
+        enum Track
+        {
             LEFT = -1,
             CENTER,
             RIGHT,
@@ -36,57 +39,65 @@ namespace our {
 
         Track CurrentTrack = CENTER;
 
-        void UpdateTrack(Track &Current, bool LeftButton) {
-            switch (LeftButton) {
-                // left button is pressed
-                case 1:
-                    switch (Current) {
-                        case LEFT:
-                            break;
-                        case RIGHT:
-                            Current = CENTER;
-                            break;
-                        case CENTER:
-                            Current = LEFT;
-                            break;
-                    }
+        void UpdateTrack(Track &Current, bool LeftButton)
+        {
+            switch (LeftButton)
+            {
+            // left button is pressed
+            case 1:
+                switch (Current)
+                {
+                case LEFT:
                     break;
+                case RIGHT:
+                    Current = CENTER;
+                    break;
+                case CENTER:
+                    Current = LEFT;
+                    break;
+                }
+                break;
 
-                    // right button is pressed
-                case 0:
-                    switch (Current) {
-                        case LEFT:
-                            Current = CENTER;
-                            break;
-                        case RIGHT:
-                            break;
-                        case CENTER:
-                            Current = RIGHT;
-                            break;
-                    }
+                // right button is pressed
+            case 0:
+                switch (Current)
+                {
+                case LEFT:
+                    Current = CENTER;
                     break;
+                case RIGHT:
+                    break;
+                case CENTER:
+                    Current = RIGHT;
+                    break;
+                }
+                break;
             }
         }
 
     public:
         // When a state enters, it should call this function and give it the pointer to the application
-        void enter(Application *app) {
+        void enter(Application *app)
+        {
             this->app = app;
         }
 
         // This should be called every frame to update all entities containing a FreeCameraControllerComponent
-        void update(World *world, float deltaTime) {
+        void update(World *world, float deltaTime)
+        {
             // First of all, we search for an entity containing a CameraComponent and another one conataining a FreeCameraControllerComponent
             // As soon as we find one, we break
             CameraComponent *camera = nullptr;
             FreeCameraControllerComponent *controller = nullptr;
-            for (auto entity: world->getEntities()) {
+            for (auto entity : world->getEntities())
+            {
                 controller = entity->getComponent<FreeCameraControllerComponent>();
                 if (controller)
                     break;
             }
 
-            for (auto entity: world->getEntities()) {
+            for (auto entity : world->getEntities())
+            {
                 camera = entity->getComponent<CameraComponent>();
                 if (camera)
                     break;
@@ -96,11 +107,14 @@ namespace our {
             Entity *World = camera->getOwner();
 
             // If the left mouse button is pressed, we lock and hide the mouse. This common in First Person Games.
-            if (app->getMouse().isPressed(GLFW_MOUSE_BUTTON_1) && !mouse_locked) {
+            if (app->getMouse().isPressed(GLFW_MOUSE_BUTTON_1) && !mouse_locked)
+            {
                 app->getMouse().lockMouse(app->getWindow());
                 mouse_locked = true;
                 // If the left mouse button is released, we unlock and unhide the mouse.
-            } else if (!app->getMouse().isPressed(GLFW_MOUSE_BUTTON_1) && mouse_locked) {
+            }
+            else if (!app->getMouse().isPressed(GLFW_MOUSE_BUTTON_1) && mouse_locked)
+            {
                 app->getMouse().unlockMouse(app->getWindow());
                 mouse_locked = false;
             }
@@ -112,8 +126,8 @@ namespace our {
             // We get the camera model matrix (relative to its parent) to compute the front, up and right directions
             glm::mat4 matrix = player->localTransform.toMat4();
             glm::vec3 front = glm::vec3(matrix * glm::vec4(0, 0, -1, 0)),
-                    up = glm::vec3(matrix * glm::vec4(0, 1, 0, 0)),
-                    right = glm::vec3(matrix * glm::vec4(1, 0, 0, 0));
+                      up = glm::vec3(matrix * glm::vec4(0, 1, 0, 0)),
+                      right = glm::vec3(matrix * glm::vec4(1, 0, 0, 0));
 
             glm::vec3 current_sensitivity = controller->positionSensitivity;
             // If the LEFT SHIFT key is pressed, we multiply the position sensitivity by the speed up factor
@@ -125,44 +139,56 @@ namespace our {
             WorldPosition += front * (deltaTime * current_sensitivity.z);
 
             // left arrow moves the player to the left track
-            if (app->getKeyboard().justPressed(GLFW_KEY_LEFT)) {
+            if (app->getKeyboard().justPressed(GLFW_KEY_LEFT) && !GoingRight)
+            {
                 GoingLeft = true;
                 UpdateTrack(CurrentTrack, 1);
             }
-            if (GoingLeft) {
+            if (GoingLeft)
+            {
                 position -= right * (deltaTime * current_sensitivity.x);
-                if (position.x < CurrentTrack * DistanceBetweenTracks) {
+                if (position.x < CurrentTrack * DistanceBetweenTracks)
+                {
                     GoingLeft = false;
                     position.x = CurrentTrack * DistanceBetweenTracks;
                 }
             }
 
             // right arrow moves the player to the right track
-            if (app->getKeyboard().justPressed(GLFW_KEY_RIGHT)) {
+            if (app->getKeyboard().justPressed(GLFW_KEY_RIGHT) && !GoingLeft)
+            {
                 GoingRight = true;
                 UpdateTrack(CurrentTrack, 0);
             }
-            if (GoingRight) {
+            if (GoingRight)
+            {
                 position += right * (deltaTime * current_sensitivity.x);
-                if (position.x > CurrentTrack * DistanceBetweenTracks) {
+                if (position.x > CurrentTrack * DistanceBetweenTracks)
+                {
                     GoingRight = false;
                     position.x = CurrentTrack * DistanceBetweenTracks;
                 }
             }
 
             // space key makes the player jump
-            if (app->getKeyboard().justPressed(GLFW_KEY_SPACE) && !IsJump) {
+            if (app->getKeyboard().justPressed(GLFW_KEY_SPACE) && !IsJump)
+            {
                 IsJump = true;
                 GoingUp = true;
             }
-            if (IsJump) {
-                if (GoingUp) {
+            if (IsJump)
+            {
+                if (GoingUp)
+                {
                     position += up * (deltaTime * current_sensitivity.y);
                     if (position.y > jumpDistance)
                         GoingUp = false;
-                } else {
+                }
+                else
+                {
                     position -= up * (deltaTime * current_sensitivity.y);
-                    if (position.y < 0) {
+                    if (position.y < 0)
+                    {
                         GoingUp = false;
                         IsJump = false;
                         position.y = 0;
@@ -172,8 +198,10 @@ namespace our {
         }
 
         // When the state exits, it should call this function to ensure the mouse is unlocked
-        void exit() {
-            if (mouse_locked) {
+        void exit()
+        {
+            if (mouse_locked)
+            {
                 mouse_locked = false;
                 app->getMouse().unlockMouse(app->getWindow());
             }

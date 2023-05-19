@@ -16,6 +16,10 @@
     },
     "assets": {
       "shaders": {
+        "lightened": {
+          "vs": "assets/shaders/lightened.vert",
+          "fs": "assets/shaders/lightened.frag"
+        },
         "tinted": {
           "vs": "assets/shaders/tinted.vert",
           "fs": "assets/shaders/tinted.frag"
@@ -36,7 +40,10 @@
         "coin": "assets/textures/yellowCoin.png",
         "obstacle": "assets/textures/obstacle.png",
         "lightpole": "assets/textures/lightpole.png",
-        "duck": "assets/textures/duck.jpg"
+        "duck": "assets/textures/duck.jpg",
+        "black": "assets/textures/black.jpg",
+        "white": "assets/textures/white.png",
+        "roughness": "assets/textures/roughness.jpg"
       },
       "meshes": {
         "cube": "assets/models/cube.obj",
@@ -57,54 +64,9 @@
         }
       },
       "materials": {
-        "metal": {
-          "type": "tinted",
-          "shader": "tinted",
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            }
-          },
-          "tint": [
-            0.45,
-            0.4,
-            0.5,
-            1
-          ]
-        },
-        "glass": {
-          "type": "textured",
-          "shader": "textured",
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            },
-            "blending": {
-              "enabled": true,
-              "sourceFactor": "GL_SRC_ALPHA",
-              "destinationFactor": "GL_ONE_MINUS_SRC_ALPHA"
-            },
-            "depthMask": false
-          },
-          "transparent": true,
-          "tint": [
-            1,
-            1,
-            1,
-            1
-          ],
-          "texture": "glass",
-          "sampler": "pixelated"
-        },
         "grass": {
-          "type": "textured",
-          "shader": "textured",
+          "type": "lightened",
+          "shader": "lightened",
           "pipelineState": {
             "faceCulling": {
               "enabled": false
@@ -113,18 +75,23 @@
               "enabled": true
             }
           },
-          "tint": [
-            1,
-            1,
-            1,
-            1
-          ],
-          "texture": "grass",
-          "sampler": "default"
+          // "tint": [
+          //   1,
+          //   1,
+          //   1,
+          //   1
+          // ],
+          // "texture": "grass",
+          "sampler": "default",
+          "albedo": "grass",
+          "roughness": "roughness",
+          "emissive": "black",
+          "specular": "white",
+          "ambient_occlusion": "grass"
         },
         "monkey": {
-          "type": "textured",
-          "shader": "textured",
+          "type": "lightened",
+          "shader": "lightened",
           "pipelineState": {
             "faceCulling": {
               "enabled": false
@@ -133,18 +100,24 @@
               "enabled": true
             }
           },
-          "tint": [
-            1,
-            1,
-            1,
-            1
-          ],
-          "texture": "monkey",
-          "sampler": "default"
+          // "tint": [
+          //   1,
+          //   1,
+          //   1,
+          //   1
+          // ],
+          // "texture": "monkey",
+          "sampler": "default",
+          "albedo": "monkey",
+          "roughness": "roughness",
+          "emissive": "black",
+          "specular": "white",
+          "ambient_occlusion": "monkey"
+
         },
         "turtle": {
-          "type": "textured",
-          "shader": "textured",
+          "type": "lightened",
+          "shader": "lightened",
           "pipelineState": {
             "faceCulling": {
               "enabled": false
@@ -153,18 +126,24 @@
               "enabled": true
             }
           },
-          "tint": [
-            1,
-            1,
-            1,
-            1
-          ],
-          "texture": "turtle",
-          "sampler": "default"
+          // "tint": [
+          //   1,
+          //   1,
+          //   1,
+          //   1
+          // ],
+          // "texture": "turtle",
+          "sampler": "default",
+          "albedo": "turtle",
+          "roughness": "roughness",
+          "emissive": "black",
+          "specular": "white",
+          "ambient_occlusion": "turtle"
+
         },
         "duck": {
-          "type": "textured",
-          "shader": "textured",
+          "type": "lightened",
+          "shader": "lightened",
           "pipelineState": {
             "faceCulling": {
               "enabled": false
@@ -173,65 +152,24 @@
               "enabled": true
             }
           },
-          "tint": [
-            1,
-            1,
-            1,
-            1
-          ],
-          "texture": "duck",
-          "sampler": "default"
-        },
-        "moon": {
-          "type": "textured",
-          "shader": "textured",
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            }
-          },
-          "tint": [
-            1,
-            1,
-            1,
-            1
-          ],
-          "texture": "moon",
-          "sampler": "default"
-        },
-        "player": {
-          "type": "textured",
-          "shader": "textured",
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            },
-            "blending": {
-              "enabled": false,
-              "sourceFactor": "GL_SRC_ALPHA",
-              "destinationFactor": "GL_ONE_MINUS_SRC_ALPHA"
-            },
-            "depthMask": false
-          },
-          "transparent": false,
-          "tint": [
-            1,
-            1,
-            1,
-            1
-          ],
-          "texture": "player",
-          "sampler": "default"
+          // "tint": [
+          //   1,
+          //   1,
+          //   1,
+          //   1
+          // ],
+          // "texture": "duck",
+          "sampler": "default",
+          "albedo": "duck",
+          "roughness": "roughness",
+          "emissive": "black",
+          "specular": "white",
+          "ambient_occlusion": "duck"
+
         },
         "coin": {
-          "type": "textured",
-          "shader": "textured",
+          "type": "lightened",
+          "shader": "lightened",
           "pipelineState": {
             "faceCulling": {
               "enabled": false
@@ -240,18 +178,24 @@
               "enabled": true
             }
           },
-          "tint": [
-            1,
-            1,
-            1,
-            1
-          ],
-          "texture": "coin",
-          "sampler": "default"
+          // "tint": [
+          //   1,
+          //   1,
+          //   1,
+          //   1
+          // ],
+          // "texture": "coin",
+          "sampler": "default",
+          "albedo": "coin",
+          "roughness": "roughness",
+          "emissive": "coin",
+          "specular": "white",
+          "ambient_occlusion": "coin"
+
         },
         "obstacle": {
-          "type": "textured",
-          "shader": "textured",
+          "type": "lightened",
+          "shader": "lightened",
           "pipelineState": {
             "faceCulling": {
               "enabled": false
@@ -260,18 +204,24 @@
               "enabled": true
             }
           },
-          "tint": [
-            0.5,
-            0.5,
-            0.5,
-            1
-          ],
-          "texture": "obstacle",
-          "sampler": "default"
+          // "tint": [
+          //   0.5,
+          //   0.5,
+          //   0.5,
+          //   1
+          // ],
+          // "texture": "obstacle",
+          "sampler": "default",
+          "albedo": "obstacle",
+          "roughness": "roughness",
+          "emissive": "black",
+          "specular": "white",
+          "ambient_occlusion": "obstacle"
+
         },
         "lightpole": {
-          "type": "textured",
-          "shader": "textured",
+          "type": "lightened",
+          "shader": "lightened",
           "pipelineState": {
             "faceCulling": {
               "enabled": false
@@ -280,14 +230,20 @@
               "enabled": true
             }
           },
-          "tint": [
-            0.5,
-            0.5,
-            0.5,
-            1
-          ],
-          "texture": "lightpole",
-          "sampler": "default"
+          // "tint": [
+          //   0.5,
+          //   0.5,
+          //   0.5,
+          //   1
+          // ],
+          // "texture": "lightpole",
+          "sampler": "default",
+          "albedo": "lightpole",
+          "roughness": "roughness",
+          "emissive": "black",
+          "specular": "white",
+          "ambient_occlusion": "lightpole"
+
         }
       }
     },
@@ -496,6 +452,38 @@
               0.113788
             ]
           }
+          // ,
+          // {
+          //   "type":"light",
+          //   "lightType":"point",
+          //   "attenuation": [
+          //     1,
+          //     0.1,
+          //     0.1
+          //   ],
+          //   "color":[
+          //     1, 1, 0
+          //   ]
+          // }
+        ]
+      },
+      {
+        "position":[-1, -1, 30],
+        "rotation":[0, 0, 45],
+        "components":[
+          {
+            "type":"light",
+            "lightType":"point",
+            "attenuation": [
+              1,
+              0.1,
+              0.1
+            ],
+            "color":[
+              1, 1, 0
+            ]
+          }
+
         ]
       },
       {
@@ -1465,6 +1453,18 @@
             "type": "Mesh Renderer",
             "mesh": "plane",
             "material": "grass"
+          }
+        ]
+      },
+      {
+        "position":[0, 0, 0],
+        "components":[
+          {
+            "type":"light",
+            "lightType": "sky",
+            "sky_top": [0.1, 0.1, 0.1],
+            "sky_middle": [0.3, 0.3, 0.3],
+            "sky_bottom": [0.5, 0.5, 0.5]
           }
         ]
       }
