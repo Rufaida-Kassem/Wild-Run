@@ -93,11 +93,13 @@ set(COMMON_SOURCES
         source/common/systems/forward-renderer.cpp
         source/common/systems/free-camera-controller.hpp
         source/common/systems/movement.hpp
+
         source/common/systems/collision.hpp
         source/common/systems/road-movement-controller.hpp
         source/common/systems/coin-controller.hpp
         source/common/systems/obstacle-controller.hpp
         source/common/systems/lightpole-position.hpp
+
 
         )
 
@@ -122,8 +124,9 @@ set(STATES_SOURCES
         source/states/play-state.hpp
         source/states/menu-state.hpp
         source/states/game-over-state.hpp
-
+        source/common/systems/preview-camera-controller.hpp
         )
+
 
 # For each example, we add an executable target
 # Each target compiles one example source file and the common & vendor source files
