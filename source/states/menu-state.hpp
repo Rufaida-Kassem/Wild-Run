@@ -39,14 +39,17 @@ struct Button {
 // This state shows how to use some of the abstractions we created to make a menu.
 class Menustate : public our::State {
 
+    static std::vector<ImFont *> fonts;
+
     float time;
     std::array<Button, 2> buttons;
-    //to render a background image
+    // to render a background image
     our::ForwardRenderer renderer;
     our::World world;
     our::MovementSystem movementSystem;
 
     our::PreviewCameraControllerSystem previewController;
+
 
     void onInitialize() override {
         // First of all, we get the scene configuration from the app config
@@ -71,12 +74,10 @@ class Menustate : public our::State {
         previewController.update((float) deltaTime);
         movementSystem.update(&world, (float) deltaTime);
 
-
         world.deleteMarkedEntities();
         renderer.render(&world);
         // Get a reference to the keyboard object
         auto &keyboard = getApp()->getKeyboard();
-
 
         if (keyboard.justPressed(GLFW_KEY_SPACE)) {
             // If the space key is pressed in this frame, go to the play state
@@ -91,37 +92,56 @@ class Menustate : public our::State {
     int i = 0;
 
     void onImmediateGui() {
-//        ImGui::ShowDemoWindow();
+        //        ImGui::ShowDemoWindow();
         ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration |
                                         ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
                                         ImGuiWindowFlags_NoSavedSettings |
                                         ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav |
                                         ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar;
         ImGui::Begin("Menu", nullptr, window_flags);
-        ImGui::Text("Press space to play");
-        ImGui::Text("Press escape to quit");
-        ImGui::Text("Left and right arrows to choose the player");
+
+//        ImGui::PushFont(fonts[0]);
+        ImGui::SetWindowFontScale(2);
+        ImGui::Text("Welcome To The Game");
+//        ImGui::SetWindowFontScale(1);
+
+        ImGui::Text("Press space to Play");
+        ImGui::Text("Press escape to Quit");
+        ImGui::Text("Left and Right arrows to choose the player");
+//        ImGui::PopFont();
         ImGui::End();
 
         ImGui::Begin("Players", nullptr, window_flags);
         ImGui::SetCursorPos(ImVec2(110, 222));
         ImGui::Text("Player %d", previewController.getCurrentPlayer());
 
-//        vertical slider to choose the player
-        ImGui::SetCursorPos(ImVec2(110, 250));
+        //        vertical slider to choose the player
+        glm::vec2 window_size = getApp()->getFrameBufferSize();
         i = previewController.getCurrentPlayer();
-        ImGui::VSliderInt("##v", ImVec2(18, 160), &i, 0,
-                          previewController.getPlayerCount() - 1, "");
+        // Save the current style
+        ImGuiStyle &style = ImGui::GetStyle();
+        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(8, 8)); // Increase padding
+        ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 5.0f);        // Add rounding to the slider
+
+        // Set custom colors
+        ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(0.2f, 0.4f, 0.6f, 1.0f));    // Background color
+        ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImVec4(0.8f, 0.2f, 0.2f, 1.0f)); // Slider grab color
+
+        // Display the slider
+        ImGui::SetNextWindowPos(ImVec2(ImGui::GetCursorScreenPos().x, ImGui::GetCursorScreenPos().y + 18));
+        ImGui::VSliderInt("##v", ImVec2(18, 160), &i, 0, previewController.getPlayerCount() - 1);
+
+        // Restore the previous style
+        ImGui::PopStyleVar(2);
+        ImGui::PopStyleColor(2);
+
         if (i != previewController.getCurrentPlayer()) {
             previewController.changePlayer(i);
         }
         ImGui::End();
 
-
-//        imgui tabs to show thee chosen player index from the players
-
+        //        imgui tabs to show thee chosen player index from the players
     }
-
 
     void onDestroy() override {
         // Delete all the allocated resources
@@ -129,5 +149,8 @@ class Menustate : public our::State {
         renderer.destroy();
         previewController.exit();
         our::clearAllAssets();
+        ImGui::GetIO().Fonts->ClearInputData();
     }
+
+
 };
