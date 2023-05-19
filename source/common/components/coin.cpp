@@ -3,10 +3,9 @@
 #include "../deserialize-utils.hpp"
 
 namespace our {
-    // Reads linearVelocity & angularVelocity from the given json object
+    
+    // deserialize the coin from the josn file
     void CoinComponent::deserialize(const nlohmann::json& data){
         if(!data.is_object()) return;
-        //linearVelocity = data.value("linearVelocity", linearVelocity);
-        //angularVelocity = glm::radians(data.value("angularVelocity", angularVelocity));
     }
 }
