@@ -9,6 +9,7 @@
 #include "road.hpp" /// phase 2
 #include "coin.hpp"
 #include "obstacle.hpp"
+#include "lightpole.hpp"
 
 namespace our
 {
@@ -49,6 +50,10 @@ namespace our
         else if (type == ObstacleComponent::getID()){
             component = entity->addComponent<ObstacleComponent>();
         }
+        else if (type == LightPoleComponent::getID()){
+            component = entity->addComponent<LightPoleComponent>();
+        }
+
         if (component)
             component->deserialize(data);
     }

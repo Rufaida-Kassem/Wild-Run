@@ -86,6 +86,8 @@ set(COMMON_SOURCES
         source/common/components/coin.cpp
         source/common/components/obstacle.hpp
         source/common/components/obstacle.cpp
+        source/common/components/lightpole.hpp
+        source/common/components/lightpole.cpp
 
         source/common/systems/forward-renderer.hpp
         source/common/systems/forward-renderer.cpp
@@ -95,6 +97,7 @@ set(COMMON_SOURCES
         source/common/systems/road-movement-controller.hpp
         source/common/systems/coin-controller.hpp
         source/common/systems/obstacle-controller.hpp
+        source/common/systems/lightpole-position.hpp
 
         )
 

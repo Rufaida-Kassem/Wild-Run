@@ -8,6 +8,7 @@
 #include <systems/movement.hpp>
 #include <systems/collision.hpp>
 #include <systems/coin-controller.hpp>
+#include <systems/lightpole-position.hpp>
 // incllude the road movement controller
 #include <systems/road-movement-controller.hpp>
 #include <systems/obstacle-controller.hpp>
@@ -35,6 +36,7 @@ class Playstate : public our::State {
     our::RoadControllerSystem roadController;
     our::CoinControllerSystem coinController;
     our::ObstacleControllerSystem obstacleController;
+    our::LightPoleControllerSystem lightpoleController;
     //ISoundEngine *SoundEngine = createIrrKlangDevice();// = createIrrKlangDevice();
 
     void onInitialize() override {
@@ -68,6 +70,7 @@ class Playstate : public our::State {
         roadController.update(&world, (float) deltaTime);
         coinController.update(&world, (float) deltaTime);
         obstacleController.update(&world, (float) deltaTime);
+        lightpoleController.update(&world, (float) deltaTime);
 
 
         collisionSystem.update(&world, (float) deltaTime);
