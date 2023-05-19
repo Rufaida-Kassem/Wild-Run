@@ -4,6 +4,7 @@
 #include "../components/camera.hpp"
 #include "../components/mesh-renderer.hpp"
 #include "../asset-loader.hpp"
+#include "../components/light.hpp"
 
 #include <glad/gl.h>
 #include <vector>
@@ -23,12 +24,45 @@ namespace our
         Material *material;
     };
 
+    //. this is a struct for lights like the one in the lightened.frag
+    //. it is used to pass light data to the shader
+        struct LightSource
+    {
+        int type;
+        bool isOn;
+        glm::vec3 position;
+        glm::vec3 direction;
+        glm::vec3 color;
+        // glm::vec3 diffuse;
+        // glm::vec3 specular;
+        glm::vec3 attenuation;
+        glm::vec2 cone_angles;
+    };
+
+    //. this is for the sky light effect on objects
+    //. it is used to pass sky light data to the shader
+    struct SkyLightEffect
+    {
+        bool isOn;
+        glm::vec3 top, horizon, bottom;
+    };
+
+
     // A forward renderer is a renderer that draw the object final color directly to the framebuffer
     // In other words, the fragment shader in the material should output the color that we should see on the screen
     // This is different from more complex renderers that could draw intermediate data to a framebuffer before computing the final color
     // In this project, we only need to implement a forward renderer
     class ForwardRenderer
     {
+                //. create light sources array and pass it to the shader
+        //. it is an array of pointers to light components
+        //. the size of the array is the number of light components
+        std::vector<LightSource> light_sources;
+
+        //. create sky light effect and pass it to the shader
+        SkyLightEffect sky_light_effect;
+        
+
         // These window size will be used on multiple occasions (setting the viewport, computing the aspect ratio, etc.)
         glm::ivec2 windowSize;
         // These are two vectors in which we will store the opaque and the transparent commands.
