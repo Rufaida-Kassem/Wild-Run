@@ -115,6 +115,14 @@ class Playstate : public our::State {
     }
 
     void onDestroy() override {
+        // destroy the obstacle controller
+        obstacleController.cleanUp();
+        // destroy the coin controller
+        coinController.cleanUp();
+        // destroy the light pole controller
+        lightpoleController.cleanUp();
+        // destroy the road controller
+        roadController.cleanUp();
         // Don't forget to destroy the renderer
         renderer.destroy();
         // On exit, we call exit for the camera controller system to make sure that the mouse is unlocked

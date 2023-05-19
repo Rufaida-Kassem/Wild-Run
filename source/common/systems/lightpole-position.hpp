@@ -26,14 +26,14 @@ namespace our
 
 
 	public:
+        // make an array of lightpoles
+		std::vector<LightPoleComponent*> lightpoles;
+		FreeCameraControllerComponent* controller = nullptr;
 
 		// This should be called every frame to update all entities containing a FreeCameraControllerComponent 
 		void update(World* world, float deltaTime) {
 			// search for the lightpoles
 			LightPoleComponent* lightpole = nullptr;
-			// make an array of lightpoles
-			std::vector<LightPoleComponent*> lightpoles;
-			FreeCameraControllerComponent* controller = nullptr;
 			// loop over all entities in the world 
 			// and search for all lightpoles and store them in a vector
 			// also get the free camera controller component as we will need its position bellow
@@ -80,6 +80,11 @@ namespace our
 
 		}
 
+        // clean the lightpoles vector
+        void cleanUp(){
+            lightpoles.clear();
+            controller = nullptr;
+        }
 	};
 
 }

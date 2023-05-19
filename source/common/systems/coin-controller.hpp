@@ -20,8 +20,8 @@ namespace our {
 
 
     public:
-        CoinComponent *coin = nullptr;
-        // make array of coins
+        
+        // make an array of coins
         std::vector<CoinComponent *> coins;
         FreeCameraControllerComponent *controller = nullptr;
 
@@ -32,6 +32,7 @@ namespace our {
             // loop around all coins in the world
             // collect them in a vector
             // also pick the camera controller as we need its z position below
+			CoinComponent *coin = nullptr;
             for (auto entity: world->getEntities()) {
                 coin = entity->getComponent<CoinComponent>();
                 if (!controller)
@@ -83,6 +84,11 @@ namespace our {
 
         }
 
+		// clean up the coins vector
+		void cleanUp() {
+			coins.clear();
+			controller = nullptr;
+		}
     };
 
 
