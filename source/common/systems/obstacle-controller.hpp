@@ -16,7 +16,12 @@
 namespace our
 {
 
-
+	// the obstacle controller system is responsible for redrawing the uncollided obstacles so that 
+	// during the game, there will be obstacles all the time and won't finish (disappear)
+	// i.e., if this system doesn't exist, then the obstacles will appear only at the beg. of the game
+	// for specific time until the user pass through the last obstacle
+	// hence, no obstacles agian will exist for the rest of the game
+	// Again, this is because our game is infinite
 	class ObstacleControllerSystem {
 
 
@@ -26,9 +31,12 @@ namespace our
 		void update(World* world, float deltaTime) {
 			// search for the obstacles
 			ObstacleComponent* obstacle = nullptr;
-			// make array of obstacles
+			// make an array of obstacles
 			std::vector<ObstacleComponent*> obstacles;
 			FreeCameraControllerComponent* controller = nullptr;
+			// loop over all entities in the world 
+			// and search for all obstacles and store them in a vector
+			// also get the free camera controller component as we will need its position bellow
 			for (auto entity : world->getEntities()) {
 				obstacle = entity->getComponent<ObstacleComponent>();
 				if(!controller)
@@ -38,12 +46,12 @@ namespace our
 				}
 			}
 			
-			// if there is no obstacles
+			// if there is no obstacles, then return
 			if (obstacles.size() == 0) {
 				return;
 			}
 
-			// if there is no controller
+			// if there is no controller, then return
 			if (!controller) {
 				return;
 			}
@@ -53,7 +61,9 @@ namespace our
 
 			// loop over the obstacles and check if the camera is in front of the obstacle
 			// if so then make the obstacle in front of the camera
-			// i.e., let its z equals to the camera z + its length
+			// i.e., let its z equals to the camera z - a length greater than the legnth
+			// of the whole scene at the beg. of the game
+			// I mean we want to avoid overlapping between all entities in the scene
 			// we will check if the obstacle is behind the camera every frame
 			for(auto obstacle : obstacles){
 				// get the position of the obstacle
@@ -61,7 +71,7 @@ namespace our
 				// check if the obstacle is behind the camera
 				if (obstacle_position.z > camera_position.z) {
 					// make the obstacle in front of the camera
-					// we will let this obstacle in front of the farest obstacle
+					// we will let this obstacle in front of the farest obstacle / coin (i.e, the farest entity)
 					obstacle_position.z = obstacle_position.z - 50;
 				}
 			}

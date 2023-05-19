@@ -6,19 +6,16 @@
 
 namespace our {
 
-    // This component denotes that the MovementSystem will move the owning entity by a certain linear and angular velocity.
-    // This component is added as a simple example for how use the ECS framework to implement logic.
-    // For more information, see "common/systems/movement.hpp"
-    // For a more complex example of how to use the ECS framework, see "free-camera-controller.hpp"
+    // this is the road compoenent 
+    // we need it so that we will be able to do operatoin on the road and control it using a created system
+    // As our game is infinite so that we will need to draw 2 roads and we will explain how we will do this
+    // in the road controller system
     class RoadComponent : public Component {
     public:
-        //glm::vec3 linearVelocity = {0, 0, 0}; // Each frame, the entity should move as follows: position += linearVelocity * deltaTime 
-        //glm::vec3 angularVelocity = {0, 0, 0}; // Each frame, the entity should rotate as follows: rotation += angularVelocity * deltaTime
 
-        // The ID of this component type is "Player"
+        // The ID of this component type is "Road"
         static std::string getID() { return "Road"; }
 
-        // Reads linearVelocity & angularVelocity from the given json object
         void deserialize(const nlohmann::json& data) override;
     };
 

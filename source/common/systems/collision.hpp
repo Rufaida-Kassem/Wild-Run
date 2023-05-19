@@ -2,6 +2,7 @@
 
 #include "../ecs/world.hpp"
 #include "../components/collision.hpp"
+#include "../components/coin.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
@@ -236,6 +237,18 @@ namespace our
                     case CollisionType::COIN:
                         coins_collected++;
                         //                            std::cout << coins_collected << std::endl;
+                        // if the coin is collided, marke it as collided
+                        // so that the coin system will not redraw it again
+                        // (to avoid confilict of both classes
+                        // (i.e., we don't want both classes to modify the position of the same coin at
+                        // the same time))
+                        entity2->getComponent<CoinComponent>()->collided = true;
+                        // then we will redraw it instead of deleting from the system
+                        // cuase our game is infinite
+                        // i.e., we need to redraw the coins
+                        // otherwise, if we delete each collided coin, then if the player collide all coins
+                        // there will be no coin again to be collected
+                        entity2->getComponent<CoinComponent>()->getOwner()->localTransform.position.z -= 50;
                         break;
                     case CollisionType::OBSTACLE:
                         lives--;
@@ -243,14 +256,13 @@ namespace our
                         {
                             is_lost = true;
                         }
+                        world->markForRemoval(entity2);
                         //                            is_lost = true;
                         //                            std::cout << "lost" << cc++ << std::endl;
                         break;
                     default:
                         break;
                     }
-
-                    world->markForRemoval(entity2);
                 }
             }
         }

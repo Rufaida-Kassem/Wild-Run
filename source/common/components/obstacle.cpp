@@ -3,10 +3,10 @@
 #include "../deserialize-utils.hpp"
 
 namespace our {
-    // Reads linearVelocity & angularVelocity from the given json object
+    
+    // deserialize the obstacle from the josn file
     void ObstacleComponent::deserialize(const nlohmann::json& data){
         if(!data.is_object()) return;
-        //linearVelocity = data.value("linearVelocity", linearVelocity);
-        //angularVelocity = glm::radians(data.value("angularVelocity", angularVelocity));
+        
     }
 }
