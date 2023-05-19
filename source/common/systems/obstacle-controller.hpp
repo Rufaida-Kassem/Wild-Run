@@ -26,14 +26,15 @@ namespace our
 
 
 	public:
+		// search for the obstacles
+		ObstacleComponent* obstacle = nullptr;
+		// make an array of obstacles
+		std::vector<ObstacleComponent*> obstacles;
+		FreeCameraControllerComponent* controller = nullptr;
 
 		// This should be called every frame to update all entities containing a FreeCameraControllerComponent 
 		void update(World* world, float deltaTime) {
-			// search for the obstacles
-			ObstacleComponent* obstacle = nullptr;
-			// make an array of obstacles
-			std::vector<ObstacleComponent*> obstacles;
-			FreeCameraControllerComponent* controller = nullptr;
+			
 			// loop over all entities in the world 
 			// and search for all obstacles and store them in a vector
 			// also get the free camera controller component as we will need its position bellow
@@ -80,6 +81,12 @@ namespace our
 			}
 
 
+		}
+
+		// clean up the obstacles vector
+		void cleanUp() {
+			obstacles.clear();
+			controller = nullptr;
 		}
 
 	};
