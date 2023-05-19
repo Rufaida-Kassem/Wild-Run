@@ -16,19 +16,20 @@
 
 namespace our
 {
-
-    void print_vec4(glm::vec4 v)
-    {
-        std::cout << v.x << " " << v.y << " " << v.z << " " << v.w << std::endl;
-    }
-
-    // The movement system is responsible for moving every entity which contains a MovementComponent.
-    // This system is added as a simple example for how use the ECS framework to implement logic.
-    // For more information, see "common/components/movement.hpp"
+    // The Collision System is responsible for detecting collisions between entities
+    // that have a CollisionComponent attached to them.
+    // It also handels the logic in case of a collision.
     class CollisionSystem
     {
+        // number of coins collected by the player
+        // when it reaches 5, the player wins
         int coins_collected = 0;
-        int lives = 1110;
+
+        // number of lives the player has
+        // when it reaches 0, the player loses
+        int lives = 3;
+
+        // a boolean that indicates whether the player has lost or not
         bool is_lost = false;
 
     public:
@@ -38,56 +39,33 @@ namespace our
             coins_collected = 0;
         }
 
+        // get the is_lost boolean
         bool get_is_lost()
         {
             return is_lost;
         }
 
+        // get the number of coins collected by the player
         int get_coins_collected()
         {
             return coins_collected;
         }
 
+        // get the number of lives the player has
         int get_lives()
         {
             return lives;
         }
 
-        //		bool AABBCollide(Entity* E1, Entity* E2)
-        //		{
-        //			auto* comp1 = E1->getComponent<CollisionComponent>();
-        //			auto* comp2 = E2->getComponent<CollisionComponent>();
-        //			glm::vec3 min1 = E1->getLocalToWorldMatrix() * glm::vec4(comp1->limit_min, 1);
-        //			glm::vec3 max1 = E1->getLocalToWorldMatrix() * glm::vec4(comp1->limit_max, 1);
-        //			glm::vec3 min2 = E2->getLocalToWorldMatrix() * glm::vec4(comp2->limit_min, 1);
-        //			glm::vec3 max2 = E2->getLocalToWorldMatrix() * glm::vec4(comp2->limit_max, 1);
-        //			// the lowest point of the first box is higher than the highest point of the second box
-        //			// or the highest point of the first box is lower than the lowest point of the second box
-        //			// print every 2 seconds
-        //			/*std::cout << E1->name << std::endl;
-        //			std::cout << "min1: ";
-        //			print_vec4(glm::vec4(min1, 0));
-        //			std::cout << "max1: ";
-        //			print_vec4(glm::vec4(max1, 0));
-        //			std::cout << E2->name << std::endl;
-        //			std::cout << "min2: ";
-        //			print_vec4(glm::vec4(min2, 0));
-        //			std::cout << "max2: ";
-        //			print_vec4(glm::vec4(max2, 0));*/
-        //
-        //			return min1.x < max2.x && max1.x > min2.x &&
-        //				min1.y < max2.y && max1.y > min2.y &&
-        //				min1.z < max2.z && max1.z > min2.z;
-        //		}
-
-        //        http://programmerart.weebly.com/separating-axis-theorem.html
+        // http://programmerart.weebly.com/separating-axis-theorem.html
         // to understand the algorithm
         // i did not copy the code from the website but i did use the idea of the algorithm to implement it in 3D
-
         static bool SatCollide(Entity *E1, Entity *E2)
         {
+            // get the collision components of the two entities
             auto *comp1 = E1->getComponent<CollisionComponent>();
             auto *comp2 = E2->getComponent<CollisionComponent>();
+            // get the vertices of the collision box on the two entities
             auto v1 = comp1->vertices;
             auto v2 = comp2->vertices;
             for (auto &v : v1)
@@ -233,36 +211,38 @@ namespace our
                 {
                     // if the two entities are colliding, then change delete the entity
                     CollisionType type = entity2->getComponent<CollisionComponent>()->type;
-                    switch (type) {
-                        case CollisionType::COIN:
-                            coins_collected++;
-//                            std::cout << coins_collected << std::endl;
-                            // if the coin is collided, marke it as collided 
-                            // so that the coin system will not redraw it again 
-                            // (to avoid confilict of both classes 
-                            // (i.e., we don't want both classes to modify the position of the same coin at 
-                            // the same time))
-                            entity2->getComponent<CoinComponent>()->collided = true; 
-                            // then we will redraw it instead of deleting from the system
-                            // cuase our game is infinite 
-                            // i.e., we need to redraw the coins
-                            // otherwise, if we delete each collided coin, then if the player collide all coins
-                            // there will be no coin again to be collected
-                            entity2->getComponent<CoinComponent>()->getOwner()->localTransform.position.z -= 50;
-                            break;
-                        case CollisionType::OBSTACLE:
-                            lives--;
-                            if (lives == 0) {
-                                is_lost = true;
-                            }
-                            entity2->getComponent<ObstacleComponent>()->collided = true;
-                            entity2->getComponent<ObstacleComponent>()->getOwner()->localTransform.position.z -= 50;
-                            // world->markForRemoval(entity2);
-//                            is_lost = true;
-//                            std::cout << "lost" << cc++ << std::endl;
-                            break;
-                        default:
-                            break;
+                    switch (type)
+                    {
+                    case CollisionType::COIN:
+                        coins_collected++;
+                        //                            std::cout << coins_collected << std::endl;
+                        // if the coin is collided, marke it as collided
+                        // so that the coin system will not redraw it again
+                        // (to avoid confilict of both classes
+                        // (i.e., we don't want both classes to modify the position of the same coin at
+                        // the same time))
+                        entity2->getComponent<CoinComponent>()->collided = true;
+                        // then we will redraw it instead of deleting from the system
+                        // cuase our game is infinite
+                        // i.e., we need to redraw the coins
+                        // otherwise, if we delete each collided coin, then if the player collide all coins
+                        // there will be no coin again to be collected
+                        entity2->getComponent<CoinComponent>()->getOwner()->localTransform.position.z -= 50;
+                        break;
+                    case CollisionType::OBSTACLE:
+                        lives--;
+                        if (lives == 0)
+                        {
+                            is_lost = true;
+                        }
+                        entity2->getComponent<ObstacleComponent>()->collided = true;
+                        entity2->getComponent<ObstacleComponent>()->getOwner()->localTransform.position.z -= 50;
+                        // world->markForRemoval(entity2);
+                        //                            is_lost = true;
+                        //                            std::cout << "lost" << cc++ << std::endl;
+                        break;
+                    default:
+                        break;
                     }
                 }
             }
