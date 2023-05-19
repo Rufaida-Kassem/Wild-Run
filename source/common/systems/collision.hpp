@@ -3,6 +3,7 @@
 #include "../ecs/world.hpp"
 #include "../components/collision.hpp"
 #include "../components/coin.hpp"
+#include "../components/obstacle.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
@@ -230,7 +231,9 @@ namespace our {
                             if (lives == 0) {
                                 is_lost = true;
                             }
-                            world->markForRemoval(entity2);
+                            entity2->getComponent<ObstacleComponent>()->collided = true;
+                            entity2->getComponent<ObstacleComponent>()->getOwner()->localTransform.position.z -= 50;
+                            // world->markForRemoval(entity2);
 //                            is_lost = true;
 //                            std::cout << "lost" << cc++ << std::endl;
                             break;
