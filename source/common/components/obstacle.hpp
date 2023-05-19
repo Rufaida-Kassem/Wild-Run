@@ -11,6 +11,7 @@ namespace our {
     // exist form the game once a player hits it
     class ObstacleComponent : public Component {
     public:
+        bool collided = false;
         // The ID of this component type is "Obstacle"
         static std::string getID() { return "Obstacle"; }
 
