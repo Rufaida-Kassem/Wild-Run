@@ -94,9 +94,6 @@ class Playstate : public our::State {
         }
     }
 
-    void print_vec45(glm::vec4 v) {
-        std::cout << v.x << " " << v.y << " " << v.z << " " << v.w << std::endl;
-    }
 
     void onImmediateGui() override {
         // write the current state name in text box
