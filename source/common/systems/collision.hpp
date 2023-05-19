@@ -68,6 +68,8 @@ namespace our
             // get the vertices of the collision box on the two entities
             auto v1 = comp1->vertices;
             auto v2 = comp2->vertices;
+
+            // transform the vertices to world space by multiplying them by the local to world matrix of the entity
             for (auto &v : v1)
             {
                 v = E1->getLocalToWorldMatrix() * glm::vec4(v, 1);
@@ -78,59 +80,47 @@ namespace our
             }
 
             // Compute the edge vectors for each box
+            // edges are the vectors between two consecutive vertices of the box
             std::vector<glm::vec3> edges1;
             for (size_t i = 0; i < v1.size(); i++)
             {
                 glm::vec3 e = v1[(i + 1) % v1.size()] - v1[i];
-                edges1.push_back(glm::normalize(glm::cross(e, v1[(i + 2) % v1.size()] - v1[i])));
+                edges1.push_back(glm::normalize(e));
             }
             std::vector<glm::vec3> edges2;
             for (size_t i = 0; i < v2.size(); i++)
             {
                 glm::vec3 e = v2[(i + 1) % v2.size()] - v2[i];
-                edges2.push_back(glm::normalize(glm::cross(e, v2[(i + 2) % v2.size()] - v2[i])));
+                edges2.push_back(glm::normalize(e));
             }
 
             // Compute the face normals for each box
+            // face normals are the cross products of the vectors of the edges of the box
             std::vector<glm::vec3> faceNormals1;
             for (size_t i = 0; i < v1.size(); i++)
             {
-                glm::vec3 e1 = v1[(i + 1) % v1.size()] - v1[i];
-                glm::vec3 e2 = v1[(i + 2) % v1.size()] - v1[(i + 1) % v1.size()];
+                glm::vec3 e1 = edges1[i];
+                glm::vec3 e2 = edges1[(i + 1) % edges1.size()];
                 faceNormals1.push_back(glm::normalize(glm::cross(e1, e2)));
             }
             std::vector<glm::vec3> FaceNormals2;
             for (size_t i = 0; i < v2.size(); i++)
             {
-                glm::vec3 e1 = v2[(i + 1) % v2.size()] - v2[i];
-                glm::vec3 e2 = v2[(i + 2) % v2.size()] - v2[(i + 1) % v2.size()];
+                glm::vec3 e1 = edges2[i];
+                glm::vec3 e2 = edges2[(i + 1) % edges2.size()];
                 FaceNormals2.push_back(glm::normalize(glm::cross(e1, e2)));
             }
 
-            // Compute the cross products of all pairs of edge vectors and face normals
+            // Compute the axes to project onto 
+            // axes will be used to detect collisions
             std::vector<glm::vec3> axes;
-            //            for (glm::vec3 e: edges1) {
-            //                for (glm::vec3 n: FaceNormals2) {
-            //                    axes.push_back(glm::normalize(glm::cross(e, n)));
-            //                }
-            //            }
-            //            for (glm::vec3 e: edges2) {
-            //                for (glm::vec3 n: faceNormals1) {
-            //                    axes.push_back(glm::normalize(glm::cross(e, n)));
-            //                }
-            //            }
-
             for (glm::vec3 e : edges1)
             {
-                //                axes.push_back(e);
                 for (glm::vec3 e2 : edges2)
                 {
                     axes.push_back(glm::normalize(glm::cross(e, e2)));
                 }
             }
-            //            for (glm::vec3 e: edges2) {
-            //                axes.push_back(e);
-            //            }
             for (glm::vec3 n : faceNormals1)
             {
                 axes.push_back(n);
@@ -147,6 +137,7 @@ namespace our
                 float max1 = min1;
                 float min2 = glm::dot(v2[0], axis);
                 float max2 = min2;
+                // find the minimum and maximum projections of the vertices of the two boxes
                 for (size_t i = 1; i < v1.size(); i++)
                 {
                     float projection = glm::dot(v1[i], axis);
@@ -159,9 +150,10 @@ namespace our
                     min2 = std::min(min2, projection);
                     max2 = std::max(max2, projection);
                 }
+                // if there is a gap between the projections, then the boxes do not intersect
                 if (max1 < min2 || max2 < min1)
                 {
-                    return false; // There is a gap between the projections, so the boxes do not intersect
+                    return false; 
                 }
             }
 
@@ -169,7 +161,6 @@ namespace our
             return true;
         }
 
-        int cc = 0;
 
         // This function is called every frame by the world to determine if there is any collision
         void update(World *world, float)
