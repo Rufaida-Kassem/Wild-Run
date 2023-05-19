@@ -10,7 +10,7 @@
 #include "coin.hpp"
 #include "obstacle.hpp"
 #include "lightpole.hpp"
-
+#include "light.hpp"
 namespace our
 {
 
@@ -52,6 +52,9 @@ namespace our
         }
         else if (type == LightPoleComponent::getID()){
             component = entity->addComponent<LightPoleComponent>();
+        }
+        else if (type == LightComponent::getID()){
+            component = entity->addComponent<LightComponent>();
         }
 
         if (component)
