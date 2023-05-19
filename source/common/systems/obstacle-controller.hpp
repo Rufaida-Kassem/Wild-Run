@@ -69,10 +69,13 @@ namespace our
 				// get the position of the obstacle
 				glm::vec3& obstacle_position = obstacle->getOwner()->localTransform.position;
 				// check if the obstacle is behind the camera
-				if (obstacle_position.z > camera_position.z) {
+				if (obstacle_position.z > camera_position.z && obstacle->collided == false) {
 					// make the obstacle in front of the camera
 					// we will let this obstacle in front of the farest obstacle / coin (i.e, the farest entity)
 					obstacle_position.z = obstacle_position.z - 50;
+				}
+				if(obstacle->collided == true){
+					obstacle->collided = false;
 				}
 			}
 
