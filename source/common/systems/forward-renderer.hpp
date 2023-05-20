@@ -5,7 +5,8 @@
 #include "../components/mesh-renderer.hpp"
 #include "../asset-loader.hpp"
 #include "../components/light.hpp"
-
+#include <iostream>
+#include <fstream>
 #include <glad/gl.h>
 #include <vector>
 #include <algorithm>
@@ -54,6 +55,11 @@ namespace our
     // In this project, we only need to implement a forward renderer
     class ForwardRenderer
     {
+              //. for testing
+        //. declare an output file stream
+        
+        std::ofstream test_file;
+
                 //. create light sources array and pass it to the shader
         //. it is an array of pointers to light components
         //. the size of the array is the number of light components

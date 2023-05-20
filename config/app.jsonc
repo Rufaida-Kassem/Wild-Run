@@ -87,7 +87,7 @@
           "roughness": "roughness",
           "emissive": "black",
           "specular": "white",
-          "ambient_occlusion": "grass"
+          "ambient_occlusion": "white"
         },
         "monkey": {
           "type": "lightened",
@@ -248,6 +248,26 @@
       }
     },
     "world": [
+
+      {
+        "rotation":[
+          45, 0, 0
+        ],
+        "position": [
+          0,
+          -1,
+          0
+        ],
+        "components":[
+          { "isOn":false,
+            "type":"light",
+            "lightType":"directional",
+            "color":[
+              1, 1, 1
+            ]
+          }
+        ]
+      },
       {
         "position": [
           0,
@@ -263,6 +283,39 @@
           }
         ],
         "children": [
+          {
+            "name":"player_light",
+            "position": [
+              0,
+              -0.5,
+              -0.7
+            ],
+            "rotation": [
+              90,
+              0,
+              0
+            ],
+            "components":[
+              {
+                "isOn":true,
+                "type":"light",
+                "lightType":"spot",
+                "color":[
+                  1, 1, 1
+                ],
+                "cone_angles": [
+                  20,
+                  30
+                ],
+                "attenuation": [
+                  0.1,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+    
           {
             "name": "player",
             "position": [
@@ -281,6 +334,22 @@
               0.01
             ],
             "components": [
+              // {
+              //   "type":"light",
+              //   "lightType":"spot",
+              //   "color":[
+              //     1, 1, 1
+              //   ],
+              //   "cone_angles": [
+              //     60,
+              //     60
+              //   ],
+              //   "attenuation": [
+              //     0.09,
+              //     0,
+              //     0
+              //   ]
+              // },
               {
                 "type": "Mesh Renderer",
                 "mesh": "turtle",
@@ -367,40 +436,41 @@
               0.113788
             ]
           }
-          // ,
-          // {
-          //   "type":"light",
-          //   "lightType":"point",
-          //   "attenuation": [
-          //     1,
-          //     0.1,
-          //     0.1
-          //   ],
-          //   "color":[
-          //     1, 1, 0
-          //   ]
-          // }
-        ]
-      },
-      {
-        "position":[-1, -1, 30],
-        "rotation":[0, 0, 45],
-        "components":[
+          ,
           {
+            "isOn":true,
             "type":"light",
             "lightType":"point",
             "attenuation": [
+              0,
               1,
-              0.1,
-              0.1
+              0
             ],
             "color":[
               1, 1, 0
             ]
           }
-
         ]
       },
+      // {
+      //   "position":[-1, -1, 30],
+      //   // "rotation":[0, 0, 45],
+      //   "components":[
+      //     {
+      //       "type":"light",
+      //       "lightType":"point",
+      //       "attenuation": [
+      //         0,
+      //         1,
+      //         0
+      //       ],
+      //       "color":[
+      //         1, 1, 0
+      //       ]
+      //     }
+
+      //   ]
+      // },
       {
         "position": [
           -1,
@@ -1084,6 +1154,52 @@
       },
       // light poles
       {
+        "position":[
+          1, -1, 30
+        ],
+        "components":[
+          // {
+          //   "type":"light",
+          //   "lightType":"spot",
+          //   "attenuation": [
+          //     1,
+          //     1,
+          //     1
+          //   ],
+          //   "cone_angles": [
+          //     360,
+          //     0
+          //   ],
+          //   "color":[
+          //     1, 1, 1
+          //   ]
+          // }
+
+        ]
+      },
+      {
+        "position":[ -1.5, 4, -1],
+        "components":[
+          {
+            "type":"lightpole"
+          }
+          ,
+          {
+            "isOn":true,
+            "type":"light",
+            "lightType":"point",
+            "attenuation": [
+              0.09,
+              0,
+              0
+            ],
+            "color":[
+              1, 1, 1
+            ]
+          }
+        ]
+      },
+      {
         "position": [
           -1.5,
           // at the left of the road
@@ -1107,6 +1223,29 @@
         ]
       },
       {
+        "position":[ 1.5, 4, 21],
+        "components":[
+          {
+            "type":"lightpole"
+          }
+          ,
+          {
+            "isOn":true,
+            "type":"light",
+            "lightType":"point",
+            "attenuation": [
+              0.09,
+              0,
+              0
+            ],
+            "color":[
+              1, 1, 1
+            ]
+          }
+        ]
+      },
+
+      {
         "position": [
           1.5,
           // at the left of the road
@@ -1129,6 +1268,29 @@
           }
         ]
       },
+      {
+        "position":[ -1.5, 4, 25],
+        "components":[
+          {
+            "type":"lightpole"
+          }
+          ,
+          {
+            "isOn":true,
+            "type":"light",
+            "lightType":"point",
+            "attenuation": [
+              0.09,
+              0,
+              0
+            ],
+            "color":[
+              1, 1, 1
+            ]
+          }
+        ]
+      },
+
       {
         "position": [
           -1.5,
@@ -1375,6 +1537,7 @@
         "position":[0, 0, 0],
         "components":[
           {
+            "isOn":true,
             "type":"light",
             "lightType": "sky",
             "sky_top": [0.1, 0.1, 0.1],
@@ -1934,6 +2097,10 @@
     },
     "assets": {
       "shaders": {
+        "lightened": {
+          "vs": "assets/shaders/lightened.vert",
+          "fs": "assets/shaders/lightened.frag"
+        },
         "tinted": {
           "vs": "assets/shaders/tinted.vert",
           "fs": "assets/shaders/tinted.frag"
@@ -1955,7 +2122,10 @@
         "monkey": "assets/textures/monkey.png",
         "turtle": "assets/textures/20446_Sea_Turtle_diff.jpg",
         "duck": "assets/textures/duck.jpg",
-        "game-over": "assets/textures/game-over2.png"
+        "game-over": "assets/textures/game-over2.png",
+        "black": "assets/textures/black.jpg",
+        "white": "assets/textures/white.png",
+        "roughness": "assets/textures/roughness.jpg"
       },
       "meshes": {
         "cube": "assets/models/cube.obj",
@@ -1991,8 +2161,8 @@
           ]
         },
         "monkey": {
-          "type": "textured",
-          "shader": "textured",
+          "type": "lightened",
+          "shader": "lightened",
           "pipelineState": {
             "faceCulling": {
               "enabled": false
@@ -2001,18 +2171,24 @@
               "enabled": true
             }
           },
-          "tint": [
-            1,
-            1,
-            1,
-            1
-          ],
-          "texture": "monkey",
-          "sampler": "default"
+          // "tint": [
+          //   1,
+          //   1,
+          //   1,
+          //   1
+          // ],
+          // "texture": "monkey",
+          "sampler": "default",
+          "albedo": "monkey",
+          "roughness": "roughness",
+          "emissive": "black",
+          "specular": "white",
+          "ambient_occlusion": "monkey"
+
         },
         "turtle": {
-          "type": "textured",
-          "shader": "textured",
+          "type": "lightened",
+          "shader": "lightened",
           "pipelineState": {
             "faceCulling": {
               "enabled": false
@@ -2021,18 +2197,24 @@
               "enabled": true
             }
           },
-          "tint": [
-            1,
-            1,
-            1,
-            1
-          ],
-          "texture": "turtle",
-          "sampler": "default"
+          // "tint": [
+          //   1,
+          //   1,
+          //   1,
+          //   1
+          // ],
+          // "texture": "turtle",
+          "sampler": "default",
+          "albedo": "turtle",
+          "roughness": "roughness",
+          "emissive": "black",
+          "specular": "white",
+          "ambient_occlusion": "turtle"
+
         },
         "duck": {
-          "type": "textured",
-          "shader": "textured",
+          "type": "lightened",
+          "shader": "lightened",
           "pipelineState": {
             "faceCulling": {
               "enabled": false
@@ -2041,14 +2223,20 @@
               "enabled": true
             }
           },
-          "tint": [
-            1,
-            1,
-            1,
-            1
-          ],
-          "texture": "duck",
-          "sampler": "default"
+          // "tint": [
+          //   1,
+          //   1,
+          //   1,
+          //   1
+          // ],
+          // "texture": "duck",
+          "sampler": "default",
+          "albedo": "duck",
+          "roughness": "roughness",
+          "emissive": "black",
+          "specular": "white",
+          "ambient_occlusion": "duck"
+
         }
       }
     },
@@ -2146,7 +2334,57 @@
             "far": 100
           }
         ]
+      },
+      // spot light above object
+      {
+        "position":[
+          -4, 9, 0
+        ],
+        "components":[
+          {
+            "type":"light",
+            "lightType":"spot",
+            "attenuation": [
+              0.01,
+              0,
+              0
+            ],
+            "cone_angles": [
+              20,
+              40
+            ],
+            "color":[
+              1, 1, 1
+            ]
+          }
+
+        ]
+      },
+      { "rotation":[0, 0, -180],
+        "position":[
+          8, 9, 0
+        ],
+        "components":[
+          {
+            "type":"light",
+            "lightType":"spot",
+            "attenuation": [
+              0.01,
+              0,
+              0
+            ],
+            "cone_angles": [
+              20,
+              40
+            ],
+            "color":[
+              1, 1, 1
+            ]
+          }
+
+        ]
       }
+
     ]
   }
 }
