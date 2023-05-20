@@ -194,7 +194,7 @@ namespace our
         int cc = 0;
 
         // This function is called every frame by the world to determine if there is any collision
-        void update(World *world, float)
+        CollisionType update(World *world, float)
         {
             // For each entity in the world
             std::vector<Entity *> entitiesToCollide;
@@ -216,7 +216,7 @@ namespace our
 
             if (!stick_index)
             {
-                return;
+                CollisionType::NONE;
             }
             Entity *entity1 = stick_index;
             // check if the stick is colliding with the any of the other entities
@@ -233,39 +233,42 @@ namespace our
                 {
                     // if the two entities are colliding, then change delete the entity
                     CollisionType type = entity2->getComponent<CollisionComponent>()->type;
-                    switch (type) {
-                        case CollisionType::COIN:
-                            coins_collected++;
-//                            std::cout << coins_collected << std::endl;
-                            // if the coin is collided, marke it as collided 
-                            // so that the coin system will not redraw it again 
-                            // (to avoid confilict of both classes 
-                            // (i.e., we don't want both classes to modify the position of the same coin at 
-                            // the same time))
-                            entity2->getComponent<CoinComponent>()->collided = true; 
-                            // then we will redraw it instead of deleting from the system
-                            // cuase our game is infinite 
-                            // i.e., we need to redraw the coins
-                            // otherwise, if we delete each collided coin, then if the player collide all coins
-                            // there will be no coin again to be collected
-                            entity2->getComponent<CoinComponent>()->getOwner()->localTransform.position.z -= 50;
-                            break;
-                        case CollisionType::OBSTACLE:
-                            lives--;
-                            if (lives == 0) {
-                                is_lost = true;
-                            }
-                            entity2->getComponent<ObstacleComponent>()->collided = true;
-                            entity2->getComponent<ObstacleComponent>()->getOwner()->localTransform.position.z -= 50;
-                            // world->markForRemoval(entity2);
-//                            is_lost = true;
-//                            std::cout << "lost" << cc++ << std::endl;
-                            break;
-                        default:
-                            break;
+                    switch (type)
+                    {
+                    case CollisionType::COIN:
+                        coins_collected++;
+                        //                            std::cout << coins_collected << std::endl;
+                        // if the coin is collided, marke it as collided
+                        // so that the coin system will not redraw it again
+                        // (to avoid confilict of both classes
+                        // (i.e., we don't want both classes to modify the position of the same coin at
+                        // the same time))
+                        entity2->getComponent<CoinComponent>()->collided = true;
+                        // then we will redraw it instead of deleting from the system
+                        // cuase our game is infinite
+                        // i.e., we need to redraw the coins
+                        // otherwise, if we delete each collided coin, then if the player collide all coins
+                        // there will be no coin again to be collected
+                        entity2->getComponent<CoinComponent>()->getOwner()->localTransform.position.z -= 50;
+                        return CollisionType::COIN;
+                    case CollisionType::OBSTACLE:
+                        lives--;
+                        if (lives == 0)
+                        {
+                            is_lost = true;
+                        }
+                        entity2->getComponent<ObstacleComponent>()->collided = true;
+                        entity2->getComponent<ObstacleComponent>()->getOwner()->localTransform.position.z -= 50;
+                        // world->markForRemoval(entity2);
+                        //                            is_lost = true;
+                        //                            std::cout << "lost" << cc++ << std::endl;
+                        return CollisionType::OBSTACLE;
+                    default:
+                        CollisionType::NONE;
                     }
                 }
             }
+            CollisionType::OBSTACLE;
         }
     };
 
