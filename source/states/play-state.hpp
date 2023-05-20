@@ -8,6 +8,7 @@
 #include <systems/movement.hpp>
 #include <systems/collision.hpp>
 #include <systems/coin-controller.hpp>
+#include <systems/monkey-controller.hpp>
 #include <systems/lightpole-position.hpp>
 // incllude the road movement controller
 #include <systems/road-movement-controller.hpp>
@@ -35,6 +36,7 @@ class Playstate : public our::State
     our::CollisionSystem collisionSystem;
     our::RoadControllerSystem roadController;
     our::CoinControllerSystem coinController;
+    our::MonkeyControllerSystem monkeyController;
     our::ObstacleControllerSystem obstacleController;
     our::LightPoleControllerSystem lightpoleController;
     // ISoundEngine *SoundEngine = createIrrKlangDevice();// = createIrrKlangDevice();
@@ -73,16 +75,17 @@ class Playstate : public our::State
         // TODO: update the road movement controller
         roadController.update(&world, (float)deltaTime);
         coinController.update(&world, (float)deltaTime);
+        monkeyController.update(&world, (float)deltaTime);
         obstacleController.update(&world, (float)deltaTime);
         lightpoleController.update(&world, (float)deltaTime);
 
-        CollisionType hit = collisionSystem.update(&world, (float)deltaTime);
+        CollisionType CollidedObject = collisionSystem.update(&world, (float)deltaTime);
         world.deleteMarkedEntities();
         // And finally we use the renderer system to draw the scene
-        if (hit == CollisionType::OBSTACLE)
+        if (CollidedObject == CollisionType::MONKEY)
         {
             renderer.effect = true;
-            hit = CollisionType::NONE;
+            CollidedObject = CollisionType::NONE;
             time = 1;
         }
 

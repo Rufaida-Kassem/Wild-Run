@@ -4,6 +4,7 @@
 #include "../components/collision.hpp"
 #include "../components/coin.hpp"
 #include "../components/obstacle.hpp"
+#include "../components/monkey.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
@@ -263,8 +264,20 @@ namespace our
                         //                            is_lost = true;
                         //                            std::cout << "lost" << cc++ << std::endl;
                         return CollisionType::OBSTACLE;
+                    case CollisionType::MONKEY:
+                        lives--;
+                        if (lives == 0)
+                        {
+                            is_lost = true;
+                        }
+                        entity2->getComponent<MonkeyComponent>()->collided = true;
+                        entity2->getComponent<MonkeyComponent>()->getOwner()->localTransform.position.z -= 50;
+                        // world->markForRemoval(entity2);
+                        //                            is_lost = true;
+                        //                            std::cout << "lost" << cc++ << std::endl;
+                        return CollisionType::MONKEY;
                     default:
-                        CollisionType::NONE;
+                        return CollisionType::NONE;
                     }
                 }
             }

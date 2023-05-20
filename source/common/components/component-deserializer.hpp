@@ -9,6 +9,7 @@
 #include "road.hpp" /// phase 2
 #include "coin.hpp"
 #include "obstacle.hpp"
+#include "monkey.hpp"
 #include "lightpole.hpp"
 
 namespace our
@@ -41,16 +42,24 @@ namespace our
         {
             component = entity->addComponent<CollisionComponent>();
         }
-        else if (type == RoadComponent::getID()) {  /// phase 2
+        else if (type == RoadComponent::getID())
+        { /// phase 2
             component = entity->addComponent<RoadComponent>();
         }
-        else if (type == CoinComponent::getID()){
+        else if (type == CoinComponent::getID())
+        {
             component = entity->addComponent<CoinComponent>();
         }
-        else if (type == ObstacleComponent::getID()){
+        else if (type == MonkeyComponent::getID())
+        {
+            component = entity->addComponent<MonkeyComponent>();
+        }
+        else if (type == ObstacleComponent::getID())
+        {
             component = entity->addComponent<ObstacleComponent>();
         }
-        else if (type == LightPoleComponent::getID()){
+        else if (type == LightPoleComponent::getID())
+        {
             component = entity->addComponent<LightPoleComponent>();
         }
 

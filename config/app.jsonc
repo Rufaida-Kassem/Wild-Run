@@ -12,7 +12,7 @@
     "renderer": {
       //       "sky": "assets/textures/sky.jpg",
       "sky": "assets/textures/nite.jpg",
-      "postprocess": "assets/shaders/postprocess/radial-blur.frag"
+      "postprocess": "assets/shaders/postprocess/glow.frag"
     },
     "assets": {
       "shaders": {
