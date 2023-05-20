@@ -113,7 +113,6 @@
           "emissive": "black",
           "specular": "white",
           "ambient_occlusion": "monkey"
-
         },
         "turtle": {
           "type": "lightened",
@@ -139,7 +138,6 @@
           "emissive": "black",
           "specular": "white",
           "ambient_occlusion": "turtle"
-
         },
         "duck": {
           "type": "lightened",
@@ -165,7 +163,6 @@
           "emissive": "black",
           "specular": "white",
           "ambient_occlusion": "duck"
-
         },
         "coin": {
           "type": "lightened",
@@ -191,7 +188,6 @@
           "emissive": "coin",
           "specular": "white",
           "ambient_occlusion": "coin"
-
         },
         "obstacle": {
           "type": "lightened",
@@ -217,7 +213,6 @@
           "emissive": "black",
           "specular": "white",
           "ambient_occlusion": "obstacle"
-
         },
         "lightpole": {
           "type": "lightened",
@@ -243,10 +238,131 @@
           "emissive": "black",
           "specular": "white",
           "ambient_occlusion": "lightpole"
-
         }
       }
     },
+    "players-entities": [
+      {
+        "name": "player_child",
+        "position": [
+          0,
+          -1,
+          -1.5
+        ],
+        "rotation": [
+          270,
+          180,
+          0
+        ],
+        "scale": [
+          0.01,
+          0.01,
+          0.01
+        ],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "turtle",
+            "material": "turtle"
+          },
+          {
+            "type": "Collision",
+            "W": [
+              -10,
+              12
+            ],
+            "H": [
+              -11,
+              15
+            ],
+            "D": [
+              -0.0671,
+              9.656
+            ]
+          }
+        ]
+      },
+      {
+        "name": "player_child",
+        "position": [
+          0,
+          -0.5,
+          -1.5
+        ],
+        "rotation": [
+          0,
+          180,
+          0
+        ],
+        "scale": [
+          0.3,
+          0.3,
+          0.3
+        ],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "monkey",
+            "material": "monkey"
+          },
+          {
+            "type": "Collision",
+            "W": [
+              -1.367188,
+              1.367188
+            ],
+            "H": [
+              -0.984375,
+              0.984375
+            ],
+            "D": [
+              -0.851562,
+              0.851562
+            ]
+          }
+        ]
+      },
+      {
+        "name": "player_child",
+        "position": [
+          0,
+          -1,
+          -1.5
+        ],
+        "rotation": [
+          270,
+          180,
+          0
+        ],
+        "scale": [
+          0.01,
+          0.01,
+          0.01
+        ],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "duck",
+            "material": "duck"
+          },
+          {
+            "type": "Collision",
+            "W": [
+              -14.0372,
+              14.0372
+            ],
+            "H": [
+              -22.5254,
+              30.7442
+            ],
+            "D": [
+              -0.0458,
+              54.7152
+            ]
+          }
+        ]
+      }
+    ],
     "world": [
 
       {
@@ -317,60 +433,7 @@
           },
     
           {
-            "name": "player",
-            "position": [
-              0,
-              -1,
-              -1.5
-            ],
-            "rotation": [
-              270,
-              180,
-              0
-            ],
-            "scale": [
-              0.01,
-              0.01,
-              0.01
-            ],
-            "components": [
-              // {
-              //   "type":"light",
-              //   "lightType":"spot",
-              //   "color":[
-              //     1, 1, 1
-              //   ],
-              //   "cone_angles": [
-              //     60,
-              //     60
-              //   ],
-              //   "attenuation": [
-              //     0.09,
-              //     0,
-              //     0
-              //   ]
-              // },
-              {
-                "type": "Mesh Renderer",
-                "mesh": "turtle",
-                "material": "turtle"
-              },
-              {
-                "type": "Collision",
-                "W": [
-                  -10,
-                  12
-                ],
-                "H": [
-                  -11,
-                  15
-                ],
-                "D": [
-                  -0.0671,
-                  9.656
-                ]
-              }
-            ]
+            "name": "player"
           }
         ]
       },
@@ -446,8 +509,10 @@
               1,
               0
             ],
-            "color":[
-              1, 1, 0
+            "color": [
+              1,
+              1,
+              0
             ]
           }
         ]
@@ -1534,15 +1599,31 @@
         ]
       },
       {
-        "position":[0, 0, 0],
-        "components":[
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "components": [
           {
             "isOn":true,
             "type":"light",
             "lightType": "sky",
-            "sky_top": [0.1, 0.1, 0.1],
-            "sky_middle": [0.3, 0.3, 0.3],
-            "sky_bottom": [0.5, 0.5, 0.5]
+            "sky_top": [
+              0.1,
+              0.1,
+              0.1
+            ],
+            "sky_middle": [
+              0.3,
+              0.3,
+              0.3
+            ],
+            "sky_bottom": [
+              0.5,
+              0.5,
+              0.5
+            ]
           }
         ]
       }
@@ -1552,8 +1633,8 @@
     "renderer": {
       // "sky": "assets/textures/sky.jpg",
       "sky": "assets/textures/nite.jpg",
-      //      "postprocess": "assets/shaders/postprocess/convolve.frag"
-      "postprocess": "assets/shaders/postprocess/glow.frag"
+      "postprocess": "assets/shaders/postprocess/convolve.frag"
+      //      "postprocess": "assets/shaders/postprocess/glow.frag"
     },
     "assets": {
       "shaders": {
@@ -1572,15 +1653,13 @@
       },
       "textures": {
         "moon": "assets/textures/moon.jpg",
-        "grass": "assets/textures/grass_ground_d.jpg",
-        "wood": "assets/textures/wood.jpg",
+        "grass": "assets/textures/gg.jpg",
         "glass": "assets/textures/glass-panels.png",
         "monkey": "assets/textures/monkey.png",
         "turtle": "assets/textures/20446_Sea_Turtle_diff.jpg",
         "game-over": "assets/textures/game-over2.png",
         "player": "assets/textures/player.png",
-        "coin": "assets/textures/yellowCoin.png",
-        "obstacle": "assets/textures/obstacle.png"
+        "duck": "assets/textures/duck.jpg"
       },
       "meshes": {
         "cube": "assets/models/cube.obj",
@@ -1590,7 +1669,7 @@
         "turtle": "assets/models/20446_Sea_Turtle_v1 Textured.obj",
         "player": "assets/models/player.obj",
         "coin": "assets/models/yellowCoin.obj",
-        "obstacle": "assets/models/obstacle.obj"
+        "duck": "assets/models/duck.obj"
       },
       "samplers": {
         "default": {},
@@ -1644,33 +1723,6 @@
           "texture": "glass",
           "sampler": "pixelated"
         },
-        //        "text-screen": {
-        //          "type": "textured",
-        //          "shader": "textured",
-        //          "pipelineState": {
-        //            "faceCulling": {
-        //              "enabled": false
-        //            },
-        //            "depthTesting": {
-        //              "enabled": true
-        //            },
-        //            "blending": {
-        //              "enabled": true,
-        //              "sourceFactor": "GL_SRC_ALPHA",
-        //              "destinationFactor": "GL_ONE_MINUS_SRC_ALPHA"
-        //            },
-        //            "depthMask": false
-        //          },
-        //          "transparent": true,
-        //          "tint": [
-        //            2,
-        //            2,
-        //            2,
-        //            1
-        //          ],
-        //          "texture": "game-over",
-        //          "sampler": "pixelated"
-        //        },
         "grass": {
           "type": "textured",
           "shader": "textured",
@@ -1712,6 +1764,26 @@
           "sampler": "default"
         },
         "turtle": {
+          "type": "textured",
+          "shader": "textured",
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "tint": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "texture": "turtle",
+          "sampler": "default"
+        },
+        "duck": {
           "type": "textured",
           "shader": "textured",
           "pipelineState": {
@@ -1861,6 +1933,44 @@
             "angularVelocity": [
               0,
               45,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "duck",
+        "rotation": [
+          -90,
+          12,
+          56
+        ],
+        "position": [
+          -10,
+          0,
+          -3
+        ],
+        "scale": [
+          0.07,
+          0.07,
+          0.07
+        ],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "duck",
+            "material": "duck"
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [
+              0,
+              45,
+              0
+            ],
+            "linearVelocity": [
+              0,
+              0.1,
               0
             ]
           }
