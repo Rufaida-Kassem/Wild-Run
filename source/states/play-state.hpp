@@ -8,6 +8,7 @@
 #include <systems/movement.hpp>
 #include <systems/collision.hpp>
 #include <systems/coin-controller.hpp>
+#include <systems/monkey-controller.hpp>
 #include <systems/lightpole-position.hpp>
 // incllude the road movement controller
 #include <systems/road-movement-controller.hpp>
@@ -24,9 +25,9 @@
 // #pragma comment(lib, "irrKlang.lib")
 // using namespace irrklang;
 
-
 // This state shows how to use the ECS framework and deserialization.
-class Playstate : public our::State {
+class Playstate : public our::State
+{
 
     our::World world;
     our::ForwardRenderer renderer;
@@ -35,22 +36,26 @@ class Playstate : public our::State {
     our::CollisionSystem collisionSystem;
     our::RoadControllerSystem roadController;
     our::CoinControllerSystem coinController;
+    our::MonkeyControllerSystem monkeyController;
     our::ObstacleControllerSystem obstacleController;
     our::LightPoleControllerSystem lightpoleController;
-    //ISoundEngine *SoundEngine = createIrrKlangDevice();// = createIrrKlangDevice();
-
-    void onInitialize() override {
-        //SoundEngine->play2D("assets/sounds/theme.wav", true);
-        // the following line gives an error 
-        // sndPlaySound("assets/sounds/theme.wav",SND_ASYNC);
-        // First of all, we get the scene configuration from the app config
+    // ISoundEngine *SoundEngine = createIrrKlangDevice();// = createIrrKlangDevice();
+    int time = 0;
+    void onInitialize() override
+    {
+        // SoundEngine->play2D("assets/sounds/theme.wav", true);
+        //  the following line gives an error
+        //  sndPlaySound("assets/sounds/theme.wav",SND_ASYNC);
+        //  First of all, we get the scene configuration from the app config
         auto &config = getApp()->getConfig()["scene"];
         // If we have assets in the scene config, we deserialize them
-        if (config.contains("assets")) {
+        if (config.contains("assets"))
+        {
             our::deserializeAllAssets(config["assets"]);
         }
         // If we have a world in the scene config, we use it to populate our world
-        if (config.contains("world")) {
+        if (config.contains("world"))
+        {
             world.deserialize(config["world"]);
         }
         // We initialize the camera controller system since it needs a pointer to the app
@@ -61,41 +66,62 @@ class Playstate : public our::State {
         collisionSystem.OnInitialize();
     }
 
-    void onDraw(double deltaTime) override {
+    void onDraw(double deltaTime) override
+    {
         // Here, we just run a bunch of systems to control the world logic
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        movementSystem.update(&world, (float) deltaTime);
-        cameraController.update(&world, (float) deltaTime);
+        movementSystem.update(&world, (float)deltaTime);
+        cameraController.update(&world, (float)deltaTime);
         // TODO: update the road movement controller
-        roadController.update(&world, (float) deltaTime);
-        coinController.update(&world, (float) deltaTime);
-        obstacleController.update(&world, (float) deltaTime);
-        lightpoleController.update(&world, (float) deltaTime);
+        roadController.update(&world, (float)deltaTime);
+        coinController.update(&world, (float)deltaTime);
+        monkeyController.update(&world, (float)deltaTime);
+        obstacleController.update(&world, (float)deltaTime);
+        lightpoleController.update(&world, (float)deltaTime);
 
-
-        collisionSystem.update(&world, (float) deltaTime);
+        bool hit = collisionSystem.update(&world, (float)deltaTime);
         world.deleteMarkedEntities();
         // And finally we use the renderer system to draw the scene
+        if (hit)
+        {
+            renderer.effect = true;
+            hit = false;
+            time = 1;
+        }
+
+        if (renderer.effect && time == 40)
+        {
+            renderer.effect = false;
+            time = 0;
+        }
+        else
+        {
+            time += 1;
+        }
         renderer.render(&world);
 
         // Get a reference to the keyboard object
         auto &keyboard = getApp()->getKeyboard();
 
-        if (keyboard.justPressed(GLFW_KEY_ESCAPE)) {
+        if (keyboard.justPressed(GLFW_KEY_ESCAPE))
+        {
             // If the escape  key is pressed in this frame, go to the play state
             getApp()->changeState("menu");
         }
-        if (collisionSystem.get_is_lost()) {
+        if (collisionSystem.get_is_lost())
+        {
 
             getApp()->changeState("game-over");
         }
     }
 
-    void print_vec45(glm::vec4 v) {
+    void print_vec45(glm::vec4 v)
+    {
         std::cout << v.x << " " << v.y << " " << v.z << " " << v.w << std::endl;
     }
 
-    void onImmediateGui() override {
+    void onImmediateGui() override
+    {
         // write the current state name in text box
         ImGuiWindowFlags window_flags = 0;
         window_flags |= ImGuiWindowFlags_NoDecoration |
@@ -106,15 +132,16 @@ class Playstate : public our::State {
         const std::string current_coins = "Coins: " + std::to_string(collisionSystem.get_coins_collected());
         const std::string current_lives = "Lives: " + std::to_string(collisionSystem.get_lives());
         // resize the window
-//        ImGui::SetWindowSize(ImVec2(300, 100));
-//            get the size of the text
-//        ImVec2 text_size = ImGui::CalcTextSize(current_coins.c_str());
+        //        ImGui::SetWindowSize(ImVec2(300, 100));
+        //            get the size of the text
+        //        ImVec2 text_size = ImGui::CalcTextSize(current_coins.c_str());
         ImGui::Text(current_coins.c_str());
         ImGui::Text(current_lives.c_str());
         ImGui::End();
     }
 
-    void onDestroy() override {
+    void onDestroy() override
+    {
         // Don't forget to destroy the renderer
         renderer.destroy();
         // On exit, we call exit for the camera controller system to make sure that the mouse is unlocked

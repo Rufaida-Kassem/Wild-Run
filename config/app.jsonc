@@ -12,7 +12,7 @@
     "renderer": {
       //       "sky": "assets/textures/sky.jpg",
       "sky": "assets/textures/nite.jpg",
-      "postprocess": "assets/shaders/postprocess/vignette.frag"
+      "postprocess": "assets/shaders/postprocess/radial-blur.frag"
     },
     "assets": {
       "shaders": {
@@ -345,6 +345,196 @@
                   9.656
                 ]
               }
+            ]
+          }
+        ]
+      },
+      // the monkey=================================================================================
+      {
+        "position": [
+          -1,
+          -1,
+          -10
+        ],
+        "scale": [
+          0.25,
+          0.25,
+          0.25
+        ],
+        "name": "monkey",
+        "components": [
+          {
+            "type": "Monkey"
+          },
+          {
+            "type": "Mesh Renderer",
+            "mesh": "monkey",
+            "material": "monkey"
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [
+              0,
+              45,
+              0
+            ]
+          },
+          {
+            "type": "Collision",
+            "objType": "monkey",
+            "W": [
+              -0.09883,
+              0.09961
+            ],
+            "H": [
+              0,
+              0.2
+            ],
+            "D": [
+              -0.01172,
+              0.125
+            ]
+          },
+          {
+            "type": "Collision",
+            "objType": "monkey",
+            "W": [
+              -1.5,
+              5
+            ],
+            "H": [
+              0,
+              1.099199
+            ],
+            "D": [
+              -0.06,
+              0.113788
+            ]
+          }
+        ]
+      },
+      {
+        "position": [
+          -1,
+          -1,
+          -20
+        ],
+        "scale": [
+          0.25,
+          0.25,
+          0.25
+        ],
+        "name": "monkey",
+        "components": [
+          {
+            "type": "Monkey"
+          },
+          {
+            "type": "Mesh Renderer",
+            "mesh": "monkey",
+            "material": "monkey"
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [
+              0,
+              45,
+              0
+            ]
+          },
+          {
+            "type": "Collision",
+            "objType": "monkey",
+            "W": [
+              -0.09883,
+              0.09961
+            ],
+            "H": [
+              0,
+              0.2
+            ],
+            "D": [
+              -0.01172,
+              0.125
+            ]
+          },
+          {
+            "type": "Collision",
+            "objType": "monkey",
+            "W": [
+              -1.5,
+              5
+            ],
+            "H": [
+              0,
+              1.099199
+            ],
+            "D": [
+              -0.06,
+              0.113788
+            ]
+          }
+        ]
+      },
+      {
+        "position": [
+          -1,
+          -1,
+          -30
+        ],
+        "scale": [
+          0.25,
+          0.25,
+          0.25
+        ],
+        "name": "monkey",
+        "components": [
+          {
+            "type": "Monkey"
+          },
+          {
+            "type": "Mesh Renderer",
+            "mesh": "monkey",
+            "material": "monkey"
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [
+              0,
+              45,
+              0
+            ]
+          },
+          {
+            "type": "Collision",
+            "objType": "monkey",
+            "W": [
+              -0.09883,
+              0.09961
+            ],
+            "H": [
+              0,
+              0.2
+            ],
+            "D": [
+              -0.01172,
+              0.125
+            ]
+          },
+          {
+            "type": "Collision",
+            "objType": "monkey",
+            "W": [
+              -1.5,
+              5
+            ],
+            "H": [
+              0,
+              1.099199
+            ],
+            "D": [
+              -0.06,
+              0.113788
             ]
           }
         ]
