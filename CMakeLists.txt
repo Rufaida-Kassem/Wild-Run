@@ -84,6 +84,8 @@ set(COMMON_SOURCES
         source/common/components/road.cpp
         source/common/components/coin.hpp
         source/common/components/coin.cpp
+        source/common/components/cube.hpp
+        source/common/components/cube.cpp
         source/common/components/monkey.hpp
         source/common/components/monkey.cpp
         source/common/components/obstacle.hpp
@@ -101,6 +103,7 @@ set(COMMON_SOURCES
         source/common/systems/coin-controller.hpp
         source/common/systems/monkey-controller.hpp
         source/common/systems/obstacle-controller.hpp
+        source/common/systems/cube-controller.hpp
         source/common/systems/lightpole-position.hpp
 
 

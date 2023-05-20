@@ -10,6 +10,7 @@
 #include "coin.hpp"
 #include "obstacle.hpp"
 #include "monkey.hpp"
+#include "cube.hpp"
 #include "lightpole.hpp"
 
 namespace our
@@ -62,7 +63,10 @@ namespace our
         {
             component = entity->addComponent<LightPoleComponent>();
         }
-
+        else if (type == CubeComponent::getID())
+        {
+            component = entity->addComponent<CubeComponent>();
+        }
         if (component)
             component->deserialize(data);
     }

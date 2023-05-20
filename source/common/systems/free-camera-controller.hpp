@@ -76,7 +76,8 @@ namespace our
         }
 
     public:
-        // When a state enters, it should call this function and give it the pointer to the application
+        // Wefihen a state enters, it should call this function and give it the pointer to the application
+        inline static int punishment = 1;
         void enter(Application *app)
         {
             this->app = app;
@@ -130,6 +131,7 @@ namespace our
                       right = glm::vec3(matrix * glm::vec4(1, 0, 0, 0));
 
             glm::vec3 current_sensitivity = controller->positionSensitivity;
+            current_sensitivity *= punishment;
             // If the LEFT SHIFT key is pressed, we multiply the position sensitivity by the speed up factor
             if (app->getKeyboard().isPressed(GLFW_KEY_LEFT_SHIFT))
                 current_sensitivity *= controller->speedupFactor;

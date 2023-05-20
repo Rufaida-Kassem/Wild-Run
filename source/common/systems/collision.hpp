@@ -5,7 +5,7 @@
 #include "../components/coin.hpp"
 #include "../components/obstacle.hpp"
 #include "../components/monkey.hpp"
-
+#include "../components/cube.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
 #include <glm/trigonometric.hpp>
@@ -265,23 +265,26 @@ namespace our
                         //                            std::cout << "lost" << cc++ << std::endl;
                         return CollisionType::OBSTACLE;
                     case CollisionType::MONKEY:
-                        lives--;
-                        if (lives == 0)
-                        {
-                            is_lost = true;
-                        }
                         entity2->getComponent<MonkeyComponent>()->collided = true;
                         entity2->getComponent<MonkeyComponent>()->getOwner()->localTransform.position.z -= 50;
                         // world->markForRemoval(entity2);
                         //                            is_lost = true;
                         //                            std::cout << "lost" << cc++ << std::endl;
                         return CollisionType::MONKEY;
+                    case CollisionType::CUBE:
+                        our::FreeCameraControllerSystem::punishment *= 2;
+                        entity2->getComponent<CubeComponent>()->collided = true;
+                        entity2->getComponent<CubeComponent>()->getOwner()->localTransform.position.z -= 50;
+                        // world->markForRemoval(entity2);
+                        //                            is_lost = true;
+                        //                            std::cout << "lost" << cc++ << std::endl;
+                        return CollisionType::CUBE;
                     default:
                         return CollisionType::NONE;
                     }
                 }
             }
-            CollisionType::OBSTACLE;
+            return CollisionType::NONE;
         }
     };
 

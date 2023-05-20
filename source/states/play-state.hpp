@@ -13,6 +13,7 @@
 // incllude the road movement controller
 #include <systems/road-movement-controller.hpp>
 #include <systems/obstacle-controller.hpp>
+#include <systems/cube-controller.hpp>
 #include <asset-loader.hpp>
 #include <components/collision.hpp>
 #include "glm/glm.hpp"
@@ -37,6 +38,7 @@ class Playstate : public our::State
     our::RoadControllerSystem roadController;
     our::CoinControllerSystem coinController;
     our::MonkeyControllerSystem monkeyController;
+    our::CubeControllerSystem cubeController;
     our::ObstacleControllerSystem obstacleController;
     our::LightPoleControllerSystem lightpoleController;
     // ISoundEngine *SoundEngine = createIrrKlangDevice();// = createIrrKlangDevice();
@@ -77,6 +79,7 @@ class Playstate : public our::State
         coinController.update(&world, (float)deltaTime);
         monkeyController.update(&world, (float)deltaTime);
         obstacleController.update(&world, (float)deltaTime);
+        cubeController.update(&world, (float)deltaTime);
         lightpoleController.update(&world, (float)deltaTime);
 
         CollisionType CollidedObject = collisionSystem.update(&world, (float)deltaTime);

@@ -15,7 +15,8 @@ enum class CollisionType
     NONE,
     COIN,
     OBSTACLE,
-    MONKEY
+    MONKEY,
+    CUBE
 };
 
 namespace our
@@ -24,7 +25,8 @@ namespace our
         {"none", CollisionType::NONE},
         {"coin", CollisionType::COIN},
         {"obstacle", CollisionType::OBSTACLE},
-        {"monkey", CollisionType::MONKEY}};
+        {"monkey", CollisionType::MONKEY},
+        {"cube", CollisionType::CUBE}};
 
     class CollisionComponent : public Component
     {
