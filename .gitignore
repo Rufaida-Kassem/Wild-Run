@@ -1,4 +1,3 @@
-
 # build directories
 cmake-build-*/
 build/
@@ -15,7 +14,7 @@ imgui.ini
 # Visual Studio specific files
 CMakeSettings.json
 .vs/
-
+test.txt
 # Clion specific files
 .idea/
 
@@ -30,3 +29,5 @@ errors/
 
 vendor/irrKlang-64bit-1.6.0
 vendor/irrKlang-64bit-1.6.0.zip
+./test.txt
+/test.txt

@@ -14,16 +14,19 @@ enum class CollisionType
 {
     NONE,
     COIN,
-    OBSTACLE
+    OBSTACLE,
+    MONKEY,
+    CUBE
 };
 
 namespace our
 {
-    // a map from string to CollisionType enum to be used in deserialization
     inline const std::unordered_map<std::string, CollisionType> collisionMap = {
         {"none", CollisionType::NONE},
         {"coin", CollisionType::COIN},
-        {"obstacle", CollisionType::OBSTACLE}};
+        {"obstacle", CollisionType::OBSTACLE},
+        {"monkey", CollisionType::MONKEY},
+        {"cube", CollisionType::CUBE}};
 
     class CollisionComponent : public Component
     {
@@ -52,7 +55,7 @@ namespace our
             // extension in Z direction
             glm::vec2 D = data.value("D", glm::vec2(1.0f, 1.0f));
 
-            // add vertices to the vector
+            //            add vertices to the vector
             vertices.emplace_back(W.y, H.y, D.y);
             vertices.emplace_back(W.y, H.y, D.x);
             vertices.emplace_back(W.y, H.x, D.x);
