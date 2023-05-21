@@ -7,6 +7,8 @@ namespace our
 
     void ForwardRenderer::initialize(glm::ivec2 windowSize, const nlohmann::json &config)
     {
+          //. for testing
+        test_file.open("test.txt");
         // First, we store the window size for later use
         this->windowSize = windowSize;
 
@@ -240,15 +242,10 @@ namespace our
             {
                 //. we need to get the cone angles
                 light_source.cone_angles = glm::vec2(light->cone_angles);
-                // glm::vec2(light->cone_angles.x, light->cone_angles.y);
-                light_source.direction = glm::vec3(light->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 1, 0, 0));
             }
-            else
-            {
                 //. we need to add the light direction
 
-                light_source.direction = glm::vec3(light->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, -1, 0));
-            }
+                light_source.direction = glm::vec3(light->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, -1, 0, 0));
 
             //. we add the light source to the light sources list
             light_sources.push_back(light_source);
@@ -480,5 +477,16 @@ namespace our
 
             glDrawArrays(GL_TRIANGLES, 0, 3);
         }
+     //. for testing :: print all information about light sources
+        for (int i = 0; i < light_sources.size(); i++) {
+            test_file << "light source " << i << " : " << std::endl;
+            test_file << "type : " << light_sources[i].type << std::endl;
+            test_file << "position : " << light_sources[i].position.x << " " << light_sources[i].position.y << " " << light_sources[i].position.z << std::endl;
+            test_file << "direction : " << light_sources[i].direction.x << " " << light_sources[i].direction.y << " " << light_sources[i].direction.z << std::endl;
+            test_file << "color : " << light_sources[i].color.x << " " << light_sources[i].color.y << " " << light_sources[i].color.z << std::endl;
+            test_file << "attenuation : " << light_sources[i].attenuation.x << " " << light_sources[i].attenuation.y << " " << light_sources[i].attenuation.z << std::endl;
+            test_file << "cone_angles : " << light_sources[i].cone_angles.x << " " << light_sources[i].cone_angles.y << std::endl;
+        }
+        test_file << "----------------------------------------" << std::endl;
     }
 }
