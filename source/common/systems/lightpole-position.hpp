@@ -16,9 +16,9 @@
 namespace our
 {
 
-	// the lightpole controller system is responsible for redrawing the uncollided lightpoles so that 
+	// the lightpole controller system is responsible for redrawing the lightpoles so that 
 	// during the game, there will be lightpoles all the time and won't finish (disappear)
-	// i.e., if this system doesn't exist, then the lightpoles will appear only at the beg. of the game
+	// i.e., if this system class doesn't exist, then the lightpoles will appear only at the beg. of the game
 	// for specific time until the user pass through the last lightpole
 	// hence, no lightpoles agian will exist for the rest of the game
 	// Again, this is because our game is infinite
