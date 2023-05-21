@@ -55,17 +55,11 @@ namespace our
     // In this project, we only need to implement a forward renderer
     class ForwardRenderer
     {
-              //. for testing
-        //. declare an output file stream
-        
-        std::ofstream test_file;
 
-                //. create light sources array and pass it to the shader
-        //. it is an array of pointers to light components
-        //. the size of the array is the number of light components
+        //. create light sources vector to store all enabled lights in the scene
         std::vector<LightSource> light_sources;
 
-        //. create sky light effect and pass it to the shader
+        //. store the sky light data
         SkyLightEffect sky_light_effect;
         
 
