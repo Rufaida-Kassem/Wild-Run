@@ -1,19 +1,22 @@
 #version 330
+// a postprocessing shader that adds a bloom effect to the scene
+// bloom is the effect of light spreading out from bright areas in an image
 
-
+// the radius of the bloom effect
 uniform float bloomRadius = 1.0f;
+// the threshold of the bloom effect (the minimum brightness of a pixel to be considered for the bloom effect)
 uniform float bloomThreshold = 0.5f;
+// the intensity of the bloom effect
 uniform float bloomIntensity = 1.0f;
 // The texture holding the scene pixels
 uniform sampler2D tex;
 
-// Read "assets/shaders/fullscreen.vert" to know what "tex_coord" holds;
 in vec2 tex_coord;
 out vec4 frag_color;
 
-
+// we get the bloom color of a pixel by substracting the threshold from the pixel color
 vec3 GetBloomPixel(vec2 uv, vec2 texPixelSize) {
-    //    first we get the pixel of the texture by floor(uv / texPixelSize) * texPixelSize
+    //    first we get the pixel of the texture by rounding the uv to the nearest pixel
     vec2 uv2 = floor(uv / texPixelSize) * texPixelSize;
     //    then we add a small offset to get the pixel next to it
     uv2 += texPixelSize * .001;
@@ -24,14 +27,16 @@ vec3 GetBloomPixel(vec2 uv, vec2 texPixelSize) {
     vec3 tr = max(texture(tex, uv2 + vec2(texPixelSize.x, 0.0)).rgb - bloomThreshold, 0.0);
     vec3 bl = max(texture(tex, uv2 + vec2(0.0, texPixelSize.y)).rgb - bloomThreshold, 0.0);
     vec3 br = max(texture(tex, uv2 + vec2(texPixelSize.x, texPixelSize.y)).rgb - bloomThreshold, 0.0);
+    // fract returns the fractional part of a number
     vec2 f = fract(uv / texPixelSize);
 
+    //   we mix the colors of the 4 pixels around the bloom color
     vec3 tA = mix(tl, tr, f.x);
     vec3 tB = mix(bl, br, f.x);
-
     return mix(tA, tB, f.y);
 }
 
+// we get the bloom color of a pixel by getting the color of the 9 pixels around it and we mix them
 vec3 GetBloom(vec2 uv, vec2 texPixelSize) {
     vec3 bloom = vec3(0.0);
     vec2 off = vec2(1) * texPixelSize * bloomRadius;

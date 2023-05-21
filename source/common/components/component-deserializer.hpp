@@ -12,7 +12,7 @@
 #include "monkey.hpp"
 #include "cube.hpp"
 #include "lightpole.hpp"
-
+#include "light.hpp"
 namespace our
 {
 
@@ -67,6 +67,11 @@ namespace our
         {
             component = entity->addComponent<CubeComponent>();
         }
+        else if (type == LightComponent::getID())
+        {
+            component = entity->addComponent<LightComponent>();
+        }
+
         if (component)
             component->deserialize(data);
     }
