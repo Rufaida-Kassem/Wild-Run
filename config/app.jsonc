@@ -43,7 +43,9 @@
         "duck": "assets/textures/duck.jpg",
         "black": "assets/textures/black.jpg",
         "white": "assets/textures/white.png",
-        "roughness": "assets/textures/roughness.jpg"
+        "roughness": "assets/textures/roughness.jpg",
+        "gray": "assets/textures/gray.png",
+        "gray_roughness": "assets/textures/gray_roughness.jpg"
       },
       "meshes": {
         "cube": "assets/models/cube.obj",
@@ -86,7 +88,7 @@
           "albedo": "grass",
           "roughness": "roughness",
           "emissive": "black",
-          "specular": "white",
+          "specular": "gray",
           "ambient_occlusion": "white"
         },
         "monkey": {
@@ -185,7 +187,7 @@
           "sampler": "default",
           "albedo": "coin",
           "roughness": "roughness",
-          "emissive": "coin",
+          "emissive": "black",
           "specular": "white",
           "ambient_occlusion": "coin"
         },
@@ -374,11 +376,11 @@
           0
         ],
         "components":[
-          { "isOn":false,
+          { "isOn":true,
             "type":"light",
             "lightType":"directional",
             "color":[
-              1, 1, 1
+              0.5, 0.7, 1
             ]
           }
         ]
@@ -403,7 +405,7 @@
             "position": [
               0,
               -0.5,
-              -1.2
+              -1.7
             ],
             "rotation": [
               90,
@@ -416,7 +418,7 @@
                 "type":"light",
                 "lightType":"spot",
                 "color":[
-                  1, 1, 1
+                  1, 0, 0
                 ],
                 "cone_angles": [
                   20,
@@ -424,7 +426,7 @@
                 ],
                 "attenuation": [
                   0.1,
-                  0,
+                  0.1,
                   0
                 ]
               }
@@ -437,6 +439,29 @@
         ]
       },
       // the coins
+      {
+        "position": [
+          -1,
+          -0.7,
+          30
+        ],
+        "components":[
+          {
+            "isOn":true,
+            "type":"light",
+            "lightType":"point",
+            "attenuation": [
+              0.5, 0.1, 0
+            ],
+            "color": [
+              1,
+              1,
+              0
+            ]
+          }
+
+        ]
+      },
       {
         "position": [
           -1,
@@ -498,22 +523,6 @@
               0.113788
             ]
           }
-          ,
-          {
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
-            "attenuation": [
-              0,
-              1,
-              0
-            ],
-            "color": [
-              1,
-              1,
-              0
-            ]
-          }
         ]
       },
       // {
@@ -535,6 +544,30 @@
 
       //   ]
       // },
+      {
+        "position": [
+          -1,
+          -0.7,
+          27
+        ],
+        "components":[
+          {
+            "isOn":true,
+            "type":"light",
+            "lightType":"point",
+            "attenuation": [
+              0.5, 0.1, 0
+            ],
+            "color": [
+              1,
+              1,
+              0
+            ]
+          }
+
+        ]
+      },
+
       {
         "position": [
           -1,
@@ -595,23 +628,22 @@
               -0.06,
               0.113788
             ]
-          },
-          
-          {
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
-            "attenuation": [
-              0,
-              1,
-              0
-            ],
-            "color": [
-              1,
-              1,
-              0
-            ]
           }
+          // ,
+          
+          // {
+          //   "isOn":true,
+          //   "type":"light",
+          //   "lightType":"point",
+          //   "attenuation": [
+          //     0.5, 0.1, 0
+          //   ],
+          //   "color": [
+          //     1,
+          //     1,
+          //     0
+          //   ]
+          // }
 
         ]
       },
@@ -675,23 +707,22 @@
               -0.06,
               0.113788
             ]
-          },
-          
-          {
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
-            "attenuation": [
-              0,
-              1,
-              0
-            ],
-            "color": [
-              1,
-              1,
-              0
-            ]
           }
+          // ,
+          
+          // {
+          //   "isOn":true,
+          //   "type":"light",
+          //   "lightType":"point",
+          //   "attenuation": [
+          //     0.5, 0.1, 0
+          //   ],
+          //   "color": [
+          //     1,
+          //     1,
+          //     0
+          //   ]
+          // }
 
         ]
       },
@@ -777,22 +808,21 @@
               -0.01172,
               0.125
             ]
-          }          ,
-          {
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
-            "attenuation": [
-              0,
-              1,
-              0
-            ],
-            "color": [
-              1,
-              1,
-              0
-            ]
-          }
+          }       
+          //    ,
+          // {
+          //   "isOn":true,
+          //   "type":"light",
+          //   "lightType":"point",
+          //   "attenuation": [
+          //     0.5, 0.1, 0
+          //   ],
+          //   "color": [
+          //     1,
+          //     1,
+          //     0
+          //   ]
+          // }
 
         ]
       },
@@ -840,8 +870,22 @@
               -0.01172,
               0.125
             ]
-          }
-        ]
+            }       
+            //    ,
+            // {
+            //   "isOn":true,
+            //   "type":"light",
+            //   "lightType":"point",
+            //   "attenuation": [
+            //     0.5, 0.1, 0
+            //   ],
+            //   "color": [
+            //     1,
+            //     1,
+            //     0
+            //   ]
+            // }
+          ]
       },
       {
         "position": [
@@ -887,22 +931,21 @@
               -0.01172,
               0.125
             ]
-          }          ,
-          {
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
-            "attenuation": [
-              0,
-              1,
-              0
-            ],
-            "color": [
-              1,
-              1,
-              0
-            ]
-          }
+          }    
+          //       ,
+          // {
+          //   "isOn":true,
+          //   "type":"light",
+          //   "lightType":"point",
+          //   "attenuation": [
+          //     0.5, 0.1, 0
+          //   ],
+          //   "color": [
+          //     1,
+          //     1,
+          //     0
+          //   ]
+          // }
 
         ]
       },
@@ -950,22 +993,21 @@
               -0.01172,
               0.125
             ]
-          }          ,
-          {
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
-            "attenuation": [
-              0,
-              1,
-              0
-            ],
-            "color": [
-              1,
-              1,
-              0
-            ]
-          }
+          }        
+          //   ,
+          // {
+          //   "isOn":true,
+          //   "type":"light",
+          //   "lightType":"point",
+          //   "attenuation": [
+          //     0.5, 0.1, 0
+          //   ],
+          //   "color": [
+          //     1,
+          //     1,
+          //     0
+          //   ]
+          // }
 
         ]
       },
@@ -1013,22 +1055,21 @@
               -0.01172,
               0.125
             ]
-          }          ,
-          {
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
-            "attenuation": [
-              0,
-              1,
-              0
-            ],
-            "color": [
-              1,
-              1,
-              0
-            ]
-          }
+          }     
+          //      ,
+          // {
+          //   "isOn":true,
+          //   "type":"light",
+          //   "lightType":"point",
+          //   "attenuation": [
+          //     0.5, 0.1, 0
+          //   ],
+          //   "color": [
+          //     1,
+          //     1,
+          //     0
+          //   ]
+          // }
 
         ]
       },
@@ -1076,22 +1117,21 @@
               -0.01172,
               0.125
             ]
-          }          ,
-          {
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
-            "attenuation": [
-              0,
-              1,
-              0
-            ],
-            "color": [
-              1,
-              1,
-              0
-            ]
-          }
+          }         
+          //  ,
+          // {
+          //   "isOn":true,
+          //   "type":"light",
+          //   "lightType":"point",
+          //   "attenuation": [
+          //     0.5, 0.1, 0
+          //   ],
+          //   "color": [
+          //     1,
+          //     1,
+          //     0
+          //   ]
+          // }
 
         ]
       },
@@ -1139,22 +1179,21 @@
               -0.01172,
               0.125
             ]
-          }          ,
-          {
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
-            "attenuation": [
-              0,
-              1,
-              0
-            ],
-            "color": [
-              1,
-              1,
-              0
-            ]
-          }
+          }          
+          // ,
+          // {
+          //   "isOn":true,
+          //   "type":"light",
+          //   "lightType":"point",
+          //   "attenuation": [
+          //     0.5, 0.1, 0
+          //   ],
+          //   "color": [
+          //     1,
+          //     1,
+          //     0
+          //   ]
+          // }
 
         ]
       },
@@ -1202,22 +1241,21 @@
               -0.01172,
               0.125
             ]
-          }          ,
-          {
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
-            "attenuation": [
-              0,
-              1,
-              0
-            ],
-            "color": [
-              1,
-              1,
-              0
-            ]
-          }
+          }         
+          //  ,
+          // {
+          //   "isOn":true,
+          //   "type":"light",
+          //   "lightType":"point",
+          //   "attenuation": [
+          //     0.5, 0.1, 0
+          //   ],
+          //   "color": [
+          //     1,
+          //     1,
+          //     0
+          //   ]
+          // }
 
         ]
       },
@@ -1265,22 +1303,21 @@
               -0.01172,
               0.125
             ]
-          }          ,
-          {
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
-            "attenuation": [
-              0,
-              1,
-              0
-            ],
-            "color": [
-              1,
-              1,
-              0
-            ]
-          }
+          }         
+          //  ,
+          // {
+          //   "isOn":true,
+          //   "type":"light",
+          //   "lightType":"point",
+          //   "attenuation": [
+          //     0.5, 0.1, 0
+          //   ],
+          //   "color": [
+          //     1,
+          //     1,
+          //     0
+          //   ]
+          // }
 
         ]
       },
@@ -1328,22 +1365,21 @@
               -0.01172,
               0.125
             ]
-          }          ,
-          {
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
-            "attenuation": [
-              0,
-              1,
-              0
-            ],
-            "color": [
-              1,
-              1,
-              0
-            ]
-          }
+          }       
+          //    ,
+          // {
+          //   "isOn":true,
+          //   "type":"light",
+          //   "lightType":"point",
+          //   "attenuation": [
+          //     0.5, 0.1, 0
+          //   ],
+          //   "color": [
+          //     1,
+          //     1,
+          //     0
+          //   ]
+          // }
 
         ]
       },
@@ -1391,22 +1427,21 @@
               -0.01172,
               0.125
             ]
-          }          ,
-          {
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
-            "attenuation": [
-              0,
-              1,
-              0
-            ],
-            "color": [
-              1,
-              1,
-              0
-            ]
-          }
+          }         
+          //  ,
+          // {
+          //   "isOn":true,
+          //   "type":"light",
+          //   "lightType":"point",
+          //   "attenuation": [
+          //     0.5, 0.1, 0
+          //   ],
+          //   "color": [
+          //     1,
+          //     1,
+          //     0
+          //   ]
+          // }
 
         ]
       },
