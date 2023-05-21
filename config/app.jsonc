@@ -12,7 +12,7 @@
     "renderer": {
       //       "sky": "assets/textures/sky.jpg",
       "sky": "assets/textures/nite.jpg",
-      "postprocess": "assets/shaders/postprocess/vignette.frag"
+      "postprocess": "assets/shaders/postprocess/glow.frag"
     },
     "assets": {
       "shaders": {
@@ -69,6 +69,24 @@
         }
       },
       "materials": {
+        "metal": {
+          "type": "tinted",
+          "shader": "tinted",
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "tint": [
+            0.45,
+            0.4,
+            0.5,
+            1
+          ]
+        },
         "grass": {
           "type": "lightened",
           "shader": "lightened",
@@ -321,8 +339,10 @@
     ],
     "world": [
       {
-        "rotation":[
-          0, 0, 45
+        "rotation": [
+          0,
+          0,
+          45
         ],
         "position": [
           0,
@@ -355,7 +375,7 @@
         ],
         "children": [
           {
-            "name":"player_light",
+            "name": "player_light",
             "position": [
               0,
               -0.5,
@@ -366,7 +386,7 @@
               0,
               0
             ],
-            "components":[
+            "components": [
               {
                 "isOn":true,
                 "type":"light",
@@ -386,9 +406,72 @@
               }
             ]
           },
-    
           {
             "name": "player"
+          }
+        ]
+      },
+      // the monkey=================================================================================
+      {
+        "position": [
+          -1,
+          -1,
+          -10
+        ],
+        "scale": [
+          0.25,
+          0.25,
+          0.25
+        ],
+        "name": "monkey",
+        "components": [
+          {
+            "type": "Monkey"
+          },
+          {
+            "type": "Mesh Renderer",
+            "mesh": "monkey",
+            "material": "monkey"
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [
+              0,
+              45,
+              0
+            ]
+          },
+          {
+            "type": "Collision",
+            "objType": "monkey",
+            "W": [
+              -0.09883,
+              0.09961
+            ],
+            "H": [
+              0,
+              0.2
+            ],
+            "D": [
+              -0.01172,
+              0.125
+            ]
+          },
+          {
+            "type": "Collision",
+            "objType": "monkey",
+            "W": [
+              -1.5,
+              5
+            ],
+            "H": [
+              0,
+              1.099199
+            ],
+            "D": [
+              -0.06,
+              0.113788
+            ]
           }
         ]
       },
@@ -470,17 +553,81 @@
           }
         ]
       },
+      //the cube
+      {
+        "position": [
+          -1,
+          -1,
+          -10
+        ],
+        "scale": [
+          0.25,
+          0.25,
+          0.25
+        ],
+        "name": "cube",
+        "components": [
+          {
+            "type": "Cube"
+          },
+          {
+            "type": "Mesh Renderer",
+            "mesh": "cube",
+            "material": "metal"
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [
+              0,
+              45,
+              0
+            ]
+          },
+          {
+            "type": "Collision",
+            "objType": "cube",
+            "W": [
+              -1,
+              1
+            ],
+            "H": [
+              -1,
+              1
+            ],
+            "D": [
+              -1,
+              1
+            ]
+          },
+          {
+            "type": "Collision",
+            "objType": "cube",
+            "W": [
+              -1.5,
+              5
+            ],
+            "H": [
+              0,
+              1.099199
+            ],
+            "D": [
+              -0.06,
+              0.113788
+            ]
+          }
+        ]
+      },
       {
         "position": [
           -1,
           -0.7,
           27
         ],
-        "components":[
+        "components": [
           {
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
+            "isOn": true,
+            "type": "light",
+            "lightType": "point",
             "attenuation": [
               0.1, 0.1, 0
             ],
@@ -490,10 +637,8 @@
               0
             ]
           }
-
         ]
       },
-
       {
         "position": [
           -1,
@@ -1370,23 +1515,28 @@
       },
       // light poles
       {
-        "position":[ -1.5, 4, -1],
-        "components":[
+        "position": [
+          -1.5,
+          4,
+          -1
+        ],
+        "components": [
           {
-            "type":"lightpole"
-          }
-          ,
+            "type": "lightpole"
+          },
           {
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
+            "isOn": true,
+            "type": "light",
+            "lightType": "point",
             "attenuation": [
               0.09,
               0,
               0
             ],
-            "color":[
-              1, 1, 1
+            "color": [
+              1,
+              1,
+              1
             ]
           }
         ]
@@ -1415,28 +1565,32 @@
         ]
       },
       {
-        "position":[ 1.5, 4, 21],
-        "components":[
+        "position": [
+          1.5,
+          4,
+          21
+        ],
+        "components": [
           {
-            "type":"lightpole"
-          }
-          ,
+            "type": "lightpole"
+          },
           {
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
+            "isOn": true,
+            "type": "light",
+            "lightType": "point",
             "attenuation": [
               0.09,
               0,
               0
             ],
-            "color":[
-              1, 1, 1
+            "color": [
+              1,
+              1,
+              1
             ]
           }
         ]
       },
-
       {
         "position": [
           1.5,
@@ -1461,28 +1615,32 @@
         ]
       },
       {
-        "position":[ -1.5, 4, 25],
-        "components":[
+        "position": [
+          -1.5,
+          4,
+          25
+        ],
+        "components": [
           {
-            "type":"lightpole"
-          }
-          ,
+            "type": "lightpole"
+          },
           {
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
+            "isOn": true,
+            "type": "light",
+            "lightType": "point",
             "attenuation": [
               0.09,
               0,
               0
             ],
-            "color":[
-              1, 1, 1
+            "color": [
+              1,
+              1,
+              1
             ]
           }
         ]
       },
-
       {
         "position": [
           -1.5,
@@ -1733,8 +1891,8 @@
         ],
         "components": [
           {
-            "isOn":true,
-            "type":"light",
+            "isOn": true,
+            "type": "light",
             "lightType": "sky",
             "sky_top": [
               0.5,
@@ -2555,39 +2713,49 @@
       },
       // directional light
       {
-        "rotation":[
-          0, 0, -45
+        "rotation": [
+          0,
+          0,
+          -45
         ],
         "position": [
           0,
           -1,
           0
         ],
-        "components":[
-          { "isOn":true,
-            "type":"light",
-            "lightType":"directional",
-            "color":[
-              1, 1, 1
+        "components": [
+          {
+            "isOn": true,
+            "type": "light",
+            "lightType": "directional",
+            "color": [
+              1,
+              1,
+              1
             ]
           }
         ]
       },
       {
-        "rotation":[
-          0, 0, 45
+        "rotation": [
+          0,
+          0,
+          45
         ],
         "position": [
           0,
           -1,
           0
         ],
-        "components":[
-          { "isOn":true,
-            "type":"light",
-            "lightType":"directional",
-            "color":[
-              1, 1, 1
+        "components": [
+          {
+            "isOn": true,
+            "type": "light",
+            "lightType": "directional",
+            "color": [
+              1,
+              1,
+              1
             ]
           }
         ]

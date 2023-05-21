@@ -4,7 +4,8 @@
 #include "../components/collision.hpp"
 #include "../components/coin.hpp"
 #include "../components/obstacle.hpp"
-
+#include "../components/monkey.hpp"
+#include "../components/cube.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
 #include <glm/trigonometric.hpp>
@@ -163,7 +164,7 @@ namespace our
         }
 
         // This function is called every frame by the world to determine if there is any collision
-        void update(World *world, float)
+        CollisionType update(World *world, float)
         {
             // For each entity in the world
             std::vector<Entity *> entitiesToCollide;
@@ -187,7 +188,7 @@ namespace our
             // if the player is not found, then return
             if (!player_index)
             {
-                return;
+                CollisionType::NONE;
             }
             Entity *entity1 = player_index;
             // check if the stick is colliding with the any of the other entities
@@ -220,7 +221,7 @@ namespace our
                         // otherwise, if we delete each collided coin, then if the player collide all coins
                         // there will be no coin again to be collected
                         entity2->getComponent<CoinComponent>()->getOwner()->localTransform.position.z -= 50;
-                        break;
+                        return CollisionType::COIN;
                     case CollisionType::OBSTACLE:
                         lives--;
                         if (lives == 0)
@@ -229,12 +230,21 @@ namespace our
                         }
                         entity2->getComponent<ObstacleComponent>()->collided = true;
                         entity2->getComponent<ObstacleComponent>()->getOwner()->localTransform.position.z -= 50;
-                        break;
+                        return CollisionType::OBSTACLE;
+                    case CollisionType::MONKEY:
+                        entity2->getComponent<MonkeyComponent>()->collided = true;
+                        entity2->getComponent<MonkeyComponent>()->getOwner()->localTransform.position.z -= 50;
+                        return CollisionType::MONKEY;
+                    case CollisionType::CUBE:
+                        entity2->getComponent<CubeComponent>()->collided = true;
+                        entity2->getComponent<CubeComponent>()->getOwner()->localTransform.position.z -= 50;
+                        return CollisionType::CUBE;
                     default:
-                        break;
+                        return CollisionType::NONE;
                     }
                 }
             }
+            return CollisionType::NONE;
         }
     };
 
