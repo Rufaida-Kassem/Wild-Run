@@ -242,5 +242,6 @@ class GameOverstate : public our::State
         renderer.destroy();
 
         our::clearAllAssets();
+
     }
 };

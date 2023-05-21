@@ -6,9 +6,6 @@ namespace our
 {
     void ForwardRenderer::initialize(glm::ivec2 windowSize, const nlohmann::json &config)
     {
-        //. for testing
-        test_file.open("test.txt");
-        // First, we store the window size for later use
         this->windowSize = windowSize;
 
         // Then we check if there is a sky texture in the configuration
@@ -225,14 +222,8 @@ namespace our
 
                 //. we need to add the light color
                 light_source.color = light->color;
-                // //. we need to add the diffuse color
-                // light_source.diffuse = light->diffuse;
-
-                // //. we need to add the specular color
-                // light_source.specular = light->specular;
 
                 //. for the light type, we need to convert the enum to an int
-                //. as the light type is an enum, we can cast it to an int
                 light_source.type = static_cast<int>(light->lightType);
                 light_source.attenuation = light->attenuation;
 
@@ -243,10 +234,10 @@ namespace our
                     light_source.cone_angles = glm::vec2(light->cone_angles);
                 }
                 //. we need to add the light direction
-
+                //. assume the direction is -Y in the local space of the light entity
                 light_source.direction = glm::vec3(light->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, -1, 0, 0));
 
-                //. we add the light source to the light sources list
+                //. add the light source to the light sources list
                 light_sources.push_back(light_source);
             }
         }
@@ -318,12 +309,6 @@ namespace our
                 command.material->shader->set("M_IT", glm::transpose(glm::inverse(command.localToWorld)));
                 //. send the light sources count to the shader
                 size_t light_sources_count = light_sources.size();
-                //. send the light sources to the shader
-
-                //. make the sky light effect black
-                // sky_light_effect.top = glm::vec3(0, 1, 0);
-                // sky_light_effect.horizon = glm::vec3(0, 0, 1);
-                // sky_light_effect.bottom = glm::vec3(0, 1, 0);
 
                 //. send the sky light effect to the shader
                 command.material->shader->set("sky.top", sky_light_effect.top);
@@ -332,10 +317,9 @@ namespace our
 
                 //. single pass forward lighting approach
                 //. send the light sources count to the shader
-                // int light_sources_count = light_sources.size();
                 command.material->shader->set("light_count", (int)light_sources_count);
                 //. send the light sources to the shader
-                for (size_t i = 0; i < light_sources.size(); i++)
+                for (size_t i = 0; i < light_sources_count; i++)
                 {
                     std::string light_sources_prefix = "lights[" + std::to_string(i) + "].";
                     command.material->shader->set(light_sources_prefix + "type", light_sources[i].type);
@@ -423,12 +407,6 @@ namespace our
                 command.material->shader->set("M_IT", glm::transpose(glm::inverse(command.localToWorld)));
                 //. send the light sources count to the shader
                 size_t light_sources_count = light_sources.size();
-                //. send the light sources to the shader
-
-                //. make the sky light effect black
-                // sky_light_effect.top = glm::vec3(0, 1, 0);
-                // sky_light_effect.horizon = glm::vec3(0, 0, 1);
-                // sky_light_effect.bottom = glm::vec3(0, 1, 0);
 
                 //. send the sky light effect to the shader
                 command.material->shader->set("sky.top", sky_light_effect.top);
@@ -437,10 +415,9 @@ namespace our
 
                 //. single pass forward lighting approach
                 //. send the light sources count to the shader
-                // int light_sources_count = light_sources.size();
                 command.material->shader->set("light_count", (int)light_sources_count);
                 //. send the light sources to the shader
-                for (size_t i = 0; i < light_sources.size(); i++)
+                for (size_t i = 0; i < light_sources_count; i++)
                 {
                     std::string light_sources_prefix = "lights[" + std::to_string(i) + "].";
                     command.material->shader->set(light_sources_prefix + "type", light_sources[i].type);
@@ -474,17 +451,5 @@ namespace our
 
             glDrawArrays(GL_TRIANGLES, 0, 3);
         }
-        //. for testing :: print all information about light sources
-        for (int i = 0; i < light_sources.size(); i++)
-        {
-            test_file << "light source " << i << " : " << std::endl;
-            test_file << "type : " << light_sources[i].type << std::endl;
-            test_file << "position : " << light_sources[i].position.x << " " << light_sources[i].position.y << " " << light_sources[i].position.z << std::endl;
-            test_file << "direction : " << light_sources[i].direction.x << " " << light_sources[i].direction.y << " " << light_sources[i].direction.z << std::endl;
-            test_file << "color : " << light_sources[i].color.x << " " << light_sources[i].color.y << " " << light_sources[i].color.z << std::endl;
-            test_file << "attenuation : " << light_sources[i].attenuation.x << " " << light_sources[i].attenuation.y << " " << light_sources[i].attenuation.z << std::endl;
-            test_file << "cone_angles : " << light_sources[i].cone_angles.x << " " << light_sources[i].cone_angles.y << std::endl;
-        }
-        test_file << "----------------------------------------" << std::endl;
     }
 }

@@ -51,7 +51,6 @@ class Menustate : public our::State {
         movementSystem.update(&world, (float) deltaTime);
         // Delete all the entities that are marked for deletion
         world.deleteMarkedEntities();
-        // Render the world using the renderer
         renderer.render(&world);
         // Get a reference to the keyboard object
         auto &keyboard = getApp()->getKeyboard();
@@ -83,7 +82,7 @@ class Menustate : public our::State {
         ImGui::Text("Press space to Play");
         ImGui::Text("Press escape to Quit");
         ImGui::Text("Left and Right arrows to choose the player");
-        //        ImGui::PopFont();
+//        ImGui::PopFont();
         ImGui::End();
 
         ImGui::Begin("Players", nullptr, window_flags);
@@ -125,4 +124,6 @@ class Menustate : public our::State {
         previewController.exit();
         our::clearAllAssets();
     }
+
+
 };
