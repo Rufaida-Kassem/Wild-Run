@@ -110,7 +110,9 @@
           "shader": "lightened",
           "pipelineState": {
             "faceCulling": {
-              "enabled": false
+              "enabled": true,
+              "frontFace": "GL_CCW",
+              "cullFace": "GL_BACK"
             },
             "depthTesting": {
               "enabled": true
@@ -128,7 +130,9 @@
           "shader": "lightened",
           "pipelineState": {
             "faceCulling": {
-              "enabled": false
+              "enabled": true,
+              "frontFace": "GL_CCW",
+              "cullFace": "GL_BACK"
             },
             "depthTesting": {
               "enabled": true
@@ -146,7 +150,9 @@
           "shader": "lightened",
           "pipelineState": {
             "faceCulling": {
-              "enabled": false
+              "enabled": true,
+              "frontFace": "GL_CCW",
+              "cullFace": "GL_BACK"
             },
             "depthTesting": {
               "enabled": true
@@ -164,7 +170,9 @@
           "shader": "lightened",
           "pipelineState": {
             "faceCulling": {
-              "enabled": true
+              "enabled": true,
+              "frontFace": "GL_CCW",
+              "cullFace": "GL_BACK"
             },
             "depthTesting": {
               "enabled": true
@@ -182,7 +190,7 @@
           "shader": "lightened",
           "pipelineState": {
             "faceCulling": {
-              "enabled": false
+              "enabled": true
             },
             "depthTesting": {
               "enabled": true
@@ -1950,10 +1958,6 @@
         "textured": {
           "vs": "assets/shaders/textured.vert",
           "fs": "assets/shaders/textured.frag"
-        },
-        "textured_alpha": {
-          "vs": "assets/shaders/textured.vert",
-          "fs": "assets/shaders/textured_alpha.frag"
         }
       },
       "textures": {
@@ -1962,8 +1966,6 @@
         "glass": "assets/textures/glass-panels.png",
         "monkey": "assets/textures/monkey.png",
         "turtle": "assets/textures/20446_Sea_Turtle_diff.jpg",
-        //        "game-over": "assets/textures/game-over2.png",
-        "game-over": "assets/textures/gv3.png",
         "player": "assets/textures/player.png",
         "duck": "assets/textures/duck.jpg"
       },
@@ -1974,7 +1976,6 @@
         "sphere": "assets/models/sphere.obj",
         "turtle": "assets/models/20446_Sea_Turtle_v1 Textured.obj",
         "player": "assets/models/player.obj",
-        "coin": "assets/models/yellowCoin.obj",
         "duck": "assets/models/duck.obj"
       },
       "samplers": {
@@ -1984,24 +1985,6 @@
         }
       },
       "materials": {
-        "metal": {
-          "type": "tinted",
-          "shader": "tinted",
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            }
-          },
-          "tint": [
-            0.45,
-            0.4,
-            0.5,
-            1
-          ]
-        },
         "glass": {
           "type": "textured",
           "shader": "textured",
@@ -2054,7 +2037,7 @@
           "shader": "textured",
           "pipelineState": {
             "faceCulling": {
-              "enabled": false
+              "enabled": true
             },
             "depthTesting": {
               "enabled": true
@@ -2074,7 +2057,7 @@
           "shader": "textured",
           "pipelineState": {
             "faceCulling": {
-              "enabled": false
+              "enabled": true
             },
             "depthTesting": {
               "enabled": true
@@ -2094,7 +2077,7 @@
           "shader": "textured",
           "pipelineState": {
             "faceCulling": {
-              "enabled": false
+              "enabled": true
             },
             "depthTesting": {
               "enabled": true
@@ -2106,7 +2089,7 @@
             1,
             1
           ],
-          "texture": "turtle",
+          "texture": "duck",
           "sampler": "default"
         },
         "moon": {
@@ -2114,7 +2097,7 @@
           "shader": "textured",
           "pipelineState": {
             "faceCulling": {
-              "enabled": false
+              "enabled": true
             },
             "depthTesting": {
               "enabled": true
@@ -2127,73 +2110,6 @@
             1
           ],
           "texture": "moon",
-          "sampler": "default"
-        },
-        "player": {
-          "type": "textured",
-          "shader": "textured",
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            },
-            "blending": {
-              "enabled": false,
-              "sourceFactor": "GL_SRC_ALPHA",
-              "destinationFactor": "GL_ONE_MINUS_SRC_ALPHA"
-            },
-            "depthMask": false
-          },
-          "transparent": false,
-          "tint": [
-            1,
-            1,
-            1,
-            1
-          ],
-          "texture": "player",
-          "sampler": "default"
-        },
-        "coin": {
-          "type": "textured",
-          "shader": "textured",
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            }
-          },
-          "tint": [
-            1,
-            1,
-            1,
-            1
-          ],
-          "texture": "coin",
-          "sampler": "default"
-        },
-        "obstacle": {
-          "type": "textured",
-          "shader": "textured",
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            }
-          },
-          "tint": [
-            0.5,
-            0.5,
-            0.5,
-            1
-          ],
-          "texture": "obstacle",
           "sampler": "default"
         }
       }
@@ -2524,10 +2440,6 @@
         "textured": {
           "vs": "assets/shaders/textured.vert",
           "fs": "assets/shaders/textured.frag"
-        },
-        "textured_alpha": {
-          "vs": "assets/shaders/textured.vert",
-          "fs": "assets/shaders/textured_alpha.frag"
         }
       },
       "textures": {
@@ -2540,7 +2452,6 @@
         "monkey": "assets/textures/monkey.png",
         "turtle": "assets/textures/20446_Sea_Turtle_diff.jpg",
         "duck": "assets/textures/duck.jpg",
-        "game-over": "assets/textures/gv3.png",
         "black": "assets/textures/black.jpg",
         "white": "assets/textures/white.png",
         "roughness": "assets/textures/roughness.jpg"
@@ -2560,30 +2471,12 @@
         }
       },
       "materials": {
-        "metal": {
-          "type": "tinted",
-          "shader": "tinted",
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            }
-          },
-          "tint": [
-            0.45,
-            0.4,
-            0.5,
-            1
-          ]
-        },
         "monkey": {
           "type": "lightened",
           "shader": "lightened",
           "pipelineState": {
             "faceCulling": {
-              "enabled": false
+              "enabled": true
             },
             "depthTesting": {
               "enabled": true
@@ -2601,7 +2494,7 @@
           "shader": "lightened",
           "pipelineState": {
             "faceCulling": {
-              "enabled": false
+              "enabled": true
             },
             "depthTesting": {
               "enabled": true
@@ -2619,7 +2512,7 @@
           "shader": "lightened",
           "pipelineState": {
             "faceCulling": {
-              "enabled": false
+              "enabled": true
             },
             "depthTesting": {
               "enabled": true

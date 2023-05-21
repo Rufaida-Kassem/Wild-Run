@@ -77,6 +77,8 @@ class Playstate : public our::State {
     void onDraw(double deltaTime) override {
         // Here, we just run a bunch of systems to control the world logic
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        world.deleteMarkedEntities();
+
         movementSystem.update(&world, (float) deltaTime);
         cameraController.update(&world, (float) deltaTime);
         // TODO: update the road movement controller
@@ -86,9 +88,8 @@ class Playstate : public our::State {
         obstacleController.update(&world, (float) deltaTime);
         cubeController.update(&world, (float) deltaTime);
         lightpoleController.update(&world, (float) deltaTime);
-
-        CollisionType CollidedObject = collisionSystem.update(&world, (float) deltaTime);
         world.deleteMarkedEntities();
+        CollisionType CollidedObject = collisionSystem.update(&world, (float) deltaTime);
         // And finally we use the renderer system to draw the scene
         if (CollidedObject == CollisionType::MONKEY) {
             start = clock();
