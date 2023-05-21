@@ -29,6 +29,9 @@ namespace our
         bool GoingRight = false;
         float DistanceBetweenTracks = 1.0f;
         float jumpDistance = 1.2f;
+        clock_t start = 0;
+        float time_diff = 0;
+        int speedTime = 10000;
 
         enum Track
         {
@@ -77,7 +80,7 @@ namespace our
 
     public:
         // Wefihen a state enters, it should call this function and give it the pointer to the application
-        inline static int punishment = 1;
+        inline static float punishment = 1;
         void enter(Application *app)
         {
             this->app = app;
@@ -155,7 +158,6 @@ namespace our
                     position.x = CurrentTrack * DistanceBetweenTracks;
                 }
             }
-
             // right arrow moves the player to the right track
             if (app->getKeyboard().justPressed(GLFW_KEY_RIGHT) && !GoingLeft)
             {
@@ -196,6 +198,13 @@ namespace our
                         position.y = 0;
                     }
                 }
+            }
+            time_diff += float(clock() - start) / CLOCKS_PER_SEC;
+            if (time_diff > speedTime)
+            {
+                time_diff = 0;
+                start = clock();
+                punishment *= 1.5;
             }
         }
 

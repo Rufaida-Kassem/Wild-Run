@@ -42,7 +42,9 @@ class Playstate : public our::State
     our::ObstacleControllerSystem obstacleController;
     our::LightPoleControllerSystem lightpoleController;
     // ISoundEngine *SoundEngine = createIrrKlangDevice();// = createIrrKlangDevice();
-    int time = 0;
+    clock_t start = 0;
+    float time_diff = 0;
+    int effectDuration = 100;
     void onInitialize() override
     {
         // SoundEngine->play2D("assets/sounds/theme.wav", true);
@@ -87,19 +89,24 @@ class Playstate : public our::State
         // And finally we use the renderer system to draw the scene
         if (CollidedObject == CollisionType::MONKEY)
         {
+            start = clock();
             renderer.effect = true;
-            CollidedObject = CollisionType::NONE;
-            time = 1;
+            time_diff = 0;
+        }
+        if (CollidedObject == CollisionType::CUBE)
+        {
+            our::FreeCameraControllerSystem::punishment *= 1.5;
         }
 
-        if (renderer.effect && time == 40)
+        if (renderer.effect && time_diff >= effectDuration)
         {
             renderer.effect = false;
-            time = 0;
+            start = 0;
+            time_diff = 0;
         }
         else
         {
-            time += 1;
+            time_diff += float(clock() - start) / CLOCKS_PER_SEC;
         }
         renderer.render(&world);
 

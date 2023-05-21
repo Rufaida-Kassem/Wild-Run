@@ -260,24 +260,14 @@ namespace our
                         }
                         entity2->getComponent<ObstacleComponent>()->collided = true;
                         entity2->getComponent<ObstacleComponent>()->getOwner()->localTransform.position.z -= 50;
-                        // world->markForRemoval(entity2);
-                        //                            is_lost = true;
-                        //                            std::cout << "lost" << cc++ << std::endl;
                         return CollisionType::OBSTACLE;
                     case CollisionType::MONKEY:
                         entity2->getComponent<MonkeyComponent>()->collided = true;
                         entity2->getComponent<MonkeyComponent>()->getOwner()->localTransform.position.z -= 50;
-                        // world->markForRemoval(entity2);
-                        //                            is_lost = true;
-                        //                            std::cout << "lost" << cc++ << std::endl;
                         return CollisionType::MONKEY;
                     case CollisionType::CUBE:
-                        our::FreeCameraControllerSystem::punishment *= 2;
                         entity2->getComponent<CubeComponent>()->collided = true;
                         entity2->getComponent<CubeComponent>()->getOwner()->localTransform.position.z -= 50;
-                        // world->markForRemoval(entity2);
-                        //                            is_lost = true;
-                        //                            std::cout << "lost" << cc++ << std::endl;
                         return CollisionType::CUBE;
                     default:
                         return CollisionType::NONE;
