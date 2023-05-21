@@ -77,18 +77,11 @@
               "enabled": true
             }
           },
-          // "tint": [
-          //   1,
-          //   1,
-          //   1,
-          //   1
-          // ],
-          // "texture": "grass",
           "sampler": "default",
           "albedo": "grass",
           "roughness": "roughness",
           "emissive": "black",
-          "specular": "gray",
+          "specular": "black",
           "ambient_occlusion": "white"
         },
         "monkey": {
@@ -102,13 +95,6 @@
               "enabled": true
             }
           },
-          // "tint": [
-          //   1,
-          //   1,
-          //   1,
-          //   1
-          // ],
-          // "texture": "monkey",
           "sampler": "default",
           "albedo": "monkey",
           "roughness": "roughness",
@@ -127,13 +113,6 @@
               "enabled": true
             }
           },
-          // "tint": [
-          //   1,
-          //   1,
-          //   1,
-          //   1
-          // ],
-          // "texture": "turtle",
           "sampler": "default",
           "albedo": "turtle",
           "roughness": "roughness",
@@ -152,13 +131,6 @@
               "enabled": true
             }
           },
-          // "tint": [
-          //   1,
-          //   1,
-          //   1,
-          //   1
-          // ],
-          // "texture": "duck",
           "sampler": "default",
           "albedo": "duck",
           "roughness": "roughness",
@@ -171,25 +143,18 @@
           "shader": "lightened",
           "pipelineState": {
             "faceCulling": {
-              "enabled": false
+              "enabled": true
             },
             "depthTesting": {
               "enabled": true
             }
           },
-          // "tint": [
-          //   1,
-          //   1,
-          //   1,
-          //   1
-          // ],
-          // "texture": "coin",
           "sampler": "default",
           "albedo": "coin",
           "roughness": "roughness",
           "emissive": "black",
           "specular": "white",
-          "ambient_occlusion": "coin"
+          "ambient_occlusion": "white"
         },
         "obstacle": {
           "type": "lightened",
@@ -202,19 +167,12 @@
               "enabled": true
             }
           },
-          // "tint": [
-          //   0.5,
-          //   0.5,
-          //   0.5,
-          //   1
-          // ],
-          // "texture": "obstacle",
           "sampler": "default",
           "albedo": "obstacle",
           "roughness": "roughness",
           "emissive": "black",
           "specular": "white",
-          "ambient_occlusion": "obstacle"
+          "ambient_occlusion": "white"
         },
         "lightpole": {
           "type": "lightened",
@@ -227,19 +185,12 @@
               "enabled": true
             }
           },
-          // "tint": [
-          //   0.5,
-          //   0.5,
-          //   0.5,
-          //   1
-          // ],
-          // "texture": "lightpole",
           "sampler": "default",
           "albedo": "lightpole",
           "roughness": "roughness",
           "emissive": "black",
           "specular": "white",
-          "ambient_occlusion": "lightpole"
+          "ambient_occlusion": "gray"
         }
       }
     },
@@ -2485,13 +2436,6 @@
               "enabled": true
             }
           },
-          // "tint": [
-          //   1,
-          //   1,
-          //   1,
-          //   1
-          // ],
-          // "texture": "monkey",
           "sampler": "default",
           "albedo": "monkey",
           "roughness": "roughness",
@@ -2511,13 +2455,6 @@
               "enabled": true
             }
           },
-          // "tint": [
-          //   1,
-          //   1,
-          //   1,
-          //   1
-          // ],
-          // "texture": "turtle",
           "sampler": "default",
           "albedo": "turtle",
           "roughness": "roughness",
@@ -2537,13 +2474,6 @@
               "enabled": true
             }
           },
-          // "tint": [
-          //   1,
-          //   1,
-          //   1,
-          //   1
-          // ],
-          // "texture": "duck",
           "sampler": "default",
           "albedo": "duck",
           "roughness": "roughness",
@@ -2688,97 +2618,6 @@
           }
         ]
       }
-      // ,
-      // {
-      //   "rotation":[
-      //     -45, 0, 0
-      //   ],
-      //   "position": [
-      //     0,
-      //     -1,
-      //     0
-      //   ],
-      //   "components":[
-      //     { "isOn":true,
-      //       "type":"light",
-      //       "lightType":"directional",
-      //       "color":[
-      //         1, 1, 1
-      //       ]
-      //     }
-      //   ]
-      // },
-      // {
-      //   "rotation":[
-      //     45, 0, 0
-      //   ],
-      //   "position": [
-      //     0,
-      //     -1,
-      //     0
-      //   ],
-      //   "components":[
-      //     { "isOn":true,
-      //       "type":"light",
-      //       "lightType":"directional",
-      //       "color":[
-      //         1, 1, 1
-      //       ]
-      //     }
-      //   ]
-      // }
-
-
-      // spot light above object
-      // {
-      //   "position":[
-      //     -4, 9, 0
-      //   ],
-      //   "components":[
-      //     {
-      //       "type":"light",
-      //       "lightType":"spot",
-      //       "attenuation": [
-      //         0.01,
-      //         0,
-      //         0
-      //       ],
-      //       "cone_angles": [
-      //         20,
-      //         40
-      //       ],
-      //       "color":[
-      //         1, 1, 1
-      //       ]
-      //     }
-
-      //   ]
-      // },
-      // { "rotation":[0, 0, -180],
-      //   "position":[
-      //     8, 9, 0
-      //   ],
-      //   "components":[
-      //     {
-      //       "type":"light",
-      //       "lightType":"spot",
-      //       "attenuation": [
-      //         0.01,
-      //         0,
-      //         0
-      //       ],
-      //       "cone_angles": [
-      //         20,
-      //         40
-      //       ],
-      //       "color":[
-      //         1, 1, 1
-      //       ]
-      //     }
-
-      //   ]
-      // }
-
     ]
   }
 }
