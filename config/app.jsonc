@@ -122,7 +122,7 @@
           "albedo": "grass",
           "roughness": "roughness",
           "emissive": "black",
-          "specular": "black",
+          "specular": "white",
           "ambient_occlusion": "white"
         },
         "monkey": {
