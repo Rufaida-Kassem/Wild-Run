@@ -21,9 +21,11 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
-// #include <irrKlang.h>
-// #pragma comment(lib, "irrKlang.lib")
-// using namespace irrklang;
+
+//#include <irrKlang.h>
+// #pragma comment(libs, "IrrKlang.libs")
+//using namespace irrklang;
+
 
 // This state shows how to use the ECS framework and deserialization.
 class Playstate : public our::State
@@ -41,17 +43,16 @@ class Playstate : public our::State
     our::ObstacleControllerSystem obstacleController;
     our::PreviewCameraControllerSystem previewController;
     our::LightPoleControllerSystem lightpoleController;
+
     // ISoundEngine *SoundEngine = createIrrKlangDevice();// = createIrrKlangDevice();
 
-    // @params
+  
     // start: the moment when the post processing effect starts
     // time_diff: the time elapsed between the starting moment of post processing effect and now
     // effectDuration: the time after which the post processing effect is disabled
     clock_t start = 0;
     float time_diff = 0;
     int effectDuration = 100;
-
-
     void onInitialize() override {
 
         // SoundEngine->play2D("assets/sounds/theme.wav", true);
@@ -85,22 +86,26 @@ class Playstate : public our::State
     {
         // Here, we just run a bunch of systems to control the world logic
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        movementSystem.update(&world, (float)deltaTime);
-        cameraController.update(&world, (float)deltaTime);
-        roadController.update(&world, (float)deltaTime);
-        coinController.update(&world, (float)deltaTime);
-        monkeyController.update(&world, (float)deltaTime);
-        obstacleController.update(&world, (float)deltaTime);
-        cubeController.update(&world, (float)deltaTime);
-        lightpoleController.update(&world, (float)deltaTime);
 
-        CollisionType CollidedObject = collisionSystem.update(&world, (float)deltaTime);
         world.deleteMarkedEntities();
-        // if the collided object is monkey then apply a post processing effect and add noise to the position to shake the screen
+
+        movementSystem.update(&world, (float) deltaTime);
+        cameraController.update(&world, (float) deltaTime);
+        // TODO: update the road movement controller
+        roadController.update(&world, (float) deltaTime);
+        coinController.update(&world, (float) deltaTime);
+        monkeyController.update(&world, (float) deltaTime);
+        obstacleController.update(&world, (float) deltaTime);
+        cubeController.update(&world, (float) deltaTime);
+        lightpoleController.update(&world, (float) deltaTime);
+        world.deleteMarkedEntities();
+        CollisionType CollidedObject = collisionSystem.update(&world, (float) deltaTime);
+        
+            // if the collided object is monkey then apply a post processing effect and add noise to the position to shake the screen
         // by store the moment of collision in start and the enable post processing effect and noise
         // note: make sure the time_diff = 0 to avoid accumlation while rendering frames
-        if (CollidedObject == CollisionType::MONKEY)
-        {
+        if (CollidedObject == CollisionType::MONKEY) {
+
             start = clock();
             renderer.effect = true;
             time_diff = 0;
@@ -128,7 +133,7 @@ class Playstate : public our::State
         {
             time_diff += float(clock() - start) / CLOCKS_PER_SEC;
         }
-
+// And finally we use the renderer system to draw the scene
         renderer.render(&world);
         // Get a reference to the keyboard object
         auto &keyboard = getApp()->getKeyboard();
