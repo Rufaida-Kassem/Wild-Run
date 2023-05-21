@@ -31,7 +31,14 @@ namespace our
     class CollisionComponent : public Component
     {
     public:
+        // the type of the collision
+        // Can be NONE, COIN, OBSTACLE
         CollisionType type = CollisionType::NONE;
+
+        // the vertices of the collision box
+        // the vertices are in the order of the faces of the box so that
+        // i can claculate the edges and the normals of the faces easily later
+        // in the collision system
         std::vector<glm::vec3> vertices;
 
         static std::string getID() { return "Collision"; }
@@ -53,12 +60,12 @@ namespace our
             vertices.emplace_back(W.y, H.y, D.x);
             vertices.emplace_back(W.y, H.x, D.x);
             vertices.emplace_back(W.y, H.x, D.y);
-
             vertices.emplace_back(W.x, H.x, D.y);
             vertices.emplace_back(W.x, H.x, D.x);
             vertices.emplace_back(W.x, H.y, D.x);
             vertices.emplace_back(W.x, H.y, D.y);
 
+            // get the type of the collision
             std::string typeString = data.value("objType", "none");
 
             try
@@ -69,6 +76,7 @@ namespace our
             {
                 std::cerr << e.what() << '\n';
                 std::cerr << "Collision type might not be correct: " << typeString << '\n';
+                type = CollisionType::NONE;
             }
         };
     };

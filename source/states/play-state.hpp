@@ -40,6 +40,7 @@ class Playstate : public our::State
     our::MonkeyControllerSystem monkeyController;
     our::CubeControllerSystem cubeController;
     our::ObstacleControllerSystem obstacleController;
+    our::PreviewCameraControllerSystem previewController;
     our::LightPoleControllerSystem lightpoleController;
     // ISoundEngine *SoundEngine = createIrrKlangDevice();// = createIrrKlangDevice();
     clock_t start = 0;
@@ -68,6 +69,8 @@ class Playstate : public our::State
         auto size = getApp()->getFrameBufferSize();
         renderer.initialize(size, config["renderer"]);
         collisionSystem.OnInitialize();
+        previewController.enter(getApp(), &world);
+        previewController.deserializePlayers(config["players-entities"]);
     }
 
     void onDraw(double deltaTime) override
@@ -127,11 +130,6 @@ class Playstate : public our::State
         }
     }
 
-    void print_vec45(glm::vec4 v)
-    {
-        std::cout << v.x << " " << v.y << " " << v.z << " " << v.w << std::endl;
-    }
-
     void onImmediateGui() override
     {
         // write the current state name in text box
@@ -141,6 +139,8 @@ class Playstate : public our::State
                         ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav |
                         ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar;
         ImGui::Begin("Play State", nullptr, window_flags);
+        ImGui::SetWindowPos(ImVec2(0, 0));
+        ImGui::SetWindowSize(ImVec2(300, 100));
         const std::string current_coins = "Coins: " + std::to_string(collisionSystem.get_coins_collected());
         const std::string current_lives = "Lives: " + std::to_string(collisionSystem.get_lives());
         // resize the window
@@ -154,6 +154,14 @@ class Playstate : public our::State
 
     void onDestroy() override
     {
+        // destroy the obstacle controller
+        obstacleController.cleanUp();
+        // destroy the coin controller
+        coinController.cleanUp();
+        // destroy the light pole controller
+        lightpoleController.cleanUp();
+        // destroy the road controller
+        roadController.cleanUp();
         // Don't forget to destroy the renderer
         renderer.destroy();
         // On exit, we call exit for the camera controller system to make sure that the mouse is unlocked
