@@ -4,7 +4,6 @@
 
 namespace our
 {
-
     void ForwardRenderer::initialize(glm::ivec2 windowSize, const nlohmann::json &config)
     {
         this->windowSize = windowSize;

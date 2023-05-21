@@ -510,9 +510,9 @@
         "name": "coin",
         "components": [
           {
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
+            "isOn": true,
+            "type": "light",
+            "lightType": "point",
             "attenuation": [
               0.3, 0.3, 0
             ],
@@ -521,8 +521,7 @@
               1,
               0
             ]
-          }
-,
+          },
           {
             "type": "Coin"
           },
@@ -974,6 +973,8 @@
             }
   
             ]
+          }
+        ]
       },
       {
         "position": [
@@ -1939,7 +1940,7 @@
       // "sky": "assets/textures/sky.jpg",
       "sky": "assets/textures/nite.jpg",
       "postprocess": "assets/shaders/postprocess/convolve.frag"
-      //      "postprocess": "assets/shaders/postprocess/glow.frag"
+      // "postprocess": "assets/shaders/postprocess/glow.frag"
     },
     "assets": {
       "shaders": {
@@ -1962,7 +1963,8 @@
         "glass": "assets/textures/glass-panels.png",
         "monkey": "assets/textures/monkey.png",
         "turtle": "assets/textures/20446_Sea_Turtle_diff.jpg",
-        "game-over": "assets/textures/game-over2.png",
+        //        "game-over": "assets/textures/game-over2.png",
+        "game-over": "assets/textures/gv3.png",
         "player": "assets/textures/player.png",
         "duck": "assets/textures/duck.jpg"
       },
@@ -2539,7 +2541,7 @@
         "monkey": "assets/textures/monkey.png",
         "turtle": "assets/textures/20446_Sea_Turtle_diff.jpg",
         "duck": "assets/textures/duck.jpg",
-        "game-over": "assets/textures/game-over2.png",
+        "game-over": "assets/textures/gv3.png",
         "black": "assets/textures/black.jpg",
         "white": "assets/textures/white.png",
         "roughness": "assets/textures/roughness.jpg"
@@ -2594,7 +2596,6 @@
           "emissive": "black",
           "specular": "white",
           "ambient_occlusion": "white"
-
         },
         "turtle": {
           "type": "lightened",
@@ -2613,7 +2614,6 @@
           "emissive": "black",
           "specular": "white",
           "ambient_occlusion": "white"
-
         },
         "duck": {
           "type": "lightened",
@@ -2632,7 +2632,6 @@
           "emissive": "black",
           "specular": "white",
           "ambient_occlusion": "white"
-
         }
       }
     },

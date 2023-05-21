@@ -68,6 +68,9 @@ class Playstate : public our::State {
         collisionSystem.OnInitialize();
         previewController.enter(getApp(), &world);
         previewController.deserializePlayers(config["players-entities"]);
+
+//        SoundEngine->play2D("assets/sounds/theme.wav", true);
+
     }
 
     void onDraw(double deltaTime) override {

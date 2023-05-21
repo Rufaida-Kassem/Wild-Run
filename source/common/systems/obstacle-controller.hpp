@@ -48,14 +48,10 @@ namespace our
 			}
 			
 			// if there is no obstacles, then return
-			if (obstacles.size() == 0) {
+			if (obstacles.size() == 0 || !controller) {
 				return;
 			}
 
-			// if there is no controller, then return
-			if (!controller) {
-				return;
-			}
 
 			// get the position of the controller
 			glm::vec3& camera_position = controller->getOwner()->localTransform.position;
@@ -83,10 +79,10 @@ namespace our
 
 		}
 
-		// clean up the obstacles vector
+		// clean up the obstacles vector and the controller
 		void cleanUp() {
 			obstacles.clear();
-			controller = nullptr;
+			controller = nullptr; // if we delete this line then the game will crash cuz we will try to access a null pointer in the update function above but after adding this line, the game will not crash cuz we will not access the null pointer anymore as we will not enter the update function anymore as the lightpoles vector is empty
 		}
 
 	};

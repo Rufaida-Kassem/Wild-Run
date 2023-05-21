@@ -15,7 +15,12 @@
 
 namespace our {
 
-
+    // the coin controller system is responsible for redrawing the coins so that
+    // during the game, there will be coins all the time and won't finish (disappear)
+    // i.e., if this system class doesn't exist, then the coins will appear only at the beg. of the game
+    // for specific time until the user pass through the last coin
+    // hence, no coins agian will exist for the rest of the game
+    // Again, this is because our game is infinite
     class CoinControllerSystem {
 
 
@@ -35,22 +40,18 @@ namespace our {
 			CoinComponent *coin = nullptr;
             for (auto entity: world->getEntities()) {
                 coin = entity->getComponent<CoinComponent>();
-                if (!controller)
+                if (!controller) // if there is no controller, then get it
                     controller = entity->getComponent<FreeCameraControllerComponent>();
-                if (coin) {
+                if (coin) { // if there is a coin, then add it to the vector of coins
                     coins.push_back(coin);
                 }
             }
 
-            // if there is no coins, then return
-            if (coins.size() == 0) {
+            // if there is no coins or controller, then return
+            if (coins.size() == 0 || !controller) {
                 return;
             }
 
-            // if there is no controller, then return
-            if (!controller) {
-                return;
-            }
 
             // get the position of the controller
             glm::vec3 &camera_position = controller->getOwner()->localTransform.position;
@@ -84,10 +85,10 @@ namespace our {
 
         }
 
-		// clean up the coins vector
+		// clean up the coins vector and let the controller = nullptr
 		void cleanUp() {
 			coins.clear();
-			controller = nullptr;
+			controller = nullptr; // if we don't do this, then the controller will be the same as the last controller and this will cause a problem in the update function above as it will try to get the position of the last controller which is not exist anymore 
 		}
     };
 

@@ -9,11 +9,35 @@
 
 #include <functional>
 #include <array>
+// This struct is used to store the location and size of a button and the code it should execute when clicked
+struct Button
+{
+    // The position (of the top-left corner) of the button and its size in pixels
+    glm::vec2 position, size;
+    // The function that should be excuted when the button is clicked. It takes no arguments and returns nothing.
+    std::function<void()> action;
 
-// This state shows how to use some of the abstractions we created to make a menu.
+    // This function returns true if the given vector v is inside the button. Otherwise, false is returned.
+    // This is used to check if the mouse is hovering over the button.
+    bool isInside(const glm::vec2 &v) const
+    {
+        return position.x <= v.x && position.y <= v.y &&
+               v.x <= position.x + size.x &&
+               v.y <= position.y + size.y;
+    }
+
+    // This function returns the local to world matrix to transform a rectangle of size 1x1
+    // (and whose top-left corner is at the origin) to be the button.
+    glm::mat4 getLocalToWorld() const
+    {
+        return glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f)) *
+               glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 1.0f));
+    }
+};
+
+// this class shows a Game-Over screen
 class GameOverstate : public our::State
 {
-
     // A material holding the menu shader and the menu texture to draw
     our::TexturedMaterial *menuMaterial;
     // A material to be used to highlight hovered buttons (we will use blending to create a negative effect).
@@ -44,7 +68,7 @@ class GameOverstate : public our::State
         // Initially, the menu material will be black, then it will fade in
 
         menuMaterial->tint = glm::vec4(1.0f);
-//        menuMaterial->alphaThreshold = 0.5f;
+        //        menuMaterial->alphaThreshold = 0.5f;
 
         menuMaterial->pipelineState.blending.enabled = true;
         menuMaterial->pipelineState.blending.equation = GL_FUNC_ADD;
@@ -110,7 +134,6 @@ class GameOverstate : public our::State
 
         // load data from the last frame so that it is used as a background
         // when drawing the current frame
-
         // First of all, we get the scene configuration from the app config
         auto &config = getApp()->getConfig()["game-over-scene"];
         // If we have assets in the scene config, we deserialize them
@@ -126,13 +149,18 @@ class GameOverstate : public our::State
         // We initialize the camera controller system since it needs a pointer to the app
         // Then we initialize the renderer
         auto size = getApp()->getFrameBufferSize();
+
+        // initialize the renderer with the size of the frame buffer
         renderer.initialize(size, config["renderer"]);
+        // enable the post-processing effect
+        renderer.effect = true;
     }
 
     void onDraw(double deltaTime) override
     {
-
+        // call the movementSystem to update the positions of the entities
         movementSystem.update(&world, (float)deltaTime);
+        // render the world using the renderer
         renderer.render(&world);
         // Get a reference to the keyboard object
         auto &keyboard = getApp()->getKeyboard();
@@ -142,15 +170,11 @@ class GameOverstate : public our::State
             // If the space key is pressed in this frame, go to the play state
             getApp()->changeState("play");
         }
-        // else if (keyboard.justPressed(GLFW_KEY_ESCAPE)) {
-        //	// If the escape key is pressed in this frame, exit the game
-        //	//getApp()->close();
-        //	getApp()->changeState("menu");
-
-        //}
 
         // Get a reference to the mouse object and get the current mouse position
         auto &mouse = getApp()->getMouse();
+
+        // Get the mouse position to send it to the highlight material
         glm::vec2 mousePosition = mouse.getMousePosition();
 
         // If the mouse left-button is just pressed, check if the mouse was inside
@@ -167,9 +191,6 @@ class GameOverstate : public our::State
         glm::ivec2 size = getApp()->getFrameBufferSize();
         // Make sure the viewport covers the whole size of the framebuffer.
         glViewport(0, 0, size.x, size.y);
-
-        // std::cout << "mouse position: " << mousePosition.x / size.x << " " << 1 - mousePosition.y / size.y << std::endl;
-
 
         // The view matrix is an identity (there is no camera that moves around).
         // The projection matrix apply an orthographic projection whose size is the framebuffer size in pixels
@@ -191,39 +212,17 @@ class GameOverstate : public our::State
         menuMaterial->shader->set("transform", VP * M);
         rectangle->draw();
 
-        //        highlightMaterial->setup();
-        //        highlightMaterial->shader->set("mouse_pos",
-        //                                       glm::vec2(mousePosition.x / size.x, 1 - mousePosition.y / size.y));
-        //        rectangle->draw();
-        //        highlightMaterial->setup();
-        //        highlightMaterial->shader->set("mouse_pos",
-        //                                       glm::vec2(mousePosition.x, size.y - mousePosition.y));
-
-        //        glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.3f, 0.3f, 0.3f));
-        //////        translate to mouse position
-        //        glm::mat4 translate = glm::translate(glm::mat4(1.0f),
-        //                                             glm::vec3((mousePosition.x / size.x) * 2 - 1,
-        //                                                       ((size.y - mousePosition.y) / size.y) * 2 - 1,
-        //                                                       0.0f));
-        //
-        //        std::cout << "mouse position: " << mousePosition.x / size.x - 0.5 << " "
-        //                  << (size.y - mousePosition.y) / size.y - 0.5 << std::endl;
-        //
-        //        highlightMaterial->shader->set("transform", translate * scale);
-        //        rectangle->draw();
-        //        highlightMaterial->shader->set("transform", VP * button.getLocalToWorld());
-        // For every button, check if the mouse is inside it. If the mouse is inside, we draw the highlight rectangle over it.
-        //        highlightMaterial->shader->set("transform", VP * button.getLocalToWorld());
-
-        // For every button, check if the mouse is inside it. If the mouse is inside, we draw the highlight rectangle over it.
+        // For every button, check if the mouse is inside it. If the mouse is inside, we draw the highlight mouse-over over it.
         for (auto &button : buttons)
         {
             if (button.isInside(mousePosition))
             {
                 highlightMaterial->setup();
+                // set the mouse position uniform to the shader
+                // we send the (size.y - mousePosition.y ) so that the corner is corrected
                 highlightMaterial->shader->set("mouse_pos",
                                                glm::vec2(mousePosition.x, size.y - mousePosition.y));
-
+                // set the transform uniform to the shader
                 highlightMaterial->shader->set("transform", VP * button.getLocalToWorld());
                 rectangle->draw();
             }

@@ -14,8 +14,11 @@ namespace our {
     public:
 
         // The ID of this component type is "Road"
+        // this function is used to get the id of the component
+        // so that we can deserialize it and insert it in the world entities
         static std::string getID() { return "Road"; }
 
+        // this is the decleratoin of the deserialize function
         void deserialize(const nlohmann::json& data) override;
     };
 
