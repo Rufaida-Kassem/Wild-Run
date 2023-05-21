@@ -16,9 +16,9 @@
 namespace our
 {
 
-	// the lightpole controller system is responsible for redrawing the uncollided lightpoles so that 
+	// the lightpole controller system is responsible for redrawing the lightpoles so that 
 	// during the game, there will be lightpoles all the time and won't finish (disappear)
-	// i.e., if this system doesn't exist, then the lightpoles will appear only at the beg. of the game
+	// i.e., if this system class doesn't exist, then the lightpoles will appear only at the beg. of the game
 	// for specific time until the user pass through the last lightpole
 	// hence, no lightpoles agian will exist for the rest of the game
 	// Again, this is because our game is infinite
@@ -46,15 +46,11 @@ namespace our
 				}
 			}
 			
-			// if there is no lightpoles, then return
-			if (lightpoles.size() == 0) {
+			// if there is no lightpoles or controller, then return
+			if (lightpoles.size() == 0 || !controller) {
 				return;
 			}
 
-			// if there is no controller, then return
-			if (!controller) {
-				return;
-			}
 
 			// get the position of the controller
 			glm::vec3& camera_position = controller->getOwner()->localTransform.position;
@@ -80,10 +76,10 @@ namespace our
 
 		}
 
-        // clean the lightpoles vector
+        // clean the lightpoles vector and let the controller pointer points to null
         void cleanUp(){
             lightpoles.clear();
-            controller = nullptr;
+            controller = nullptr; // if we delete this line then the game will crash cuz we will try to access a null pointer in the update function above but after adding this line, the game will not crash cuz we will not access the null pointer anymore as we will not enter the update function anymore as the lightpoles vector is empty
         }
 	};
 
