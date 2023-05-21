@@ -80,7 +80,7 @@ in Varyings {
     vec3 world; // the position of the vertex in world space coordinates
 } fs_in;
 
-out vec4 frag_color; // the color of the fragment that will be passed to the framebuffer // TO ASK
+out vec4 frag_color; // the color of the fragment will be outputted to the fragment shader to be displayed on the screen
 
 // the following function computes the lambertian reflectance of the object
 // the lambertian reflectance is the amount of light that is reflected by the object in all directions (diffuse light)
@@ -153,7 +153,7 @@ void main() {
             // if the light is a spot light, we compute the attenuation of the light using the cone angles of the light
             if(light.type == SPOT){
                 float angle = acos(dot(light.direction, -world_to_light_dir));
-                attenuation *= smoothstep(light.cone_angles.y, light.cone_angles.x, angle); // we compute the attenuation of the light using the cone angles of the light. The function smoothstep(a, b, t) returns the interpolation between a and b at t. The interpolation is smooth at the edges. The interpolation is linear between a and b if t is between a and b. The interpolation is constant if t is less than a or greater than b. // TO ASK
+                attenuation *= smoothstep(light.cone_angles.y, light.cone_angles.x, angle); // we compute the attenuation of the light using the cone angles of the light. The function smoothstep(a, b, t) returns the interpolation between a and b at t. The interpolation is smooth at the edges. The interpolation is linear between a and b if t is between a and b. The interpolation is constant if t is less than a or greater than b.
             }
         }
 
