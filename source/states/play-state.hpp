@@ -23,7 +23,7 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 // #include <irrKlang.h>
-// #pragma comment(lib, "irrKlang.lib")
+// #pragma comment(libs, "IrrKlang.libs")
 // using namespace irrklang;
 
 // This state shows how to use the ECS framework and deserialization.
@@ -45,6 +45,7 @@ class Playstate : public our::State {
     clock_t start = 0;
     float time_diff = 0;
     int effectDuration = 100;
+
 
     void onInitialize() override {
         // SoundEngine->play2D("assets/sounds/theme.wav", true);
@@ -68,6 +69,9 @@ class Playstate : public our::State {
         collisionSystem.OnInitialize();
         previewController.enter(getApp(), &world);
         previewController.deserializePlayers(config["players-entities"]);
+
+//        SoundEngine->play2D("assets/sounds/theme.wav", true);
+
     }
 
     void onDraw(double deltaTime) override {
@@ -108,11 +112,12 @@ class Playstate : public our::State {
 
         // Get a reference to the keyboard object
         auto &keyboard = getApp()->getKeyboard();
-
+        // If the escape key is pressed, go to the menu state
         if (keyboard.justPressed(GLFW_KEY_ESCAPE)) {
             // If the escape  key is pressed in this frame, go to the play state
             getApp()->changeState("menu");
         }
+        // If the player is lost, go to the game over state
         if (collisionSystem.get_is_lost()) {
 
             getApp()->changeState("game-over");
@@ -142,6 +147,7 @@ class Playstate : public our::State {
 
     void onDestroy() override {
         // destroy the obstacle controller
+//        SoundEngine->setAllSoundsPaused();
         obstacleController.cleanUp();
         // destroy the coin controller
         coinController.cleanUp();
