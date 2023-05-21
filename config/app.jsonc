@@ -40,9 +40,7 @@
         "turtle": "assets/textures/20446_Sea_Turtle_diff.jpg",
         "player": "assets/textures/player.png",
         "coin": "assets/textures/yellowCoin.png",
-
         "obstacle": "assets/textures/grass_ground_d_old.jpg",
-
         "lightpole": "assets/textures/lightpole.png",
         "duck": "assets/textures/duck.jpg",
         "black": "assets/textures/black.jpg",
@@ -351,13 +349,15 @@
           -1,
           0
         ],
-        "components":[
-          { "isOn":true,
-            "type":"light",
-            "lightType":"directional",
-            "color":[
-              0.25, 0.35, 0.5
-
+        "components": [
+          {
+            "isOn": true,
+            "type": "light",
+            "lightType": "directional",
+            "color": [
+              0.25,
+              0.35,
+              0.5
             ]
           }
         ]
@@ -391,12 +391,13 @@
             ],
             "components": [
               {
-
-                "isOn":true,
-                "type":"light",
-                "lightType":"spot",
-                "color":[
-                  0, 0.7, 0.5
+                "isOn": true,
+                "type": "light",
+                "lightType": "spot",
+                "color": [
+                  0,
+                  0.7,
+                  0.5
                 ],
                 "cone_angles": [
                   20,
@@ -494,19 +495,20 @@
         "name": "coin",
         "components": [
           {
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
+            "isOn": true,
+            "type": "light",
+            "lightType": "point",
             "attenuation": [
-              0.1, 0.1, 0
+              0.1,
+              0.1,
+              0
             ],
             "color": [
               1,
               1,
               0
             ]
-          }
-,
+          },
           {
             "type": "Coin"
           },
@@ -554,14 +556,16 @@
               -0.06,
               0.113788
             ]
-
           },
           {
             "isOn": true,
             "type": "light",
             "lightType": "point",
             "attenuation": [
-
+              0.1,
+              0.1,
+              0
+            ]
           }
         ]
       },
@@ -590,7 +594,6 @@
           {
             "type": "Movement",
             "angularVelocity": [
-
               0,
               45,
               0
@@ -642,7 +645,9 @@
             "type": "light",
             "lightType": "point",
             "attenuation": [
-              0.1, 0.1, 0
+              0.1,
+              0.1,
+              0
             ],
             "color": [
               1,
@@ -712,15 +717,15 @@
               -0.06,
               0.113788
             ]
-
-          }
-          ,{
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
-
+          },
+          {
+            "isOn": true,
+            "type": "light",
+            "lightType": "point",
             "attenuation": [
-              0.1, 0.1, 0
+              0.1,
+              0.1,
+              0
             ],
             "color": [
               1,
@@ -728,7 +733,6 @@
               0
             ]
           }
-
         ]
       },
       {
@@ -791,15 +795,15 @@
               -0.06,
               0.113788
             ]
-
-          }
-          ,{
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
-
+          },
+          {
+            "isOn": true,
+            "type": "light",
+            "lightType": "point",
             "attenuation": [
-              0.1, 0.1, 0
+              0.1,
+              0.1,
+              0
             ],
             "color": [
               1,
@@ -807,7 +811,6 @@
               0
             ]
           }
-
         ]
       },
       {
@@ -892,15 +895,15 @@
               -0.01172,
               0.125
             ]
-
-          }       
-          ,{
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
-
+          },
+          {
+            "isOn": true,
+            "type": "light",
+            "lightType": "point",
             "attenuation": [
-              0.1, 0.1, 0
+              0.1,
+              0.1,
+              0
             ],
             "color": [
               1,
@@ -954,22 +957,23 @@
               -0.01172,
               0.125
             ]
-            }       
-            ,{
-              "isOn":true,
-              "type":"light",
-              "lightType":"point",
-              "attenuation": [
-                0.1, 0.1, 0
-              ],
-              "color": [
-                1,
-                1,
-                0
-              ]
-            }
-  
+          },
+          {
+            "isOn": true,
+            "type": "light",
+            "lightType": "point",
+            "attenuation": [
+              0.1,
+              0.1,
+              0
+            ],
+            "color": [
+              1,
+              1,
+              0
             ]
+          }
+        ]
       },
       {
         "position": [
@@ -1015,14 +1019,15 @@
               -0.01172,
               0.125
             ]
-
-          }    
-          ,{
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
+          },
+          {
+            "isOn": true,
+            "type": "light",
+            "lightType": "point",
             "attenuation": [
-              0.1, 0.1, 0
+              0.1,
+              0.1,
+              0
             ],
             "color": [
               1,
@@ -1076,14 +1081,15 @@
               -0.01172,
               0.125
             ]
-
-          }        
-          ,{
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
+          },
+          {
+            "isOn": true,
+            "type": "light",
+            "lightType": "point",
             "attenuation": [
-              0.1, 0.1, 0
+              0.1,
+              0.1,
+              0
             ],
             "color": [
               1,
@@ -1091,7 +1097,6 @@
               0
             ]
           }
-
         ]
       },
       {
@@ -1138,15 +1143,15 @@
               -0.01172,
               0.125
             ]
-
-          }     
-          ,{
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
-
+          },
+          {
+            "isOn": true,
+            "type": "light",
+            "lightType": "point",
             "attenuation": [
-              0.1, 0.1, 0
+              0.1,
+              0.1,
+              0
             ],
             "color": [
               1,
@@ -1154,7 +1159,6 @@
               0
             ]
           }
-
         ]
       },
       {
@@ -1201,15 +1205,15 @@
               -0.01172,
               0.125
             ]
-
-          }         
-          ,{
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
-
+          },
+          {
+            "isOn": true,
+            "type": "light",
+            "lightType": "point",
             "attenuation": [
-              0.1, 0.1, 0
+              0.1,
+              0.1,
+              0
             ],
             "color": [
               1,
@@ -1217,7 +1221,6 @@
               0
             ]
           }
-
         ]
       },
       {
@@ -1264,14 +1267,15 @@
               -0.01172,
               0.125
             ]
-
-          }          
-          ,{
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
+          },
+          {
+            "isOn": true,
+            "type": "light",
+            "lightType": "point",
             "attenuation": [
-              0.1, 0.1, 0
+              0.1,
+              0.1,
+              0
             ],
             "color": [
               1,
@@ -1325,15 +1329,15 @@
               -0.01172,
               0.125
             ]
-
-          }         
-          ,{
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
-
+          },
+          {
+            "isOn": true,
+            "type": "light",
+            "lightType": "point",
             "attenuation": [
-              0.1, 0.1, 0
+              0.1,
+              0.1,
+              0
             ],
             "color": [
               1,
@@ -1341,7 +1345,6 @@
               0
             ]
           }
-
         ]
       },
       {
@@ -1388,14 +1391,15 @@
               -0.01172,
               0.125
             ]
-
-          }         
-          ,{
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
+          },
+          {
+            "isOn": true,
+            "type": "light",
+            "lightType": "point",
             "attenuation": [
-              0.1, 0.1, 0
+              0.1,
+              0.1,
+              0
             ],
             "color": [
               1,
@@ -1403,7 +1407,6 @@
               0
             ]
           }
-
         ]
       },
       {
@@ -1455,9 +1458,10 @@
             "isOn": true,
             "type": "light",
             "lightType": "point",
-
             "attenuation": [
-              0.1, 0.1, 0
+              0.1,
+              0.1,
+              0
             ],
             "color": [
               1,
@@ -1465,7 +1469,6 @@
               0
             ]
           }
-
         ]
       },
       {
@@ -1517,9 +1520,10 @@
             "isOn": true,
             "type": "light",
             "lightType": "point",
-
             "attenuation": [
-              0.1, 0.1, 0
+              0.1,
+              0.1,
+              0
             ],
             "color": [
               1,
@@ -1527,7 +1531,6 @@
               0
             ]
           }
-
         ]
       },
       // light poles
@@ -2591,8 +2594,6 @@
           "emissive": "black",
           "specular": "white",
           "ambient_occlusion": "white"
-
-
         },
         "turtle": {
           "type": "lightened",
@@ -2611,7 +2612,6 @@
           "emissive": "black",
           "specular": "white",
           "ambient_occlusion": "white"
-
         },
         "duck": {
           "type": "lightened",
@@ -2629,9 +2629,7 @@
           "roughness": "roughness",
           "emissive": "black",
           "specular": "white",
-
           "ambient_occlusion": "white"
-
         }
       }
     },
