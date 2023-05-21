@@ -22,9 +22,9 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
-// #include <irrKlang.h>
+//#include <irrKlang.h>
 // #pragma comment(libs, "IrrKlang.libs")
-// using namespace irrklang;
+//using namespace irrklang;
 
 // This state shows how to use the ECS framework and deserialization.
 class Playstate : public our::State {
@@ -41,7 +41,7 @@ class Playstate : public our::State {
     our::ObstacleControllerSystem obstacleController;
     our::PreviewCameraControllerSystem previewController;
     our::LightPoleControllerSystem lightpoleController;
-    // ISoundEngine *SoundEngine = createIrrKlangDevice();// = createIrrKlangDevice();
+//    ISoundEngine *SoundEngine = createIrrKlangDevice();// = createIrrKlangDevice();
     clock_t start = 0;
     float time_diff = 0;
     int effectDuration = 100;
