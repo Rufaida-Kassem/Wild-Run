@@ -354,7 +354,7 @@
             "type":"light",
             "lightType":"directional",
             "color":[
-              0.25, 0.35, 0.5
+              0.3333, 0.46667, 0.66667
             ]
           }
         ]
