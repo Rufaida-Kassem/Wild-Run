@@ -105,8 +105,6 @@ set(COMMON_SOURCES
         source/common/systems/obstacle-controller.hpp
         source/common/systems/cube-controller.hpp
         source/common/systems/lightpole-position.hpp
-
-
         )
 
 # Define the directories in which to search for the included headers
