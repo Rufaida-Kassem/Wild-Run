@@ -28,18 +28,18 @@ void main() {
     );
 
     //    edge detection kernel
-    //    float kernel[9] = float[](
-    //    -1, -1, -1,
-    //    -1, 9, -1,
-    //    -1, -1, -1
-    //    );
+       float kernel[9] = float[](
+       -1, -1, -1,
+       -1, 9, -1,
+       -1, -1, -1
+       );
 
     // averaging kernal for blurring
-    float kernel[9] = float[](
-    1.0/9.0, 1.0/9.0, 1.0/9.0,
-    1.0/9.0, 1.0/9.0, 1.0/9.0,
-    1.0/9.0, 1.0/9.0, 1.0/9.0
-    );
+    // float kernel[9] = float[](
+    // 1.0/9.0, 1.0/9.0, 1.0/9.0,
+    // 1.0/9.0, 1.0/9.0, 1.0/9.0,
+    // 1.0/9.0, 1.0/9.0, 1.0/9.0
+    // );
 
     vec4 sum = vec4(0.0);
     // sum with weights in the kernel taking a step in each direction determined by the offsets

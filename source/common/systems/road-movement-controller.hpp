@@ -91,7 +91,7 @@ namespace our
 
 		}
 
-		// clean the road
+		// clean the roads and controller
 		void cleanUp(){
 			road1 = nullptr;
 			road2 = nullptr;
