@@ -40,7 +40,9 @@
         "turtle": "assets/textures/20446_Sea_Turtle_diff.jpg",
         "player": "assets/textures/player.png",
         "coin": "assets/textures/yellowCoin.png",
+
         "obstacle": "assets/textures/grass_ground_d_old.jpg",
+
         "lightpole": "assets/textures/lightpole.png",
         "duck": "assets/textures/duck.jpg",
         "black": "assets/textures/black.jpg",
@@ -355,6 +357,7 @@
             "lightType":"directional",
             "color":[
               0.25, 0.35, 0.5
+
             ]
           }
         ]
@@ -388,6 +391,7 @@
             ],
             "components": [
               {
+
                 "isOn":true,
                 "type":"light",
                 "lightType":"spot",
@@ -550,6 +554,14 @@
               -0.06,
               0.113788
             ]
+
+          },
+          {
+            "isOn": true,
+            "type": "light",
+            "lightType": "point",
+            "attenuation": [
+
           }
         ]
       },
@@ -578,6 +590,7 @@
           {
             "type": "Movement",
             "angularVelocity": [
+
               0,
               45,
               0
@@ -699,11 +712,13 @@
               -0.06,
               0.113788
             ]
+
           }
           ,{
             "isOn":true,
             "type":"light",
             "lightType":"point",
+
             "attenuation": [
               0.1, 0.1, 0
             ],
@@ -713,7 +728,6 @@
               0
             ]
           }
-
 
         ]
       },
@@ -777,11 +791,13 @@
               -0.06,
               0.113788
             ]
+
           }
           ,{
             "isOn":true,
             "type":"light",
             "lightType":"point",
+
             "attenuation": [
               0.1, 0.1, 0
             ],
@@ -791,7 +807,6 @@
               0
             ]
           }
-
 
         ]
       },
@@ -877,11 +892,13 @@
               -0.01172,
               0.125
             ]
+
           }       
           ,{
             "isOn":true,
             "type":"light",
             "lightType":"point",
+
             "attenuation": [
               0.1, 0.1, 0
             ],
@@ -891,7 +908,6 @@
               0
             ]
           }
-
         ]
       },
       {
@@ -999,6 +1015,7 @@
               -0.01172,
               0.125
             ]
+
           }    
           ,{
             "isOn":true,
@@ -1013,8 +1030,6 @@
               0
             ]
           }
-
-
         ]
       },
       {
@@ -1061,6 +1076,7 @@
               -0.01172,
               0.125
             ]
+
           }        
           ,{
             "isOn":true,
@@ -1075,7 +1091,6 @@
               0
             ]
           }
-
 
         ]
       },
@@ -1123,11 +1138,13 @@
               -0.01172,
               0.125
             ]
+
           }     
           ,{
             "isOn":true,
             "type":"light",
             "lightType":"point",
+
             "attenuation": [
               0.1, 0.1, 0
             ],
@@ -1137,7 +1154,6 @@
               0
             ]
           }
-
 
         ]
       },
@@ -1185,11 +1201,13 @@
               -0.01172,
               0.125
             ]
+
           }         
           ,{
             "isOn":true,
             "type":"light",
             "lightType":"point",
+
             "attenuation": [
               0.1, 0.1, 0
             ],
@@ -1199,7 +1217,6 @@
               0
             ]
           }
-
 
         ]
       },
@@ -1247,6 +1264,7 @@
               -0.01172,
               0.125
             ]
+
           }          
           ,{
             "isOn":true,
@@ -1261,8 +1279,6 @@
               0
             ]
           }
-
-
         ]
       },
       {
@@ -1309,11 +1325,13 @@
               -0.01172,
               0.125
             ]
+
           }         
           ,{
             "isOn":true,
             "type":"light",
             "lightType":"point",
+
             "attenuation": [
               0.1, 0.1, 0
             ],
@@ -1323,7 +1341,6 @@
               0
             ]
           }
-
 
         ]
       },
@@ -1371,6 +1388,7 @@
               -0.01172,
               0.125
             ]
+
           }         
           ,{
             "isOn":true,
@@ -1385,7 +1403,6 @@
               0
             ]
           }
-
 
         ]
       },
@@ -1433,11 +1450,12 @@
               -0.01172,
               0.125
             ]
-          }       
-          ,{
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
+          },
+          {
+            "isOn": true,
+            "type": "light",
+            "lightType": "point",
+
             "attenuation": [
               0.1, 0.1, 0
             ],
@@ -1447,7 +1465,6 @@
               0
             ]
           }
-
 
         ]
       },
@@ -1495,11 +1512,12 @@
               -0.01172,
               0.125
             ]
-          }         
-          ,{
-            "isOn":true,
-            "type":"light",
-            "lightType":"point",
+          },
+          {
+            "isOn": true,
+            "type": "light",
+            "lightType": "point",
+
             "attenuation": [
               0.1, 0.1, 0
             ],
@@ -1509,7 +1527,6 @@
               0
             ]
           }
-
 
         ]
       },
@@ -1918,8 +1935,8 @@
     "renderer": {
       // "sky": "assets/textures/sky.jpg",
       "sky": "assets/textures/nite.jpg",
-      "postprocess": "assets/shaders/postprocess/convolve.frag"
-      //      "postprocess": "assets/shaders/postprocess/glow.frag"
+      // "postprocess": "assets/shaders/postprocess/convolve.frag"
+      "postprocess": "assets/shaders/postprocess/glow.frag"
     },
     "assets": {
       "shaders": {
@@ -2575,6 +2592,7 @@
           "specular": "white",
           "ambient_occlusion": "white"
 
+
         },
         "turtle": {
           "type": "lightened",
@@ -2611,6 +2629,7 @@
           "roughness": "roughness",
           "emissive": "black",
           "specular": "white",
+
           "ambient_occlusion": "white"
 
         }

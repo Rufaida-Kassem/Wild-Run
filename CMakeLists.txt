@@ -108,7 +108,7 @@ set(COMMON_SOURCES
         source/common/systems/cube-controller.hpp
         source/common/systems/lightpole-position.hpp
         )
-
+link_directories(vendor/IrrKlang/libs)
 # Define the directories in which to search for the included headers
 include_directories(
         source/common
@@ -116,6 +116,7 @@ include_directories(
         vendor/glfw/include
         vendor/glfw/include/GLFW
         vendor/glad/include
+        vendor/IrrKlang/include
         vendor/glm
         vendor/imgui
         vendor/utils
@@ -133,9 +134,22 @@ set(STATES_SOURCES
         source/common/systems/preview-camera-controller.hpp
         )
 
-
+link_directories(/vendor/IrrKlang/libs/irrKlang.lib)
 # For each example, we add an executable target
 # Each target compiles one example source file and the common & vendor source files
 # Then we link GLFW with each target
 add_executable(GAME_APPLICATION source/main.cpp ${STATES_SOURCES} ${COMMON_SOURCES} ${VENDOR_SOURCES})
 target_link_libraries(GAME_APPLICATION glfw)
+target_link_libraries(GAME_APPLICATION irrKlang)
+
+
+add_custom_command(TARGET GAME_APPLICATION POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/dlls
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_SOURCE_DIR}/vendor/IrrKlang/dlls/irrKlang.dll
+        ${CMAKE_SOURCE_DIR}/vendor/IrrKlang/dlls/ikpMP3.dll
+        ${CMAKE_SOURCE_DIR}/vendor/IrrKlang/dlls/ikpFlac.dll
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/
+        COMMENT "Copying DLL files to the binary directory"
+        )
+
