@@ -100,12 +100,10 @@ namespace our
     // bind the light texture and sampler to a texture unit and send the unit number to the uniform variable "lightTex"
     void LitMaterial::setup() const
     {
-        // albedo;
-        // roughness;
-        // emissive;
-        // ambient_occlusion;
-        // specular;
         Material::setup();
+        //. bind the albdeo, roughness, emissive, ambient_occlusion and specular textures to texture units
+        //. and send the unit number to the uniform variables "material.albedo", "material.roughness", "material.emissive", "material.ambient_occlusion" and "material.specular"
+        
         if (albedo != nullptr)
         {  
             glActiveTexture(GL_TEXTURE0);

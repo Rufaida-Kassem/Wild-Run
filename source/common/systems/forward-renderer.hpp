@@ -27,7 +27,7 @@ namespace our
 
     //. this is a struct for lights like the one in the lightened.frag
     //. it is used to pass light data to the shader
-        struct LightSource
+    struct LightSource
     {
         int type;
         bool isOn;
@@ -48,26 +48,19 @@ namespace our
         glm::vec3 top, horizon, bottom;
     };
 
-
     // A forward renderer is a renderer that draw the object final color directly to the framebuffer
     // In other words, the fragment shader in the material should output the color that we should see on the screen
     // This is different from more complex renderers that could draw intermediate data to a framebuffer before computing the final color
     // In this project, we only need to implement a forward renderer
     class ForwardRenderer
     {
-              //. for testing
-        //. declare an output file stream
-        
-        std::ofstream test_file;
 
-                //. create light sources array and pass it to the shader
-        //. it is an array of pointers to light components
-        //. the size of the array is the number of light components
+ 
+        //. create light sources vector to store all enabled lights in the scene
         std::vector<LightSource> light_sources;
 
-        //. create sky light effect and pass it to the shader
+        //. store the sky light data
         SkyLightEffect sky_light_effect;
-        
 
         // These window size will be used on multiple occasions (setting the viewport, computing the aspect ratio, etc.)
         glm::ivec2 windowSize;
@@ -98,6 +91,7 @@ namespace our
         void destroy();
         // This function should be called every frame to draw the given world
         void render(World *world);
+        // use this boolean to enable or disable post processing effect when collision happens
         bool effect = false;
     };
 

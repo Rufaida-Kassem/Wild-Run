@@ -62,11 +62,17 @@ namespace our
     class LitMaterial : public Material
     {
     public:
+        //. albedo texture, used for diffuse and ambient lighting
         Texture2D *albedo;
+        //. roughness texture, used for shininess ==> used for specular lighting
         Texture2D *roughness;
+        //. emissive texture, used for emissive lighting
         Texture2D *emissive;
+        //. ambient occlusion texture, used for ambient lighting by multiplying it with the albedo texture
         Texture2D *ambient_occlusion;
+        //. specular texture, used for specular lighting, multiplied by the light color and phong factor
         Texture2D *specular;
+        //. sampler for all the textures
         Sampler *sampler;
 
         void setup() const override;
@@ -84,6 +90,7 @@ namespace our
         {
             return new TexturedMaterial();
         }
+        //. if the type is lightened, return a new lightened material
         else if (type == "lightened")
         {
             return new LitMaterial();
