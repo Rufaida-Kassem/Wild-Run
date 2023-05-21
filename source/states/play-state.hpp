@@ -10,7 +10,6 @@
 #include <systems/coin-controller.hpp>
 #include <systems/monkey-controller.hpp>
 #include <systems/lightpole-position.hpp>
-// incllude the road movement controller
 #include <systems/road-movement-controller.hpp>
 #include <systems/obstacle-controller.hpp>
 #include <systems/cube-controller.hpp>
@@ -27,7 +26,8 @@
 // using namespace irrklang;
 
 // This state shows how to use the ECS framework and deserialization.
-class Playstate : public our::State {
+class Playstate : public our::State
+{
 
     our::World world;
     our::ForwardRenderer renderer;
@@ -42,22 +42,30 @@ class Playstate : public our::State {
     our::PreviewCameraControllerSystem previewController;
     our::LightPoleControllerSystem lightpoleController;
     // ISoundEngine *SoundEngine = createIrrKlangDevice();// = createIrrKlangDevice();
+
+    // @params
+    // start: the moment when the post processing effect starts
+    // time_diff: the time elapsed between the starting moment of post processing effect and now
+    // effectDuration: the time after which the post processing effect is disabled
     clock_t start = 0;
     float time_diff = 0;
     int effectDuration = 100;
 
-    void onInitialize() override {
+    void onInitialize() override
+    {
         // SoundEngine->play2D("assets/sounds/theme.wav", true);
         //  the following line gives an error
         //  sndPlaySound("assets/sounds/theme.wav",SND_ASYNC);
         //  First of all, we get the scene configuration from the app config
         auto &config = getApp()->getConfig()["scene"];
         // If we have assets in the scene config, we deserialize them
-        if (config.contains("assets")) {
+        if (config.contains("assets"))
+        {
             our::deserializeAllAssets(config["assets"]);
         }
         // If we have a world in the scene config, we use it to populate our world
-        if (config.contains("world")) {
+        if (config.contains("world"))
+        {
             world.deserialize(config["world"]);
         }
         // We initialize the camera controller system since it needs a pointer to the app
@@ -70,56 +78,72 @@ class Playstate : public our::State {
         previewController.deserializePlayers(config["players-entities"]);
     }
 
-    void onDraw(double deltaTime) override {
+    void onDraw(double deltaTime) override
+    {
         // Here, we just run a bunch of systems to control the world logic
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        movementSystem.update(&world, (float) deltaTime);
-        cameraController.update(&world, (float) deltaTime);
-        // TODO: update the road movement controller
-        roadController.update(&world, (float) deltaTime);
-        coinController.update(&world, (float) deltaTime);
-        monkeyController.update(&world, (float) deltaTime);
-        obstacleController.update(&world, (float) deltaTime);
-        cubeController.update(&world, (float) deltaTime);
-        lightpoleController.update(&world, (float) deltaTime);
+        movementSystem.update(&world, (float)deltaTime);
+        cameraController.update(&world, (float)deltaTime);
+        roadController.update(&world, (float)deltaTime);
+        coinController.update(&world, (float)deltaTime);
+        monkeyController.update(&world, (float)deltaTime);
+        obstacleController.update(&world, (float)deltaTime);
+        cubeController.update(&world, (float)deltaTime);
+        lightpoleController.update(&world, (float)deltaTime);
 
-        CollisionType CollidedObject = collisionSystem.update(&world, (float) deltaTime);
+        CollisionType CollidedObject = collisionSystem.update(&world, (float)deltaTime);
         world.deleteMarkedEntities();
-        // And finally we use the renderer system to draw the scene
-        if (CollidedObject == CollisionType::MONKEY) {
+        // if the collided object is monkey then apply a post processing effect and add noise to the position to shake the screen
+        // by store the moment of collision in start and the enable post processing effect and noise
+        // note: make sure the time_diff = 0 to avoid accumlation while rendering frames
+        if (CollidedObject == CollisionType::MONKEY)
+        {
             start = clock();
             renderer.effect = true;
             time_diff = 0;
             our::FreeCameraControllerSystem::shake = true;
         }
-        if (CollidedObject == CollisionType::CUBE) {
+        // if the collided object is cube then increase the speed of the player as it is a punishment
+        if (CollidedObject == CollisionType::CUBE)
+        {
             our::FreeCameraControllerSystem::punishment *= 1.5;
         }
 
-        if (renderer.effect && time_diff >= effectDuration) {
+        // check if the time of post processing effect is finished then disable it and noise as well
+        // make start and time_diff = 0 (initial state) to be ready for another collition
+        if (renderer.effect && time_diff >= effectDuration)
+        {
             renderer.effect = false;
             start = 0;
             our::FreeCameraControllerSystem::shake = false;
             time_diff = 0;
-        } else {
+        }
+        // if no collition happen then do nothing
+        // we calculate the time_diff here to make use of it it disabling the post processing effect and noise
+        // so we need to make it equal zero in above if statement
+        else
+        {
             time_diff += float(clock() - start) / CLOCKS_PER_SEC;
         }
-        renderer.render(&world);
 
+        renderer.render(&world);
         // Get a reference to the keyboard object
         auto &keyboard = getApp()->getKeyboard();
 
-        if (keyboard.justPressed(GLFW_KEY_ESCAPE)) {
+        if (keyboard.justPressed(GLFW_KEY_ESCAPE))
+        {
             // If the escape  key is pressed in this frame, go to the play state
             getApp()->changeState("menu");
         }
-        if (collisionSystem.get_is_lost()) {
+        if (collisionSystem.get_is_lost())
+        {
 
             getApp()->changeState("game-over");
         }
     }
 
-    void onImmediateGui() override {
+    void onImmediateGui() override
+    {
         // write the current state name in text box
         ImGuiWindowFlags window_flags = 0;
         window_flags |= ImGuiWindowFlags_NoDecoration |
@@ -140,12 +164,15 @@ class Playstate : public our::State {
         ImGui::End();
     }
 
-    void onDestroy() override {
+    void onDestroy() override
+    {
         // destroy the obstacle controller
         obstacleController.cleanUp();
         // destroy the coin controller
         coinController.cleanUp();
+        // destroy the monkey controller
         monkeyController.cleanUp();
+        // destroy the cube controller
         cubeController.cleanUp();
         // destroy the light pole controller
         lightpoleController.cleanUp();
