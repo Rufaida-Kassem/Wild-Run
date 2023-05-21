@@ -211,6 +211,7 @@ namespace our
         // When the state exits, it should call this function to ensure the mouse is unlocked
         void exit()
         {
+            IsJump = false;
             if (mouse_locked)
             {
                 mouse_locked = false;
