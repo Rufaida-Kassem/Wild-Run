@@ -8,10 +8,12 @@
 #include <systems/movement.hpp>
 #include <systems/collision.hpp>
 #include <systems/coin-controller.hpp>
+#include <systems/monkey-controller.hpp>
 #include <systems/lightpole-position.hpp>
 // incllude the road movement controller
 #include <systems/road-movement-controller.hpp>
 #include <systems/obstacle-controller.hpp>
+#include <systems/cube-controller.hpp>
 #include <asset-loader.hpp>
 #include <components/collision.hpp>
 #include "glm/glm.hpp"
@@ -34,11 +36,16 @@ class Playstate : public our::State {
     our::CollisionSystem collisionSystem;
     our::RoadControllerSystem roadController;
     our::CoinControllerSystem coinController;
+    our::MonkeyControllerSystem monkeyController;
+    our::CubeControllerSystem cubeController;
     our::ObstacleControllerSystem obstacleController;
-    our::LightPoleControllerSystem lightpoleController;
     our::PreviewCameraControllerSystem previewController;
+    our::LightPoleControllerSystem lightpoleController;
+    // ISoundEngine *SoundEngine = createIrrKlangDevice();// = createIrrKlangDevice();
+    clock_t start = 0;
+    float time_diff = 0;
+    int effectDuration = 100;
 
-    // ISoundEngine *SoundEngine = createIrrKlangDevice(); // = createIrrKlangDevice();
 
     void onInitialize() override {
         // SoundEngine->play2D("assets/sounds/theme.wav", true);
@@ -64,6 +71,7 @@ class Playstate : public our::State {
         previewController.deserializePlayers(config["players-entities"]);
 
 //        SoundEngine->play2D("assets/sounds/theme.wav", true);
+
     }
 
     void onDraw(double deltaTime) override {
@@ -74,12 +82,32 @@ class Playstate : public our::State {
         // TODO: update the road movement controller
         roadController.update(&world, (float) deltaTime);
         coinController.update(&world, (float) deltaTime);
+        monkeyController.update(&world, (float) deltaTime);
         obstacleController.update(&world, (float) deltaTime);
+        cubeController.update(&world, (float) deltaTime);
         lightpoleController.update(&world, (float) deltaTime);
 
-        collisionSystem.update(&world, (float) deltaTime);
+        CollisionType CollidedObject = collisionSystem.update(&world, (float) deltaTime);
         world.deleteMarkedEntities();
         // And finally we use the renderer system to draw the scene
+        if (CollidedObject == CollisionType::MONKEY) {
+            start = clock();
+            renderer.effect = true;
+            time_diff = 0;
+            our::FreeCameraControllerSystem::shake = true;
+        }
+        if (CollidedObject == CollisionType::CUBE) {
+            our::FreeCameraControllerSystem::punishment *= 1.5;
+        }
+
+        if (renderer.effect && time_diff >= effectDuration) {
+            renderer.effect = false;
+            start = 0;
+            our::FreeCameraControllerSystem::shake = false;
+            time_diff = 0;
+        } else {
+            time_diff += float(clock() - start) / CLOCKS_PER_SEC;
+        }
         renderer.render(&world);
 
         // Get a reference to the keyboard object
@@ -123,6 +151,8 @@ class Playstate : public our::State {
         obstacleController.cleanUp();
         // destroy the coin controller
         coinController.cleanUp();
+        monkeyController.cleanUp();
+        cubeController.cleanUp();
         // destroy the light pole controller
         lightpoleController.cleanUp();
         // destroy the road controller
