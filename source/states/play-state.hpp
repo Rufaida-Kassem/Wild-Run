@@ -27,8 +27,7 @@
 // using namespace irrklang;
 
 // This state shows how to use the ECS framework and deserialization.
-class Playstate : public our::State
-{
+class Playstate : public our::State {
 
     our::World world;
     our::ForwardRenderer renderer;
@@ -46,21 +45,19 @@ class Playstate : public our::State
     clock_t start = 0;
     float time_diff = 0;
     int effectDuration = 100;
-    void onInitialize() override
-    {
+
+    void onInitialize() override {
         // SoundEngine->play2D("assets/sounds/theme.wav", true);
         //  the following line gives an error
         //  sndPlaySound("assets/sounds/theme.wav",SND_ASYNC);
         //  First of all, we get the scene configuration from the app config
         auto &config = getApp()->getConfig()["scene"];
         // If we have assets in the scene config, we deserialize them
-        if (config.contains("assets"))
-        {
+        if (config.contains("assets")) {
             our::deserializeAllAssets(config["assets"]);
         }
         // If we have a world in the scene config, we use it to populate our world
-        if (config.contains("world"))
-        {
+        if (config.contains("world")) {
             world.deserialize(config["world"]);
         }
         // We initialize the camera controller system since it needs a pointer to the app
@@ -73,44 +70,38 @@ class Playstate : public our::State
         previewController.deserializePlayers(config["players-entities"]);
     }
 
-    void onDraw(double deltaTime) override
-    {
+    void onDraw(double deltaTime) override {
         // Here, we just run a bunch of systems to control the world logic
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        movementSystem.update(&world, (float)deltaTime);
-        cameraController.update(&world, (float)deltaTime);
+        movementSystem.update(&world, (float) deltaTime);
+        cameraController.update(&world, (float) deltaTime);
         // TODO: update the road movement controller
-        roadController.update(&world, (float)deltaTime);
-        coinController.update(&world, (float)deltaTime);
-        monkeyController.update(&world, (float)deltaTime);
-        obstacleController.update(&world, (float)deltaTime);
-        cubeController.update(&world, (float)deltaTime);
-        lightpoleController.update(&world, (float)deltaTime);
+        roadController.update(&world, (float) deltaTime);
+        coinController.update(&world, (float) deltaTime);
+        monkeyController.update(&world, (float) deltaTime);
+        obstacleController.update(&world, (float) deltaTime);
+        cubeController.update(&world, (float) deltaTime);
+        lightpoleController.update(&world, (float) deltaTime);
 
-        CollisionType CollidedObject = collisionSystem.update(&world, (float)deltaTime);
+        CollisionType CollidedObject = collisionSystem.update(&world, (float) deltaTime);
         world.deleteMarkedEntities();
         // And finally we use the renderer system to draw the scene
-        if (CollidedObject == CollisionType::MONKEY)
-        {
+        if (CollidedObject == CollisionType::MONKEY) {
             start = clock();
             renderer.effect = true;
             time_diff = 0;
             our::FreeCameraControllerSystem::shake = true;
         }
-        if (CollidedObject == CollisionType::CUBE)
-        {
+        if (CollidedObject == CollisionType::CUBE) {
             our::FreeCameraControllerSystem::punishment *= 1.5;
         }
 
-        if (renderer.effect && time_diff >= effectDuration)
-        {
+        if (renderer.effect && time_diff >= effectDuration) {
             renderer.effect = false;
             start = 0;
             our::FreeCameraControllerSystem::shake = false;
             time_diff = 0;
-        }
-        else
-        {
+        } else {
             time_diff += float(clock() - start) / CLOCKS_PER_SEC;
         }
         renderer.render(&world);
@@ -118,20 +109,17 @@ class Playstate : public our::State
         // Get a reference to the keyboard object
         auto &keyboard = getApp()->getKeyboard();
 
-        if (keyboard.justPressed(GLFW_KEY_ESCAPE))
-        {
+        if (keyboard.justPressed(GLFW_KEY_ESCAPE)) {
             // If the escape  key is pressed in this frame, go to the play state
             getApp()->changeState("menu");
         }
-        if (collisionSystem.get_is_lost())
-        {
+        if (collisionSystem.get_is_lost()) {
 
             getApp()->changeState("game-over");
         }
     }
 
-    void onImmediateGui() override
-    {
+    void onImmediateGui() override {
         // write the current state name in text box
         ImGuiWindowFlags window_flags = 0;
         window_flags |= ImGuiWindowFlags_NoDecoration |
@@ -152,12 +140,13 @@ class Playstate : public our::State
         ImGui::End();
     }
 
-    void onDestroy() override
-    {
+    void onDestroy() override {
         // destroy the obstacle controller
         obstacleController.cleanUp();
         // destroy the coin controller
         coinController.cleanUp();
+        monkeyController.cleanUp();
+        cubeController.cleanUp();
         // destroy the light pole controller
         lightpoleController.cleanUp();
         // destroy the road controller
