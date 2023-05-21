@@ -22,9 +22,9 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
-// #include <irrKlang.h>
+#include <irrKlang.h>
 // #pragma comment(libs, "IrrKlang.libs")
-// using namespace irrklang;
+using namespace irrklang;
 
 // This state shows how to use the ECS framework and deserialization.
 class Playstate : public our::State {
@@ -41,14 +41,14 @@ class Playstate : public our::State {
     our::ObstacleControllerSystem obstacleController;
     our::PreviewCameraControllerSystem previewController;
     our::LightPoleControllerSystem lightpoleController;
-    // ISoundEngine *SoundEngine = createIrrKlangDevice();// = createIrrKlangDevice();
+    ISoundEngine *SoundEngine = createIrrKlangDevice();// = createIrrKlangDevice();
     clock_t start = 0;
     float time_diff = 0;
     int effectDuration = 100;
 
 
     void onInitialize() override {
-        // SoundEngine->play2D("assets/sounds/theme.wav", true);
+        SoundEngine->play2D("assets/sounds/theme.wav", true);
         //  the following line gives an error
         //  sndPlaySound("assets/sounds/theme.wav",SND_ASYNC);
         //  First of all, we get the scene configuration from the app config
@@ -101,6 +101,16 @@ class Playstate : public our::State {
             our::FreeCameraControllerSystem::punishment *= 1.5;
         }
 
+        //. if it collides with a coin
+        if(CollidedObject == CollisionType::COIN){
+            SoundEngine->play2D("assets/sounds/coin.wav", false);
+        }
+
+        //. if it crashes with an obstacle
+        if (CollidedObject == CollisionType::OBSTACLE) {
+            SoundEngine->play2D("assets/sounds/crash.wav", false);
+        }
+        
         if (renderer.effect && time_diff >= effectDuration) {
             renderer.effect = false;
             start = 0;
@@ -148,7 +158,7 @@ class Playstate : public our::State {
 
     void onDestroy() override {
         // destroy the obstacle controller
-//        SoundEngine->setAllSoundsPaused();
+       SoundEngine->setAllSoundsPaused();
         obstacleController.cleanUp();
         // destroy the coin controller
         coinController.cleanUp();
