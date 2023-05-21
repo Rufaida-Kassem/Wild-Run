@@ -15,7 +15,7 @@ class GameOverstate : public our::State
 {
 
     // A material holding the menu shader and the menu texture to draw
-    our::TexturedMaterial *menuMaterial;
+    our::TexturedMaterial *ImageMaterial;
     // A material to be used to highlight hovered buttons (we will use blending to create a negative effect).
     our::TintedMaterial *highlightMaterial;
     // A rectangle mesh on which the menu material will be drawn
@@ -33,35 +33,32 @@ class GameOverstate : public our::State
     void onInitialize() override
     {
         // First, we create a material for the menu's background
-        menuMaterial = new our::TexturedMaterial();
+        ImageMaterial = new our::TexturedMaterial();
         // Here, we load the shader that will be used to draw the background
-        menuMaterial->shader = new our::ShaderProgram();
-        menuMaterial->shader->attach("assets/shaders/textured.vert", GL_VERTEX_SHADER);
-        menuMaterial->shader->attach("assets/shaders/textured.frag", GL_FRAGMENT_SHADER);
-        menuMaterial->shader->link();
+        ImageMaterial->shader = new our::ShaderProgram();
+        ImageMaterial->shader->attach("assets/shaders/textured.vert", GL_VERTEX_SHADER);
+        ImageMaterial->shader->attach("assets/shaders/textured.frag", GL_FRAGMENT_SHADER);
+        ImageMaterial->shader->link();
         // Then we load the menu texture
-        menuMaterial->texture = our::texture_utils::loadImage("assets/textures/game-over2.png");
-        // Initially, the menu material will be black, then it will fade in
-
-        menuMaterial->tint = glm::vec4(1.0f);
-//        menuMaterial->alphaThreshold = 0.5f;
-
-        menuMaterial->pipelineState.blending.enabled = true;
-        menuMaterial->pipelineState.blending.equation = GL_FUNC_ADD;
-        menuMaterial->pipelineState.blending.sourceFactor = GL_SRC_ALPHA;
-        menuMaterial->pipelineState.blending.destinationFactor = GL_ONE_MINUS_SRC_ALPHA;
+        ImageMaterial->texture = our::texture_utils::loadImage("assets/textures/game-over2.png");
+        ImageMaterial->tint = glm::vec4(1.0f);
+        ImageMaterial->pipelineState.blending.enabled = true;
+        ImageMaterial->pipelineState.blending.equation = GL_FUNC_ADD;
+        ImageMaterial->pipelineState.blending.sourceFactor = GL_SRC_ALPHA;
+        ImageMaterial->pipelineState.blending.destinationFactor = GL_ONE_MINUS_SRC_ALPHA;
 
         // Second, we create a material to highlight the hovered buttons
         highlightMaterial = new our::TintedMaterial();
         // Since the highlight is not textured, we used the tinted material shaders
         highlightMaterial->shader = new our::ShaderProgram();
         highlightMaterial->shader->attach("assets/shaders/tinted.vert", GL_VERTEX_SHADER);
+        // use the mouse_track.frag shader to create a hover effect
         highlightMaterial->shader->attach("assets/shaders/mouse_track.frag", GL_FRAGMENT_SHADER);
         highlightMaterial->shader->link();
         // The tint is white since we will subtract the background color from it to create a negative effect.
         highlightMaterial->tint = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-        // To create a negative effect, we enable blending, set the equation to be subtracted,
-        // and set the factors to be one for both the source and the destination.
+
+        // then we set the blending function to add the hover to the background color
         highlightMaterial->pipelineState.blending.enabled = true;
         highlightMaterial->pipelineState.blending.equation = GL_FUNC_ADD;
         highlightMaterial->pipelineState.blending.sourceFactor = GL_ONE;
@@ -108,9 +105,6 @@ class GameOverstate : public our::State
         buttons[1].action = [this]()
         { this->getApp()->changeState("menu"); };
 
-        // load data from the last frame so that it is used as a background
-        // when drawing the current frame
-
         // First of all, we get the scene configuration from the app config
         auto &config = getApp()->getConfig()["game-over-scene"];
         // If we have assets in the scene config, we deserialize them
@@ -123,9 +117,10 @@ class GameOverstate : public our::State
         {
             world.deserialize(config["game-over-world"]);
         }
-        // We initialize the camera controller system since it needs a pointer to the app
-        // Then we initialize the renderer
+        // get the size of the framebuffer (will be used later)
         auto size = getApp()->getFrameBufferSize();
+
+        
         renderer.initialize(size, config["renderer"]);
     }
 
@@ -170,7 +165,6 @@ class GameOverstate : public our::State
 
         // std::cout << "mouse position: " << mousePosition.x / size.x << " " << 1 - mousePosition.y / size.y << std::endl;
 
-
         // The view matrix is an identity (there is no camera that moves around).
         // The projection matrix apply an orthographic projection whose size is the framebuffer size in pixels
         // so that the we can define our object locations and sizes in pixels.
@@ -183,12 +177,12 @@ class GameOverstate : public our::State
 
         // First, we apply the fading effect.
         time += (float)deltaTime;
-        menuMaterial->tint = glm::vec4(glm::smoothstep(0.00f, 2.00f, time));
+        ImageMaterial->tint = glm::vec4(glm::smoothstep(0.00f, 2.00f, time));
         // Then we render the menu background
         // Notice that I don't clear the screen first, since I assume that the menu rectangle will draw over the whole
         // window anyway.
-        menuMaterial->setup();
-        menuMaterial->shader->set("transform", VP * M);
+        ImageMaterial->setup();
+        ImageMaterial->shader->set("transform", VP * M);
         rectangle->draw();
 
         //        highlightMaterial->setup();
@@ -234,15 +228,14 @@ class GameOverstate : public our::State
     {
         // Delete all the allocated resources
         delete rectangle;
-        delete menuMaterial->texture;
-        delete menuMaterial->shader;
-        delete menuMaterial;
+        delete ImageMaterial->texture;
+        delete ImageMaterial->shader;
+        delete ImageMaterial;
         delete highlightMaterial->shader;
         delete highlightMaterial;
         world.clear();
         renderer.destroy();
 
         our::clearAllAssets();
-
     }
 };

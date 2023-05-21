@@ -38,7 +38,7 @@ class Playstate : public our::State {
     our::LightPoleControllerSystem lightpoleController;
     our::PreviewCameraControllerSystem previewController;
 
-    ISoundEngine *SoundEngine = createIrrKlangDevice();// = createIrrKlangDevice();
+    ISoundEngine *SoundEngine = createIrrKlangDevice(); // = createIrrKlangDevice();
 
     void onInitialize() override {
         // SoundEngine->play2D("assets/sounds/theme.wav", true);
@@ -63,7 +63,7 @@ class Playstate : public our::State {
         previewController.enter(getApp(), &world);
         previewController.deserializePlayers(config["players-entities"]);
 
-        SoundEngine->play2D("assets/sounds/theme.wav", true);
+//        SoundEngine->play2D("assets/sounds/theme.wav", true);
     }
 
     void onDraw(double deltaTime) override {
@@ -84,17 +84,17 @@ class Playstate : public our::State {
 
         // Get a reference to the keyboard object
         auto &keyboard = getApp()->getKeyboard();
-
+        // If the escape key is pressed, go to the menu state
         if (keyboard.justPressed(GLFW_KEY_ESCAPE)) {
             // If the escape  key is pressed in this frame, go to the play state
             getApp()->changeState("menu");
         }
+        // If the player is lost, go to the game over state
         if (collisionSystem.get_is_lost()) {
 
             getApp()->changeState("game-over");
         }
     }
-
 
     void onImmediateGui() override {
         // write the current state name in text box
@@ -119,6 +119,7 @@ class Playstate : public our::State {
 
     void onDestroy() override {
         // destroy the obstacle controller
+//        SoundEngine->setAllSoundsPaused();
         obstacleController.cleanUp();
         // destroy the coin controller
         coinController.cleanUp();
