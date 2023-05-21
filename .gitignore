@@ -4,7 +4,8 @@ cmake-build-*/
 build/
 out/
 bin/
-
+# rufaida for testing
+test.txt
 # imgui saved state
 imgui.ini
 
