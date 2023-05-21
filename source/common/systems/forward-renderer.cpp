@@ -7,7 +7,7 @@ namespace our
 
     void ForwardRenderer::initialize(glm::ivec2 windowSize, const nlohmann::json &config)
     {
-          //. for testing
+        //. for testing
         test_file.open("test.txt");
         // First, we store the window size for later use
         this->windowSize = windowSize;
@@ -185,74 +185,72 @@ namespace our
                 }
             }
 
-                    //. if this entity has a light component
-        if (auto light = entity->getComponent<LightComponent>(); light)
-        {
-            //. if it is a sky light
-            if (light->lightType == LightType::SKY)
+            //. if this entity has a light component
+            if (auto light = entity->getComponent<LightComponent>(); light)
             {
+                //. if it is a sky light
+                if (light->lightType == LightType::SKY)
+                {
 
-                //. is enabled
-                sky_light_effect.isOn = light->isOn;
+                    //. is enabled
+                    sky_light_effect.isOn = light->isOn;
+                    if (!light->isOn)
+                    {
+                        //. make the sky light effect black
+                        sky_light_effect.top = glm::vec3(0, 0, 0);
+                        sky_light_effect.horizon = glm::vec3(0, 0, 0);
+                        sky_light_effect.bottom = glm::vec3(0, 0, 0);
+                    }
+                    else
+                    {
+                        //. we need to add the sky light effect
+                        sky_light_effect.top = light->sky_top;
+                        sky_light_effect.horizon = light->sky_middle;
+                        sky_light_effect.bottom = light->sky_bottom;
+                    }
+                    continue;
+                }
+
+                //. if the light is off, we don't need to add it to the lights list
                 if (!light->isOn)
+                    continue;
+
+                //. we add it to the lights list
+                LightSource light_source = {};
+
+                //. if the light is on
+                light_source.isOn = light->isOn;
+
+                //. we need to add the light position
+                light_source.position = glm::vec3(light->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1));
+
+                //. we need to add the light color
+                light_source.color = light->color;
+                // //. we need to add the diffuse color
+                // light_source.diffuse = light->diffuse;
+
+                // //. we need to add the specular color
+                // light_source.specular = light->specular;
+
+                //. for the light type, we need to convert the enum to an int
+                //. as the light type is an enum, we can cast it to an int
+                light_source.type = static_cast<int>(light->lightType);
+                light_source.attenuation = light->attenuation;
+
+                //. check if the light is a spot light
+                if (light->lightType == LightType::SPOT)
                 {
-                    //. make the sky light effect black
-                    sky_light_effect.top = glm::vec3(0, 0, 0);
-                    sky_light_effect.horizon = glm::vec3(0, 0, 0);
-                    sky_light_effect.bottom = glm::vec3(0, 0, 0);
+                    //. we need to get the cone angles
+                    light_source.cone_angles = glm::vec2(light->cone_angles);
                 }
-                else
-                {
-                    //. we need to add the sky light effect
-                    sky_light_effect.top = light->sky_top;
-                    sky_light_effect.horizon = light->sky_middle;
-                    sky_light_effect.bottom = light->sky_bottom;
-                }
-                continue;
-            }
-
-            //. if the light is off, we don't need to add it to the lights list
-            if (!light->isOn)
-                continue;
-
-            //. we add it to the lights list
-            LightSource light_source = {};
-
-            //. if the light is on
-            light_source.isOn = light->isOn;
-
-            //. we need to add the light position
-            light_source.position = glm::vec3(light->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1));
-
-            //. we need to add the light color
-            light_source.color = light->color;
-            // //. we need to add the diffuse color
-            // light_source.diffuse = light->diffuse;
-
-            // //. we need to add the specular color
-            // light_source.specular = light->specular;
-
-            //. for the light type, we need to convert the enum to an int
-            //. as the light type is an enum, we can cast it to an int
-            light_source.type = static_cast<int>(light->lightType);
-            light_source.attenuation = light->attenuation;
-
-            //. check if the light is a spot light
-            if (light->lightType == LightType::SPOT)
-            {
-                //. we need to get the cone angles
-                light_source.cone_angles = glm::vec2(light->cone_angles);
-            }
                 //. we need to add the light direction
 
                 light_source.direction = glm::vec3(light->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, -1, 0, 0));
 
-            //. we add the light source to the light sources list
-            light_sources.push_back(light_source);
+                //. we add the light source to the light sources list
+                light_sources.push_back(light_source);
+            }
         }
-
-        }
-
 
         // If there is no camera, we return (we cannot render without a camera)
         if (camera == nullptr)
@@ -293,7 +291,7 @@ namespace our
         glDepthMask(true);
 
         // If there is a postprocess material, bind the framebuffer so that we can render to it
-        if (postprocessMaterial)
+        if (postprocessMaterial && effect)
         {
             // TODO: (Req 11) bind the framebuffer
             glBindFramebuffer(GL_DRAW_FRAMEBUFFER, postprocessFrameBuffer);
@@ -464,7 +462,7 @@ namespace our
 
         //. If there is a postprocess material, apply postprocessing then draw the fullscreen triangle to the screen
         //. note that we might want to change this behavior later
-        if (postprocessMaterial)
+        if (postprocessMaterial && effect)
         {
             // TODO: (Req 11) Return to the default framebuffer
             glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
@@ -477,8 +475,9 @@ namespace our
 
             glDrawArrays(GL_TRIANGLES, 0, 3);
         }
-     //. for testing :: print all information about light sources
-        for (int i = 0; i < light_sources.size(); i++) {
+        //. for testing :: print all information about light sources
+        for (int i = 0; i < light_sources.size(); i++)
+        {
             test_file << "light source " << i << " : " << std::endl;
             test_file << "type : " << light_sources[i].type << std::endl;
             test_file << "position : " << light_sources[i].position.x << " " << light_sources[i].position.y << " " << light_sources[i].position.z << std::endl;
