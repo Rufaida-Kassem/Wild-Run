@@ -81,6 +81,7 @@ namespace our
     public:
         // Wefihen a state enters, it should call this function and give it the pointer to the application
         inline static float punishment = 1;
+        inline static bool shake = false;
         void enter(Application *app)
         {
             this->app = app;
@@ -205,6 +206,11 @@ namespace our
                 time_diff = 0;
                 start = clock();
                 punishment *= 1.5;
+            }
+
+            if (shake)
+            {
+                position -= right * float((rand() % (1 - (-1) + 1)) + (-1)) / 20.0f;
             }
         }
 

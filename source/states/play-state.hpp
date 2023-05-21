@@ -92,6 +92,7 @@ class Playstate : public our::State
             start = clock();
             renderer.effect = true;
             time_diff = 0;
+            our::FreeCameraControllerSystem::shake = true;
         }
         if (CollidedObject == CollisionType::CUBE)
         {
@@ -102,6 +103,7 @@ class Playstate : public our::State
         {
             renderer.effect = false;
             start = 0;
+            our::FreeCameraControllerSystem::shake = false;
             time_diff = 0;
         }
         else
