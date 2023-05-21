@@ -48,7 +48,8 @@
         "roughness": "assets/textures/roughness.jpg",
         "gray": "assets/textures/gray.png",
         "gray_roughness": "assets/textures/gray_roughness.jpg",
-        "coin_emissive": "assets/textures/stars_in_coin.jpg"
+        "coin_emissive": "assets/textures/stars_in_coin.jpg",
+        "metal_cube": "assets/textures/cube.png"
       },
       "meshes": {
         "cube": "assets/models/cube.obj",
@@ -87,6 +88,25 @@
             1
           ]
         },
+          "metal_cube": {
+            "type": "lightened",
+            "shader": "lightened",
+            "pipelineState": {
+              "faceCulling": {
+                "enabled": false
+              },
+              "depthTesting": {
+                "enabled": true
+              }
+            },
+            "sampler": "default",
+            "albedo": "metal_cube",
+            "roughness": "gray",
+            "emissive": "black",
+            "specular": "white",
+            "ambient_occlusion": "white"
+          },
+  
         "grass": {
           "type": "lightened",
           "shader": "lightened",
@@ -573,7 +593,7 @@
           {
             "type": "Mesh Renderer",
             "mesh": "cube",
-            "material": "metal"
+            "material": "metal_cube"
           },
           {
             "type": "Movement",
