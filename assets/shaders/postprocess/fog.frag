@@ -2,8 +2,9 @@
 
 uniform sampler2D tex;
 in vec2 tex_coord;
-
-uniform float fogDensity = 0.5;
+// fogDensity is the density of the fog
+uniform float fogDensity = 0.1;
+// fogColor is the color of the fog
 uniform vec3 fogColor = vec3(1.0, 0.0, 0.0);
 
 out vec4 frag_color;

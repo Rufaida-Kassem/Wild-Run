@@ -39,16 +39,19 @@ vec3 GetBloomPixel(vec2 uv, vec2 texPixelSize) {
 // we get the bloom color of a pixel by getting the color of the 9 pixels around it and we mix them
 vec3 GetBloom(vec2 uv, vec2 texPixelSize) {
     vec3 bloom = vec3(0.0);
-    vec2 off = vec2(1) * texPixelSize * bloomRadius;
-    bloom += GetBloomPixel(uv + off * vec2(-1, -1), texPixelSize * bloomRadius) * 0.292893;
-    bloom += GetBloomPixel(uv + off * vec2(-1, 0), texPixelSize * bloomRadius) * 0.5;
-    bloom += GetBloomPixel(uv + off * vec2(-1, 1), texPixelSize * bloomRadius) * 0.292893;
-    bloom += GetBloomPixel(uv + off * vec2(0, -1), texPixelSize * bloomRadius) * 0.5;
-    bloom += GetBloomPixel(uv + off * vec2(0, 0), texPixelSize * bloomRadius) * 1.0;
-    bloom += GetBloomPixel(uv + off * vec2(0, 1), texPixelSize * bloomRadius) * 0.5;
-    bloom += GetBloomPixel(uv + off * vec2(1, -1), texPixelSize * bloomRadius) * 0.292893;
-    bloom += GetBloomPixel(uv + off * vec2(1, 0), texPixelSize * bloomRadius) * 0.5;
-    bloom += GetBloomPixel(uv + off * vec2(1, 1), texPixelSize * bloomRadius) * 0.292893;
+    // enlarge the  PixelSize by the bloomRadius
+    texPixelSize *= bloomRadius;
+    // offset is just a 2d vector with the value of 1 * the PixelSize
+    vec2 off = vec2(1) * texPixelSize;
+    bloom += GetBloomPixel(uv + off * vec2(-1, -1), texPixelSize ) * 0.292893;
+    bloom += GetBloomPixel(uv + off * vec2(-1, 0), texPixelSize ) * 0.5;
+    bloom += GetBloomPixel(uv + off * vec2(-1, 1), texPixelSize ) * 0.292893;
+    bloom += GetBloomPixel(uv + off * vec2(0, -1), texPixelSize ) * 0.5;
+    bloom += GetBloomPixel(uv + off * vec2(0, 0), texPixelSize ) * 1.0;
+    bloom += GetBloomPixel(uv + off * vec2(0, 1), texPixelSize ) * 0.5;
+    bloom += GetBloomPixel(uv + off * vec2(1, -1), texPixelSize ) * 0.292893;
+    bloom += GetBloomPixel(uv + off * vec2(1, 0), texPixelSize ) * 0.5;
+    bloom += GetBloomPixel(uv + off * vec2(1, 1), texPixelSize ) * 0.292893;
     bloom /= 4.171573f;
     return bloom;
 }

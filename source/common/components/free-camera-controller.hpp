@@ -3,11 +3,10 @@
 #include "../ecs/component.hpp"
 
 #include <glm/glm.hpp>
-// It's implemented in here https://learnopengl.com/Getting-started/Camera
 
+// It's implemented in here https://learnopengl.com/Getting-started/Camera
 namespace our
 {
-
     // This component denotes that the FreeCameraControllerSystem will move the owning entity using user inputs.
     // It will also control the camera field of view accroding to the scrolling of the mouse wheel
     // This component is added as a slightly complex example for how use the ECS framework to implement logic.

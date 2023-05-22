@@ -10,6 +10,9 @@
 #include "../deserialize-utils.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
+// enum containing the types of collisions
+// NONE: no collision
+// COIN: collision with a coin and So on ...
 enum class CollisionType
 {
     NONE,
@@ -21,6 +24,9 @@ enum class CollisionType
 
 namespace our
 {
+    // map to convert the string to the enum
+    // used in the deserialize function to get the type of the collision
+    // from the json object
     inline const std::unordered_map<std::string, CollisionType> collisionMap = {
         {"none", CollisionType::NONE},
         {"coin", CollisionType::COIN},
@@ -32,7 +38,7 @@ namespace our
     {
     public:
         // the type of the collision
-        // Can be NONE, COIN, OBSTACLE
+        // Can be NONE, COIN, OBSTACLE and So on ...
         CollisionType type = CollisionType::NONE;
 
         // the vertices of the collision box
@@ -48,6 +54,7 @@ namespace our
         {
             if (!data.is_object())
                 return;
+            // the 3 dimensions of the box (width, height, depth)
             // extension in X direction
             glm::vec2 W = data.value("W", glm::vec2(1.0f, 1.0f));
             // extension in Y direction
@@ -55,7 +62,9 @@ namespace our
             // extension in Z direction
             glm::vec2 D = data.value("D", glm::vec2(1.0f, 1.0f));
 
-            //            add vertices to the vector
+            // Add vertices to the vector
+            // the order of the vertices is important
+            // to calculate the edges and the normals of the faces
             vertices.emplace_back(W.y, H.y, D.y);
             vertices.emplace_back(W.y, H.y, D.x);
             vertices.emplace_back(W.y, H.x, D.x);
@@ -70,6 +79,7 @@ namespace our
 
             try
             {
+                // try to parse the type from the map
                 type = collisionMap.at(typeString);
             }
             catch (const std::exception &e)
