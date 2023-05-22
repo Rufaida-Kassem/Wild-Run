@@ -13,8 +13,7 @@
 // enum containing the types of collisions
 // NONE: no collision
 // COIN: collision with a coin and So on ...
-enum class CollisionType
-{
+enum class CollisionType {
     NONE,
     COIN,
     OBSTACLE,
@@ -22,20 +21,18 @@ enum class CollisionType
     CUBE
 };
 
-namespace our
-{
+namespace our {
     // map to convert the string to the enum
     // used in the deserialize function to get the type of the collision
     // from the json object
     inline const std::unordered_map<std::string, CollisionType> collisionMap = {
-        {"none", CollisionType::NONE},
-        {"coin", CollisionType::COIN},
-        {"obstacle", CollisionType::OBSTACLE},
-        {"monkey", CollisionType::MONKEY},
-        {"cube", CollisionType::CUBE}};
+            {"none",     CollisionType::NONE},
+            {"coin",     CollisionType::COIN},
+            {"obstacle", CollisionType::OBSTACLE},
+            {"monkey",   CollisionType::MONKEY},
+            {"cube",     CollisionType::CUBE}};
 
-    class CollisionComponent : public Component
-    {
+    class CollisionComponent : public Component {
     public:
         // the type of the collision
         // Can be NONE, COIN, OBSTACLE and So on ...
@@ -43,15 +40,14 @@ namespace our
 
         // the vertices of the collision box
         // the vertices are in the order of the faces of the box so that
-        // i can claculate the edges and the normals of the faces easily later
+        // i can calculate the edges and the normals of the faces easily later
         // in the collision system
         std::vector<glm::vec3> vertices;
 
         static std::string getID() { return "Collision"; }
 
         // Reads linearVelocity & angularVelocity from the given json object
-        void deserialize(const nlohmann::json &data) override
-        {
+        void deserialize(const nlohmann::json &data) override {
             if (!data.is_object())
                 return;
             // the 3 dimensions of the box (width, height, depth)
@@ -77,13 +73,11 @@ namespace our
             // get the type of the collision
             std::string typeString = data.value("objType", "none");
 
-            try
-            {
+            try {
                 // try to parse the type from the map
                 type = collisionMap.at(typeString);
             }
-            catch (const std::exception &e)
-            {
+            catch (const std::exception &e) {
                 std::cerr << e.what() << '\n';
                 std::cerr << "Collision type might not be correct: " << typeString << '\n';
                 type = CollisionType::NONE;
