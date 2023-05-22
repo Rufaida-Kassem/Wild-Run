@@ -235,7 +235,8 @@ namespace our
                 }
                 //. we need to add the light direction
                 //. assume the direction is -Y in the local space of the light entity
-                light_source.direction = glm::vec3(light->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, -1, 0, 0));
+                //. normalize it to get the unit vector
+                light_source.direction = glm::normalize(glm::vec3(light->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, -1, 0, 0)));
 
                 //. add the light source to the light sources list
                 light_sources.push_back(light_source);
