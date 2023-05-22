@@ -103,7 +103,7 @@
           "albedo": "metal_cube",
           "roughness": "gray",
           "emissive": "black",
-          "specular": "white",
+          "specular": "black",
           "ambient_occlusion": "white"
         },
         "grass": {
@@ -287,7 +287,7 @@
         "name": "player_child",
         "position": [
           0,
-          -0.5,
+          -1,
           -1.5
         ],
         "rotation": [
@@ -296,9 +296,9 @@
           0
         ],
         "scale": [
-          0.3,
-          0.3,
-          0.3
+          0.2,
+          0.2,
+          0.2
         ],
         "components": [
           {
