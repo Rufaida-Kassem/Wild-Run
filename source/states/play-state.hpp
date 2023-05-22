@@ -82,6 +82,7 @@ class Playstate : public our::State
         // make sure that the preview camera reads the players avatars from the config file
         previewController.deserializePlayers(config["players-entities"]);
         //        SoundEngine->play2D("assets/sounds/theme.wav", true);
+        renderer.effect = false;
     }
 
     void onDraw(double deltaTime) override
