@@ -106,11 +106,11 @@ namespace our
         }
 
     public:
-        // static booleans
+        // booleans
         // punishment: control the speed of the player
         // shake: shake the player as long as it is true
-        inline static float punishment = 1;
-        inline static bool shake = false;
+        bool shake = false;
+        float punishment = 1;
 
         // define a state enters, it should call this function and give it the pointer to the application
         void enter(Application *app)
@@ -118,6 +118,8 @@ namespace our
             this->app = app;
             // reset punishment so that when you leave the game state and re-enter it again you move with the initial state of speed
             punishment = 1;
+            shake = false;
+            IsJump = false;
         }
 
         // This should be called every frame to update all entities containing a FreeCameraControllerComponent
@@ -277,9 +279,6 @@ namespace our
         // When the state exits, it should call this function to ensure the mouse is unlocked
         void exit()
         {
-            // set IsJump to be false so when we leave play state and and re enter it again
-            // we starting on the road
-            IsJump = false;
             if (mouse_locked)
             {
                 mouse_locked = false;
