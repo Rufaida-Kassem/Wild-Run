@@ -447,8 +447,134 @@
       {
         "position": [
           -1,
-          -1,
+          -0.5,
           -10
+        ],
+        "scale": [
+          0.25,
+          0.25,
+          0.25
+        ],
+        "name": "monkey",
+        "components": [
+          {
+            "type": "Monkey"
+          },
+          {
+            "type": "Mesh Renderer",
+            "mesh": "monkey",
+            "material": "monkey"
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [
+              0,
+              45,
+              0
+            ]
+          },
+          {
+            "type": "Collision",
+            "objType": "monkey",
+            "W": [
+              -1.367188,
+              1.367188
+            ],
+            "H": [
+              -0.984375,
+              0.984375
+            ],
+            "D": [
+              -0.851562,
+              0.851562
+            ]
+          },
+          {
+            "type": "Collision",
+            "objType": "monkey",
+            "W": [
+              -1.367188,
+              1.367188
+            ],
+            "H": [
+              -0.984375,
+              0.984375
+            ],
+            "D": [
+              -0.851562,
+              0.851562
+            ]
+          }
+        ]
+      },
+      {
+        "position": [
+          0,
+          -0.5,
+          -20
+        ],
+        "scale": [
+          0.25,
+          0.25,
+          0.25
+        ],
+        "name": "monkey",
+        "components": [
+          {
+            "type": "Monkey"
+          },
+          {
+            "type": "Mesh Renderer",
+            "mesh": "monkey",
+            "material": "monkey"
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [
+              0,
+              45,
+              0
+            ]
+          },
+          {
+            "type": "Collision",
+            "objType": "monkey",
+            "W": [
+              -1.367188,
+              1.367188
+            ],
+            "H": [
+              -0.984375,
+              0.984375
+            ],
+            "D": [
+              -0.851562,
+              0.851562
+            ]
+          },
+          {
+            "type": "Collision",
+            "objType": "monkey",
+            "W": [
+              -1.367188,
+              1.367188
+            ],
+            "H": [
+              -0.984375,
+              0.984375
+            ],
+            "D": [
+              -0.851562,
+              0.851562
+            ]
+          }
+        ]
+      },
+      {
+        "position": [
+          1,
+          -0.5,
+          -25
         ],
         "scale": [
           0.25,
@@ -589,9 +715,135 @@
       //the cube
       {
         "position": [
-          -1,
-          -1,
-          -10
+          0,
+          -0.5,
+          -15
+        ],
+        "scale": [
+          0.25,
+          0.25,
+          0.25
+        ],
+        "name": "cube",
+        "components": [
+          {
+            "type": "Cube"
+          },
+          {
+            "type": "Mesh Renderer",
+            "mesh": "cube",
+            "material": "metal_cube"
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [
+              0,
+              45,
+              0
+            ]
+          },
+          {
+            "type": "Collision",
+            "objType": "cube",
+            "W": [
+              -1,
+              1
+            ],
+            "H": [
+              -1,
+              1
+            ],
+            "D": [
+              -1,
+              1
+            ]
+          },
+          {
+            "type": "Collision",
+            "objType": "cube",
+            "W": [
+              -1.5,
+              5
+            ],
+            "H": [
+              0,
+              1.099199
+            ],
+            "D": [
+              -0.06,
+              0.113788
+            ]
+          }
+        ]
+      },
+      {
+        "position": [
+          1,
+          -0.5,
+          -30
+        ],
+        "scale": [
+          0.25,
+          0.25,
+          0.25
+        ],
+        "name": "cube",
+        "components": [
+          {
+            "type": "Cube"
+          },
+          {
+            "type": "Mesh Renderer",
+            "mesh": "cube",
+            "material": "metal_cube"
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [
+              0,
+              45,
+              0
+            ]
+          },
+          {
+            "type": "Collision",
+            "objType": "cube",
+            "W": [
+              -1,
+              1
+            ],
+            "H": [
+              -1,
+              1
+            ],
+            "D": [
+              -1,
+              1
+            ]
+          },
+          {
+            "type": "Collision",
+            "objType": "cube",
+            "W": [
+              -1.5,
+              5
+            ],
+            "H": [
+              0,
+              1.099199
+            ],
+            "D": [
+              -0.06,
+              0.113788
+            ]
+          }
+        ]
+      },
+      {
+        "position": [
+          0,
+          -0.5,
+          -35
         ],
         "scale": [
           0.25,
