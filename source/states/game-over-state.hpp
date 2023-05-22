@@ -65,11 +65,9 @@ class GameOverstate : public our::State
         menuMaterial->shader->link();
         // Then we load the menu texture
         menuMaterial->texture = our::texture_utils::loadImage("assets/textures/game-over2.png");
-        // Initially, the menu material will be black, then it will fade in
 
         menuMaterial->tint = glm::vec4(1.0f);
-        //        menuMaterial->alphaThreshold = 0.5f;
-
+        // configure the blending function to be additive alpha blending
         menuMaterial->pipelineState.blending.enabled = true;
         menuMaterial->pipelineState.blending.equation = GL_FUNC_ADD;
         menuMaterial->pipelineState.blending.sourceFactor = GL_SRC_ALPHA;
@@ -77,12 +75,13 @@ class GameOverstate : public our::State
 
         // Second, we create a material to highlight the hovered buttons
         highlightMaterial = new our::TintedMaterial();
-        // Since the highlight is not textured, we used the tinted material shaders
+        // Since the highlight is not textured, we used the tinted material with a shader that only
+        // draws a circle at the mouse position.
         highlightMaterial->shader = new our::ShaderProgram();
         highlightMaterial->shader->attach("assets/shaders/tinted.vert", GL_VERTEX_SHADER);
         highlightMaterial->shader->attach("assets/shaders/mouse_track.frag", GL_FRAGMENT_SHADER);
         highlightMaterial->shader->link();
-        // The tint is white since we will subtract the background color from it to create a negative effect.
+        // tint is set to white to make the highlight color the same as the color in the texture
         highlightMaterial->tint = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
         // To create a negative effect, we enable blending, set the equation to be subtracted,
         // and set the factors to be one for both the source and the destination.
@@ -219,7 +218,7 @@ class GameOverstate : public our::State
             {
                 highlightMaterial->setup();
                 // set the mouse position uniform to the shader
-                // we send the (size.y - mousePosition.y ) so that the corner is corrected
+                // we send the (size.y - mousePosition.y ) so that both start from the same origin
                 highlightMaterial->shader->set("mouse_pos",
                                                glm::vec2(mousePosition.x, size.y - mousePosition.y));
                 // set the transform uniform to the shader

@@ -32,6 +32,7 @@ namespace our {
         bool is_lost = false;
 
     public:
+        // When a state enters, it should call this function to initialize the system
         void OnInitialize() {
             is_lost = false;
             coins_collected = 0;
@@ -114,7 +115,8 @@ namespace our {
             for (glm::vec3 n: FaceNormals2) {
                 axes.push_back(n);
             }
-
+            // remove duplicate axes
+            axes.erase(unique(axes.begin(), axes.end()), axes.end());
             // Project the vertices of the two boxes onto each axis and find the minimum and maximum projections
             for (glm::vec3 axis: axes) {
                 float min1 = glm::dot(v1[0], axis);
@@ -152,7 +154,7 @@ namespace our {
             for (auto &entity: world->getEntities()) {
                 // Get the movement component if it exists
                 CollisionComponent *coll = entity->getComponent<CollisionComponent>();
-                // If the movement component exists
+                // If the Collision component exists
                 if (coll) {
                     entitiesToCollide.push_back(entity);
                 }
@@ -162,7 +164,7 @@ namespace our {
             }
             // if the player is not found, then return
             if (!player_index) {
-                CollisionType::NONE;
+                return CollisionType::NONE;
             }
             Entity *entity1 = player_index;
             // check if the stick is colliding with the any of the other entities
@@ -179,7 +181,7 @@ namespace our {
                     switch (type) {
                         case CollisionType::COIN:
                             coins_collected++;
-                            // if the coin is collided, marke it as collided
+                            // if the coin is collided, mark it as collided
                             // so that the coin system will not redraw it again
                             // (to avoid confilict of both classes
                             // (i.e., we don't want both classes to modify the position of the same coin at
@@ -193,19 +195,27 @@ namespace our {
                             entity2->getComponent<CoinComponent>()->getOwner()->localTransform.position.z -= 50;
                             return CollisionType::COIN;
                         case CollisionType::OBSTACLE:
+                            // if the player collided with an obstacle, then decrease the lives
                             lives--;
+                            // if the lives are zero, then the player lost
                             if (lives == 0) {
                                 is_lost = true;
                             }
+                            // if the player collided with an obstacle, then mark it as collided
                             entity2->getComponent<ObstacleComponent>()->collided = true;
+                            // then we will redraw it instead of deleting from the system
                             entity2->getComponent<ObstacleComponent>()->getOwner()->localTransform.position.z -= 50;
                             return CollisionType::OBSTACLE;
                         case CollisionType::MONKEY:
+                            // if the player collided with a monkey , we will do a post processing effect
                             entity2->getComponent<MonkeyComponent>()->collided = true;
+                            // move the monkey to the back
                             entity2->getComponent<MonkeyComponent>()->getOwner()->localTransform.position.z -= 50;
                             return CollisionType::MONKEY;
                         case CollisionType::CUBE:
+                            // if the player collided with a cube, we will do a post processing effect
                             entity2->getComponent<CubeComponent>()->collided = true;
+                            // move the cube to the back
                             entity2->getComponent<CubeComponent>()->getOwner()->localTransform.position.z -= 50;
                             return CollisionType::CUBE;
                         default:

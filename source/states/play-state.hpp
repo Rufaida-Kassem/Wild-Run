@@ -10,7 +10,6 @@
 #include <systems/coin-controller.hpp>
 #include <systems/monkey-controller.hpp>
 #include <systems/lightpole-position.hpp>
-// incllude the road movement controller
 #include <systems/road-movement-controller.hpp>
 #include <systems/obstacle-controller.hpp>
 #include <systems/cube-controller.hpp>
@@ -41,11 +40,14 @@ class Playstate : public our::State {
     our::ObstacleControllerSystem obstacleController;
     our::PreviewCameraControllerSystem previewController;
     our::LightPoleControllerSystem lightpoleController;
+
     ISoundEngine *SoundEngine = createIrrKlangDevice();// = createIrrKlangDevice();
+    // start: the moment when the post processing effect starts
+    // time_diff: the time elapsed between the starting moment of post processing effect and now
+    // effectDuration: the time after which the post processing effect is disabled
     clock_t start = 0;
     float time_diff = 0;
     int effectDuration = 100;
-
 
     void onInitialize() override {
         SoundEngine->play2D("assets/sounds/theme.wav", true);
@@ -66,39 +68,48 @@ class Playstate : public our::State {
         // Then we initialize the renderer
         auto size = getApp()->getFrameBufferSize();
         renderer.initialize(size, config["renderer"]);
+        // init the required systems
         collisionSystem.OnInitialize();
         previewController.enter(getApp(), &world);
+
+        // make sure that the preview camera reads the players avatars from the config file
         previewController.deserializePlayers(config["players-entities"]);
-
-//        SoundEngine->play2D("assets/sounds/theme.wav", true);
-
+        //        SoundEngine->play2D("assets/sounds/theme.wav", true);
+        renderer.effect = false;
     }
 
     void onDraw(double deltaTime) override {
         // Here, we just run a bunch of systems to control the world logic
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
         world.deleteMarkedEntities();
 
         movementSystem.update(&world, (float) deltaTime);
         cameraController.update(&world, (float) deltaTime);
-        // TODO: update the road movement controller
         roadController.update(&world, (float) deltaTime);
         coinController.update(&world, (float) deltaTime);
         monkeyController.update(&world, (float) deltaTime);
         obstacleController.update(&world, (float) deltaTime);
         cubeController.update(&world, (float) deltaTime);
         lightpoleController.update(&world, (float) deltaTime);
+        // we must make sure that the needed entities to be deleted
+        //  are deleted before the collision system
         world.deleteMarkedEntities();
         CollisionType CollidedObject = collisionSystem.update(&world, (float) deltaTime);
-        // And finally we use the renderer system to draw the scene
+
+        // if the collided object is monkey then apply a post processing effect and add noise to the position to shake the screen
+        // by store the moment of collision in start and the enable post processing effect and noise
+        // note: make sure the time_diff = 0 to avoid accumlation while rendering frames
         if (CollidedObject == CollisionType::MONKEY) {
+
             start = clock();
             renderer.effect = true;
             time_diff = 0;
-            our::FreeCameraControllerSystem::shake = true;
+            cameraController.shake = true;
         }
+        // if the collided object is cube then increase the speed of the player as it is a punishment
         if (CollidedObject == CollisionType::CUBE) {
-            our::FreeCameraControllerSystem::punishment *= 1.5;
+            cameraController.punishment *= 1.5;
         }
 
         //. if it collides with a coin
@@ -111,24 +122,30 @@ class Playstate : public our::State {
             SoundEngine->play2D("assets/sounds/crash.wav", false);
         }
         
+        // check if the time of post processing effect is finished then disable it and noise as well
+        // make start and time_diff = 0 (initial state) to be ready for another collition
         if (renderer.effect && time_diff >= effectDuration) {
             renderer.effect = false;
             start = 0;
-            our::FreeCameraControllerSystem::shake = false;
+            cameraController.shake = false;
             time_diff = 0;
-        } else {
+        }
+            // if no collition happen then do nothing
+            // we calculate the time_diff here to make use of it it disabling the post processing effect and noise
+            // so we need to make it equal zero in above if statement
+        else {
             time_diff += float(clock() - start) / CLOCKS_PER_SEC;
         }
+        // And finally we use the renderer system to draw the scene
         renderer.render(&world);
-
         // Get a reference to the keyboard object
         auto &keyboard = getApp()->getKeyboard();
-        // If the escape key is pressed, go to the menu state
+
         if (keyboard.justPressed(GLFW_KEY_ESCAPE)) {
             // If the escape  key is pressed in this frame, go to the play state
             getApp()->changeState("menu");
         }
-        // If the player is lost, go to the game over state
+        // if player is lost then go to game-over
         if (collisionSystem.get_is_lost()) {
 
             getApp()->changeState("game-over");
@@ -147,10 +164,6 @@ class Playstate : public our::State {
         ImGui::SetWindowSize(ImVec2(300, 100));
         const std::string current_coins = "Coins: " + std::to_string(collisionSystem.get_coins_collected());
         const std::string current_lives = "Lives: " + std::to_string(collisionSystem.get_lives());
-        // resize the window
-        //        ImGui::SetWindowSize(ImVec2(300, 100));
-        //            get the size of the text
-        //        ImVec2 text_size = ImGui::CalcTextSize(current_coins.c_str());
         ImGui::Text(current_coins.c_str());
         ImGui::Text(current_lives.c_str());
         ImGui::End();
@@ -162,7 +175,9 @@ class Playstate : public our::State {
         obstacleController.cleanUp();
         // destroy the coin controller
         coinController.cleanUp();
+        // destroy the monkey controller
         monkeyController.cleanUp();
+        // destroy the cube controller
         cubeController.cleanUp();
         // destroy the light pole controller
         lightpoleController.cleanUp();

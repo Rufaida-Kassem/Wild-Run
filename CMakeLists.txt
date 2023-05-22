@@ -79,7 +79,6 @@ set(COMMON_SOURCES
         source/common/components/movement.cpp
         source/common/components/component-deserializer.hpp
         source/common/components/collision.hpp
-        source/common/components/collision.cpp
         source/common/components/road.hpp
         source/common/components/road.cpp
         source/common/components/coin.hpp
