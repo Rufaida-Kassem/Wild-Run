@@ -103,7 +103,7 @@
           "albedo": "metal_cube",
           "roughness": "gray",
           "emissive": "black",
-          "specular": "white",
+          "specular": "black",
           "ambient_occlusion": "white"
         },
         "grass": {
