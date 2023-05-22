@@ -2,10 +2,7 @@
 
 // The texture holding the scene pixels
 uniform sampler2D tex;
-
-// Read "assets/shaders/fullscreen.vert" to know what "tex_coord" holds;
 in vec2 tex_coord;
-
 out vec4 frag_color;
 
 
@@ -14,7 +11,8 @@ void main() {
     ivec2 texture_size = textureSize(tex, 0);
     vec2 step_size = 1.0/texture_size;
 
-    //   offsets for the 3x3 kernel
+    //   offsets for the 3x3 kernel 
+    // we move in each direction by the step size
     vec2 offsets[9] = vec2[](
     vec2(-step_size.x, -step_size.y),
     vec2(0.0f, -step_size.y),
