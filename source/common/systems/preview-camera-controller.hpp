@@ -75,7 +75,7 @@ namespace our
                 E_parent = E->parent;
                 world->markForRemoval(E);
             }
-            // add a new one
+            // add a new one with the same parent as the old one so that we maintain the same hierarchy
             auto newE = world->add();
             newE->deserialize(playersList[new_player]);
             newE->name = "player";

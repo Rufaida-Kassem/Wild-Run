@@ -13,7 +13,8 @@
 #include "systems/movement.hpp"
 #include "systems/preview-camera-controller.hpp"
 
-// This state shows how to use some of the abstractions we created to make a menu.
+// the MenuState is responsible for rendering the menu scene
+// and making the user choose the player
 class Menustate : public our::State
 {
 
@@ -87,6 +88,7 @@ class Menustate : public our::State
         ImGui::Begin("Menu", nullptr, window_flags);
 
         ImGui::SetWindowFontScale(2);
+        // write some text in the window
         ImGui::Text("Welcome To The Game");
         ImGui::Text("Press space to Play");
         ImGui::Text("Press escape to Quit");
@@ -135,6 +137,4 @@ class Menustate : public our::State
         previewController.exit();
         our::clearAllAssets();
     }
-
-
 };
