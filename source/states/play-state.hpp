@@ -114,12 +114,12 @@ class Playstate : public our::State
             start = clock();
             renderer.effect = true;
             time_diff = 0;
-            our::FreeCameraControllerSystem::shake = true;
+            cameraController.shake = true;
         }
         // if the collided object is cube then increase the speed of the player as it is a punishment
         if (CollidedObject == CollisionType::CUBE)
         {
-            our::FreeCameraControllerSystem::punishment *= 1.5;
+            cameraController.punishment *= 1.5;
         }
 
         // check if the time of post processing effect is finished then disable it and noise as well
@@ -128,7 +128,7 @@ class Playstate : public our::State
         {
             renderer.effect = false;
             start = 0;
-            our::FreeCameraControllerSystem::shake = false;
+            cameraController.shake = false;
             time_diff = 0;
         }
         // if no collition happen then do nothing
