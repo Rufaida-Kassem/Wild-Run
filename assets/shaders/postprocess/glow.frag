@@ -7,7 +7,7 @@ uniform float bloomRadius = 1.0f;
 // the threshold of the bloom effect (the minimum brightness of a pixel to be considered for the bloom effect)
 uniform float bloomThreshold = 0.5f;
 // the intensity of the bloom effect
-uniform float bloomIntensity = 1.0f;
+uniform float bloomIntensity = 2.0f;
 // The texture holding the scene pixels
 uniform sampler2D tex;
 
@@ -28,8 +28,9 @@ vec3 GetBloomPixel(vec2 uv, vec2 texPixelSize) {
     vec3 bl = max(texture(tex, uv2 + vec2(0.0, texPixelSize.y)).rgb - bloomThreshold, 0.0);
     vec3 br = max(texture(tex, uv2 + vec2(texPixelSize.x, texPixelSize.y)).rgb - bloomThreshold, 0.0);
     // fract returns the fractional part of a number
-    vec2 f = fract(uv / texPixelSize);
 
+    // Linear interpolation between a and b by a factor f
+    vec2 f = fract(uv / texPixelSize);
     //   we mix the colors of the 4 pixels around the bloom color
     vec3 tA = mix(tl, tr, f.x);
     vec3 tB = mix(bl, br, f.x);
@@ -59,7 +60,7 @@ vec3 GetBloom(vec2 uv, vec2 texPixelSize) {
 void main() {
     //    we get  the dimention of the first level of the texture by textureSize(tex, 0)
     //    we get the size of a pixel by dividing 1 by the texture size
-    vec2 TEXTURE_PIXEL_SIZE = 1.0 / textureSize(tex, 0);
+    vec2 TEXTURE_PIXEL_SIZE = 1.0 / textureSize(tex, 0); 
 
     vec4 col = texture(tex, tex_coord);
     vec3 bloom = GetBloom(tex_coord, TEXTURE_PIXEL_SIZE);
