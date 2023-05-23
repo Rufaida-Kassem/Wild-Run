@@ -37,5 +37,5 @@ A screenshot showing (directional, spot and point lights), where ⇒
 
 |Specular Materials|
 | - |
-|<p>Monkey with high specular (white)</p><p>![Aspose Words a13a2c80-931e-4bff-984f-6d9503b2cb13 004](https://github.com/Rufaida-Kassem/Wild-Run/assets/68002137/3c313840-1997-4428-b75a-71762bb11d2a)</p>|<p>Box with no specular (black)</p><p>![Aspose Words a13a2c80-931e-4bff-984f-6d9503b2cb13 005](https://github.com/Rufaida-Kassem/Wild-Run/assets/68002137/849beb7e-09bd-4b95-bf6b-114fa427d4cc)</p>|
+|<p>Monkey with high specular (white)</p><p>![Aspose Words a13a2c80-931e-4bff-984f-6d9503b2cb13 004](https://github.com/Rufaida-Kassem/Wild-Run/assets/68002137/3c313840-1997-4428-b75a-71762bb11d2a)</p>|<p>Box with no specular (black)</p><p>![Aspose Words a13a2c80-931e-4bff-984f-6d9503b2cb13 005](https://github.com/Rufaida-Kassem/Wild-Run/assets/68002137/5c7b9876-1baf-47a9-b9a8-23d04718788c)</p>|
 
