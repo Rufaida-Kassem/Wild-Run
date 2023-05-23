@@ -27,15 +27,15 @@ A screenshot showing (directional, spot and point lights), where ⇒
 1. Directional light (has the direction ((2)^0.5 / 2, -(2)^0.5 / 2, 0) (like moonlight)
 1. Light pole contains point light (white colour)
 
-![](Aspose.Words.a13a2c80-931e-4bff-984f-6d9503b2cb13.001.jpeg)
+![Aspose Words a13a2c80-931e-4bff-984f-6d9503b2cb13 001](https://github.com/Rufaida-Kassem/Wild-Run/assets/68002137/9157691c-2c92-4914-a24f-b12793f765b4)
 
-![](Aspose.Words.a13a2c80-931e-4bff-984f-6d9503b2cb13.002.jpeg)
+![Aspose Words a13a2c80-931e-4bff-984f-6d9503b2cb13 002](https://github.com/Rufaida-Kassem/Wild-Run/assets/68002137/604f0876-6b44-4d13-b8ad-9c53fcdf61fb)
 
-![](Aspose.Words.a13a2c80-931e-4bff-984f-6d9503b2cb13.003.jpeg)
+![Aspose Words a13a2c80-931e-4bff-984f-6d9503b2cb13 003](https://github.com/Rufaida-Kassem/Wild-Run/assets/68002137/6b5fa3a1-b95e-4c51-be85-dd1b9e2538a0)
 
 
 
 |Specular Materials|
 | - |
-|<p>Monkey with high specular (white)</p><p>![](Aspose.Words.a13a2c80-931e-4bff-984f-6d9503b2cb13.004.jpeg)</p>|<p>Box with no specular (black)</p><p>![](Aspose.Words.a13a2c80-931e-4bff-984f-6d9503b2cb13.005.jpeg)</p>|
+|<p>Monkey with high specular (white)</p><p>![Aspose Words a13a2c80-931e-4bff-984f-6d9503b2cb13 004](https://github.com/Rufaida-Kassem/Wild-Run/assets/68002137/3c313840-1997-4428-b75a-71762bb11d2a)</p>|<p>Box with no specular (black)</p><p>![Aspose Words a13a2c80-931e-4bff-984f-6d9503b2cb13 005](https://github.com/Rufaida-Kassem/Wild-Run/assets/68002137/849beb7e-09bd-4b95-bf6b-114fa427d4cc)</p>|
 
